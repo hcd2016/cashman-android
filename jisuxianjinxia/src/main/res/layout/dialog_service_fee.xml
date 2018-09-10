@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by xiejingwen at -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+    android:background="@drawable/shape_white_circle_side">
+
+        <TextView
+            android:id="@+id/tv_title"
+            android:text="费用详细"
+            android:textSize="24sp"
+            android:textColor="@color/white"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:background="@drawable/shape_red_top_circle"/>
+
+    <LinearLayout
+        style="@style/WrapWrap.Vertical"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center"
+        android:layout_marginTop="34dp"
+        android:layout_marginBottom="26dp">
+
+    </LinearLayout>
+</LinearLayout>

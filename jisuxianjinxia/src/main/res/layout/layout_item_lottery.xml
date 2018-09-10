@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="45dp"
+    android:orientation="horizontal"
+    android:id="@+id/ll_layout">
+    <TextView
+        android:id="@+id/tv_period"
+        android:text="0001"
+        android:textSize="12sp"
+        android:textColor="@color/black_6"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="45dp"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/tv_lottery_yards"
+        android:text="12130025"
+        android:textSize="12sp"
+        android:textColor="@color/black_6"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/tv_from"
+        android:text="成功借款"
+        android:textSize="12sp"
+        android:textColor="@color/black_6"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+    <TextView
+        android:id="@+id/tv_status"
+        android:text="等待抽奖"
+        android:textSize="12sp"
+        android:textColor="@color/black_6"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="match_parent"
+        android:gravity="center"/>
+</LinearLayout>

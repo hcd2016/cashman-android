@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/MatchMatch.Vertical"
+    android:background="@color/theme_background_color">
+
+    <!--标题-->
+    <include layout="@layout/layout_toolbar" />
+    <com.innext.xjx.widget.loading.LoadingLayout
+        android:id="@+id/loading_layout"
+        style="@style/MatchMatch">
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh"
+            style="@style/MatchMatch">
+
+            <ScrollView
+                style="@style/MatchMatch"
+                android:scrollbars="none">
+
+                <android.support.v7.widget.LinearLayoutCompat
+                    style="@style/MatchMatch.Vertical"
+                    app:divider="@drawable/divider_horizontal"
+                    app:showDividers="middle">
+
+                    <RelativeLayout
+                        style="@style/MatchWrap"
+                        android:background="@color/theme_color">
+
+                        <TextView
+                            android:id="@+id/tv_credit_limit_txt"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="10dp"
+                            android:text="总额度(元)"
+                            android:textColor="#99ffffff"
+                            android:textSize="15sp"/>
+
+                        <TextView
+                            android:id="@+id/tc_progress"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="1000"
+                            android:textColor="@color/global_white_color"
+                            android:textSize="45sp"
+                            android:layout_below="@+id/tv_credit_limit_txt"
+                            android:layout_centerHorizontal="true"/>
+                        <ImageView
+                            android:id="@+id/iv_query"
+                            android:src="@mipmap/icon_more_query"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_toRightOf="@+id/tc_progress"
+                            android:layout_below="@+id/tv_credit_limit_txt"
+                            android:paddingLeft="8dp"
+                            android:paddingTop="14dp"
+                            android:paddingRight="10dp"
+                            android:paddingBottom="10dp"/>
+                        <TextView
+                            android:id="@+id/tv_remaining_borrow"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginBottom="20dp"
+                            android:layout_marginTop="4dp"
+                            android:text="剩余可借：1000元"
+                            android:textColor="@color/global_white_color"
+                            android:textSize="13sp"
+                            android:layout_below="@+id/tc_progress"
+                            android:layout_centerHorizontal="true"/>
+
+                    </RelativeLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:background="@color/global_white_color"
+                        android:orientation="horizontal">
+
+                        <com.innext.xjx.widget.DrawableCenterTextView
+                            android:id="@+id/layout_perfect"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/press_style"
+                            android:drawablePadding="10dp"
+                            android:drawableTop="@mipmap/organizingdata"
+                            android:gravity="center_horizontal"
+                            android:text="完善资料"
+                            android:textColor="@color/global_black_color"
+                            android:textSize="15sp" />
+
+                        <View
+                            android:layout_width="1px"
+                            android:layout_height="match_parent"
+                            android:background="@color/global_line_color" />
+
+                        <com.innext.xjx.widget.DrawableCenterTextView
+                            android:id="@+id/layout_lend_record"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:layout_weight="1"
+                            android:background="@drawable/press_style"
+                            android:drawablePadding="10dp"
+                            android:drawableTop="@mipmap/record"
+                            android:gravity="center_horizontal"
+                            android:text="借款记录"
+                            android:textColor="@color/global_black_color"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+                    <!-- 下面页面-->
+                    <android.support.v7.widget.LinearLayoutCompat
+                        style="@style/MatchWrap.Vertical"
+                        android:layout_marginBottom="10dp"
+                        android:layout_marginTop="10dp"
+                        app:divider="@drawable/divider_horizontal"
+                        app:showDividers="beginning|middle|end">
+
+                        <RelativeLayout
+                            android:id="@+id/layout_bank"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="fill_parent"
+                                android:layout_marginLeft="15dp"
+                                android:drawableLeft="@mipmap/my_bank"
+                                android:drawablePadding="15dp"
+                                android:gravity="center_vertical"
+                                android:text="收款银行卡"
+                                android:textColor="@color/global_black_color"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_my_bank"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/icon_enter"
+                                android:textColor="@color/global_label_color"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/tv_lottery"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style"
+                            android:drawableLeft="@mipmap/lottery"
+                            android:drawablePadding="15dp"
+                            android:drawableRight="@mipmap/icon_enter"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="我的抽奖码"
+                            android:textColor="@color/global_black_color"
+                            android:textSize="15sp"
+                            android:visibility="gone"/>
+
+                        <RelativeLayout
+                            android:id="@+id/layout_invitation_code"
+                            android:layout_width="wrap_content"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:drawableLeft="@mipmap/invite_code"
+                                android:drawablePadding="15dp"
+                                android:gravity="center_vertical"
+                                android:text="我的邀请码"
+                                android:textColor="@color/global_black_color"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_invit_code"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="15dp"
+                                android:drawablePadding="10dp"
+                                android:drawableRight="@mipmap/icon_enter"
+                                android:textColor="@color/global_label_color"
+                                android:textSize="15sp" />
+
+                        </RelativeLayout>
+
+                        <TextView
+                            android:id="@+id/layout_invitation"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style"
+                            android:drawableLeft="@mipmap/forward_friends"
+                            android:drawablePadding="15dp"
+                            android:drawableRight="@mipmap/icon_enter"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="推荐给好友"
+                            android:textColor="@color/global_black_color"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/layout_message"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style"
+                            android:drawableLeft="@mipmap/icon_message_center"
+                            android:drawablePadding="15dp"
+                            android:drawableRight="@mipmap/icon_enter"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="消息中心"
+                            android:textColor="@color/global_black_color"
+                            android:textSize="15sp" />
+
+                        <TextView
+                            android:id="@+id/layout_help"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style"
+                            android:drawableLeft="@mipmap/help_center"
+                            android:drawablePadding="15dp"
+                            android:drawableRight="@mipmap/icon_enter"
+                            android:gravity="center_vertical"
+                            android:paddingLeft="15dp"
+                            android:paddingRight="15dp"
+                            android:text="帮助中心"
+                            android:textColor="@color/global_black_color"
+                            android:textSize="15sp" />
+
+                        <RelativeLayout
+                            android:id="@+id/layout_qq"
+                            android:layout_width="match_parent"
+                            android:layout_height="55dp"
+                            android:background="@drawable/press_style">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp"
+                                android:drawableLeft="@mipmap/qq_group"
+                                android:drawablePadding="15dp"
+                                android:gravity="center_vertical"
+                                android:text="客服QQ"
+                                android:textColor="@color/global_black_color"
+                                android:textSize="15sp" />
+
+                            <TextView
+                                android:id="@+id/tv_qq_group"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignParentRight="true"
+                                android:layout_centerVertical="true"
+                                android:layout_marginRight="30dp"
+                                android:text="414383376"
+                                android:textColor="@color/global_label_color"
+                                android:textIsSelectable="true"
+                                android:textSize="15sp" />
+                        </RelativeLayout>
+                    </android.support.v7.widget.LinearLayoutCompat>
+                </android.support.v7.widget.LinearLayoutCompat>
+            </ScrollView>
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+    </com.innext.xjx.widget.loading.LoadingLayout>
+</LinearLayout>

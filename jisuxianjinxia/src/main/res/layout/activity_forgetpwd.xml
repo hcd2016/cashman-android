@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout   xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchMatch.Vertical"
+    android:background="@color/global_white_color">
+    <include
+        layout="@layout/layout_toolbar"/>
+    <RelativeLayout
+        android:id="@+id/rl_verification"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginLeft="15dp"
+		android:layout_marginRight="15dp"
+        android:layout_marginTop="50dp" >
+
+        <EditText
+            android:id="@+id/et_verification"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp"
+            android:background="@drawable/shape_edittext"
+            android:textColorHint="@color/global_hint_color"
+            android:hint="请输入验证码"
+            android:drawableLeft="@mipmap/icon_messagex"
+            android:padding="10dp"
+            android:drawablePadding="8dp"
+            android:inputType="number"
+            android:textColor="@color/global_black_color"
+		    android:textSize="16sp"
+            android:maxLength="6" 
+            android:paddingLeft="40dp"/>
+        
+        <TextView
+            android:id="@+id/tv_verification"
+            android:layout_width="100dp"
+            android:layout_height="fill_parent"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="发送验证码"
+            android:textColor="@color/theme_color"
+            android:layout_alignRight="@id/et_verification"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_centerVertical="true" />
+        
+        <View
+            android:layout_width="1px"
+            android:layout_height="fill_parent"
+            android:layout_alignLeft="@id/tv_verification"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/theme_color" />
+        
+    </RelativeLayout>
+ 
+	
+	<TextView
+        android:id="@+id/tv_submit"
+        android:layout_height="@dimen/global_btn_height"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="15dp"
+    	android:layout_marginRight="15dp"
+    	android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:background="@drawable/layer_list_button_style"
+        android:text="下一步"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+	
+</LinearLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Created by xiejingwen at -->
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <bitmap android:src="@mipmap/button_red_background"/>
+    </item>
+    <item>
+        <ripple xmlns:android="http://schemas.android.com/apk/res/android"
+                android:color="#33000000"><!-- 按下出现的水波纹的颜色 -->
+            <item>
+                <selector>
+                    <item android:state_pressed="true" >
+                        <shape>
+                            <!-- 圆角 -->
+                            <corners
+                                android:radius="2dp"/><!-- 设置圆角半径 -->
+                            <solid android:color="#11000000"/>
+                        </shape>
+                    </item>
+                    <item android:state_enabled="false">
+                        <shape>
+                            <!-- 圆角 -->
+                            <corners
+                                android:radius="2dp"/><!-- 设置圆角半径 -->
+                            <solid android:color="@color/btn_gray"/>
+                        </shape>
+                    </item>
+                    <item android:state_enabled="true" android:drawable="@mipmap/button_red_background"/>
+                </selector>
+            </item>
+        </ripple>
+    </item>
+</layer-list>

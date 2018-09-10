@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/MatchMatch.Vertical"
+    android:background="@color/default_background">
+
+    <include
+        layout="@layout/layout_toolbar"/>
+    <com.innext.xjx.widget.loading.LoadingLayout
+        android:id="@+id/loading_layout"
+        style="@style/MatchMatch">
+        <LinearLayout
+            style="@style/MatchMatch.Vertical">
+            <include
+                layout="@layout/pull_recycle"/>
+            <LinearLayout
+                android:id="@+id/layout_nodata"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:background="@color/global_white_color"
+                android:orientation="vertical">
+
+                <include
+                    layout="@layout/view_attach"
+                    android:layout_width="match_parent"
+                    android:layout_height="0px"
+                    android:layout_weight="1" />
+
+                <TextView
+                    android:id="@+id/tv_repay_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="30dp"
+                    android:background="@color/theme_background_color"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="15dp"
+                    android:textColor="@color/global_label_color"
+                    android:textSize="13sp" />
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/type_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </com.innext.xjx.widget.loading.LoadingLayout>
+
+</LinearLayout>

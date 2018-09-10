@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">极速现金侠</string>
+
+    <item name="np__increment" type="id" />
+    <item name="np__decrement" type="id" />
+
+    <!--额度-->
+    <string name="limit_hint">为保证提额申请顺利通过，请务必填写真实信息！</string>
+
+    <string name="liveness_detection_failed">活体检测失败</string>
+    <string name="liveness_detection_failed_timeout">活体检测超时失败</string>
+    <string name="liveness_detection_failed_action_blend">活体检测动作错误</string>
+    <string name="liveness_detection_failed_not_video">活体检测连续性检测失败</string>
+    <string name="verify_success">验证成功</string>
+
+
+    <!--完善资料-->
+    <string name="perfect_information">认证中心</string>
+    <!--个人信息-->
+    <string name="personal_information">个人信息</string>>
+    <!--保存-->
+    <string name="save">保存</string>>
+
+</resources>
