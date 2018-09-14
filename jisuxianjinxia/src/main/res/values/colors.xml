@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- 标题背景颜色 -->
-    <color name="colorPrimary">#ff5145</color>
+    <!--<color name="colorPrimary">#ff5145</color>-->
+    <color name="colorPrimary">#4d88ff</color>
     <!-- 标题字体颜色 -->
     <color name="textColorPrimary">#ffffff</color>
     <!-- 通知栏背景颜色 -->
-    <color name="colorPrimaryDark">#ff5145</color>
+    <!--<color name="colorPrimaryDark">#ff5145</color>-->
+    <color name="colorPrimaryDark">#4d88ff</color>
     <!-- 各控制元件(如：EditText光标、check box、switch 或是 radoi) 被勾选 (checked) 或是选定 (selected) 的颜色 -->
-    <color name="colorAccent">#ff5145</color>
+    <!--<color name="colorAccent">#ff5145</color>-->
+    <color name="colorAccent">#4d88ff</color>
 
     <!-- 白色 -->
     <color name="white">#ffffff</color>
@@ -50,16 +53,19 @@
 
 
     <!-- 主题红色 -->
-    <color name="theme_color">#ff5145</color>
+    <!--<color name="theme_color">#ff5145</color>-->
+    <color name="theme_color">#4d88ff</color>
     <color name="btn_press_color">#ff0000</color>
     <color name="theme_background_color">#eff3f5</color>
     <color name="theme_line_color">#e6e6e6</color>
     <color name="theme_gray">#b7b7b7</color>
 
     <!-- 首页天数颜色 -->
-    <color name="ad_color_yellow">#fcc225</color>
+    <!--<color name="ad_color_yellow">#fcc225</color>-->
+    <color name="ad_color_yellow">#ffa64d</color>
     <!-- 首页倒计时颜色 -->
-    <color name="color_yellow">#ffbb17</color>
+    <!--<color name="color_yellow">#ffbb17</color>-->
+    <color name="color_yellow">#ffa64d</color>
 
     <!-- 地图颜色 -->
     <color name="amap_transparent_theme_color">#664ab6fa</color>

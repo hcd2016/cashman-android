@@ -5,18 +5,22 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 
+import com.innext.pretend.activity.PretendMainActivity;
 import com.innext.xjx.R;
 import com.innext.xjx.app.App;
 import com.innext.xjx.base.BaseActivity;
 import com.innext.xjx.base.PermissionsListener;
+import com.innext.xjx.config.ConfigUtil;
 import com.innext.xjx.config.Constant;
 import com.innext.xjx.dialog.AlertFragmentDialog;
 import com.innext.xjx.events.LoginNoRefreshUIEvent;
+import com.innext.xjx.http.HttpManager;
 import com.innext.xjx.ui.login.contract.LoginOutContract;
 import com.innext.xjx.ui.login.presenter.LoginOutPresenter;
 import com.innext.xjx.ui.my.contract.DeviceReportContract;
 import com.innext.xjx.ui.my.presenter.DeviceReportPresenter;
 import com.innext.xjx.util.SpUtil;
+import com.innext.xjx.util.ToastUtil;
 import com.innext.xjx.util.ViewUtil;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
@@ -25,17 +29,22 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 /**
  * 启动页
  * xiejingwen
  */
 public class SplashActivity extends BaseActivity implements LoginOutContract.View
-,DeviceReportContract.View{
+        , DeviceReportContract.View {
     private boolean isRequesting;//为了避免在onResume中多次请求权限
     private String[] permissions = {Manifest.permission.READ_PHONE_STATE, Manifest.permission.WRITE_EXTERNAL_STORAGE
-            , Manifest.permission.ACCESS_COARSE_LOCATION,Manifest.permission.READ_CONTACTS};
+            , Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.READ_CONTACTS};
     private LoginOutPresenter mLoginOutPresenter;
     private DeviceReportPresenter mDeviceReportPresenter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_splash;
@@ -43,9 +52,9 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
 
     @Override
     public void initPresenter() {
-        mDeviceReportPresenter =new DeviceReportPresenter();
+        mDeviceReportPresenter = new DeviceReportPresenter();
         mDeviceReportPresenter.init(this);
-        mLoginOutPresenter =new LoginOutPresenter();
+        mLoginOutPresenter = new LoginOutPresenter();
         mLoginOutPresenter.init(this);
     }
 
@@ -74,6 +83,7 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
             return;
         }
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -82,21 +92,41 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
             isRequesting = true;
         }
     }
+
     private PermissionsListener mListener = new PermissionsListener() {
         @Override
         public void onGranted() {
-            isRequesting = false;
-            if (SpUtil.getInt(Constant.IS_FIRST_LOGIN,Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
-                mLoginOutPresenter.loginOut();
-                updateDeviceReport();
-                startActivity(GuideActivity.class);
+            if (ConfigUtil.isOpenPretend) {//是否跳转伪页面.
+//                Call<String> data = HttpManager.getApi().test("data");
+//                data.enqueue(new Callback<String>() {
+//                    @Override
+//                    public void onResponse(Call<String> call, Response<String> response) {
+//                        startActivity(PretendMainActivity.class);
+//                        finish();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<String> call, Throwable t) {
+//                        ToastUtil.showToast("网络异常,请稍后重试");
+//                    }
+//                });
+                startActivity(PretendMainActivity.class);
                 finish();
             } else {
-                startActivity(MainActivity.class);
-                finish();
+                isRequesting = false;
+                if (SpUtil.getInt(Constant.IS_FIRST_LOGIN, Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
+                    mLoginOutPresenter.loginOut();
+                    updateDeviceReport();
+                    startActivity(GuideActivity.class);
+                    finish();
+                } else {
+                    startActivity(MainActivity.class);
+                    finish();
+                }
+                EventBus.getDefault().post(new LoginNoRefreshUIEvent(getApplicationContext(), App.getConfig().getUserInfo()));
             }
-            EventBus.getDefault().post(new LoginNoRefreshUIEvent(getApplicationContext(), App.getConfig().getUserInfo()));
         }
+
         @Override
         public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
             if (!isNeverAsk) {//请求权限没有全被勾选不再提示然后拒绝
@@ -120,7 +150,7 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
                     public void dialogLeftBtnClick() {
                         finish();
                     }
-                }).setContent("\""+App.getAPPName()+"\"缺少必要权限\n请手动授予\""+App.getAPPName()+"\"访问您的权限")
+                }).setContent("\"" + App.getAPPName() + "\"缺少必要权限\n请手动授予\"" + App.getAPPName() + "\"访问您的权限")
                         .setRightBtnText("授权").setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override
                     public void dialogRightBtnClick() {
@@ -138,7 +168,7 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
         if (App.getConfig().getUserInfo() != null) {
             mDeviceReportPresenter.deviceReport(ViewUtil.getDeviceId(this),
                     ViewUtil.getInstalledTime(this),
-                    App.getConfig().getUserInfo().getUid()+"",
+                    App.getConfig().getUserInfo().getUid() + "",
                     App.getConfig().getUserInfo().getUsername(),
                     ViewUtil.getNetworkType(this),
                     ViewUtil.getDeviceName(),

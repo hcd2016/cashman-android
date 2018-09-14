@@ -16,8 +16,10 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
+import com.innext.pretend.activity.PretendMainActivity;
 import com.innext.xjx.R;
 import com.innext.xjx.base.BaseActivity;
+import com.innext.xjx.config.ConfigUtil;
 import com.innext.xjx.config.Constant;
 import com.innext.xjx.util.ConvertUtil;
 import com.innext.xjx.util.SpUtil;
@@ -53,7 +55,7 @@ public class GuideActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        if (Build.VERSION.SDK_INT >Build.VERSION_CODES.KITKAT){
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
         }
         initGuideLayout();
@@ -78,12 +80,16 @@ public class GuideActivity extends BaseActivity {
         mViewpager.addOnPageChangeListener(new OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                if (position == images.length-1 && positionOffset == 0
+                if (position == images.length - 1 && positionOffset == 0
                         && positionOffsetPixels == 0) {
                     if (isTransparent) {
                         SpUtil.putInt(Constant.IS_FIRST_LOGIN, Constant.NOT_FIRST_LOGIN);
-                        Intent intent = new Intent(GuideActivity.this, MainActivity.class);
-                        startActivity(intent);
+                        if (ConfigUtil.isOpenPretend) {//是否开启伪页面
+                            startActivity(PretendMainActivity.class);
+                        } else {
+                            Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
                         finish();
                         isTransparent = false;
                     }
@@ -106,7 +112,7 @@ public class GuideActivity extends BaseActivity {
             @Override
             public void onPageScrollStateChanged(int state) {
                 if (state == ViewPager.SCROLL_STATE_DRAGGING
-                        && curPosition == images.length-1) {
+                        && curPosition == images.length - 1) {
                     isTransparent = true;
                 } else {
                     isTransparent = false;
@@ -114,8 +120,10 @@ public class GuideActivity extends BaseActivity {
             }
         });
     }
+
     class GuidePagerAdapter extends PagerAdapter {
         List<View> list;
+
         public GuidePagerAdapter() {
             list = new ArrayList<>();
             for (int i = 0; i < images.length; i++) {
@@ -135,8 +143,12 @@ public class GuideActivity extends BaseActivity {
                         @Override
                         public void onClick(View v) {
                             SpUtil.putInt(Constant.IS_FIRST_LOGIN, Constant.NOT_FIRST_LOGIN);
-                            Intent intent = new Intent(GuideActivity.this, MainActivity.class);
-                            startActivity(intent);
+                            if (ConfigUtil.isOpenPretend) {//是否开启伪页面
+                                startActivity(PretendMainActivity.class);
+                            } else {
+                                Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                startActivity(intent);
+                            }
                             finish();
                         }
                     });

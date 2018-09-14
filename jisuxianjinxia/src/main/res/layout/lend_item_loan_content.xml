@@ -142,7 +142,7 @@
                 android:drawableRight="@mipmap/home_service_fee"
                 android:text="服务费用"
                 android:textColor="@color/black_75"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_home_limit2"
@@ -213,5 +213,16 @@
             android:text="马上登录"
             android:textColor="@android:color/white"
             android:textSize="18sp"/>
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tv_warning_desc"
+            android:textSize="12sp"
+            android:textColor="@color/theme_gray"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="本平台不向在校学生开放"/>
     </LinearLayout>
 </LinearLayout>

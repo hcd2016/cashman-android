@@ -5,10 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
@@ -17,6 +16,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,7 +39,6 @@ import com.innext.xjx.events.UIBaseEvent;
 import com.innext.xjx.ui.authentication.activity.PerfectInformationActivity;
 import com.innext.xjx.ui.lend.activity.BankInputPwdActivity;
 import com.innext.xjx.ui.lend.activity.LendConfirmLoanActivity;
-import com.innext.xjx.ui.lend.adapter.ActivityListAdapter;
 import com.innext.xjx.ui.lend.bean.ConfirmLoanBean;
 import com.innext.xjx.ui.lend.bean.HomeIndexResponseBean;
 import com.innext.xjx.ui.lend.contract.LendContract;
@@ -56,7 +55,6 @@ import com.innext.xjx.widget.HomeSeekBar;
 import com.innext.xjx.widget.LockableScrollView;
 import com.innext.xjx.widget.RollView;
 import com.innext.xjx.widget.loading.LoadingLayout;
-import com.innext.xjx.widget.recycler.BaseRecyclerAdapter;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
@@ -73,7 +71,9 @@ import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**********
@@ -119,8 +119,8 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
     TextView mTvLoanTag;    //标题
     @BindView(R.id.ll_status_item_view)
     LinearLayout mLlStatusItemView; //借款状态view
-    @BindView(R.id.activity_recycler)
-    RecyclerView mActivityRecycler; //首页活动列表
+    //    @BindView(R.id.activity_recycler)
+//    RecyclerView mActivityRecycler; //首页活动列表
     @BindView(R.id.ll_service_fee)
     LinearLayout mLlServiceFee; //登录时查看服务费按钮
     @BindView(R.id.fl_check_service_fee)
@@ -140,6 +140,9 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
     DrawableCenterTextView mTvSurplusBtn;
 
     public static LendFragment lendFragment;
+    @BindView(R.id.tv_warning_desc)
+    TextView tvWarningDesc;
+    Unbinder unbinder;
     private HomeIndexResponseBean.ItemBean bean;
     private int maxMoney, loanMoney;
     private int loanDay;
@@ -153,7 +156,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
     private HomeIndexResponseBean.AmountDaysListBean moneyPeriodBean;
     private List<HomeIndexResponseBean.IndexImagesBean> mActivityListBean = new ArrayList<>();
 
-    private ActivityListAdapter mActivityListAdapter;
+//    private ActivityListAdapter mActivityListAdapter;
 
     private MainActivity mainActivity;
 
@@ -195,18 +198,18 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         });
 
         mRefresh.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.theme_color));
-        mActivityRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-        mActivityRecycler.setFocusable(false);
-        mActivityListAdapter = new ActivityListAdapter();
-        mActivityRecycler.setAdapter(mActivityListAdapter);
-        mActivityListAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Intent intent = new Intent(mActivity, WebViewActivity.class);
-                intent.putExtra("url", mActivityListAdapter.getData().get(position).getReUrl() + "?clientType=andriod&app=1");
-                startActivity(intent);
-            }
-        });
+//        mActivityRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+//        mActivityRecycler.setFocusable(false);
+//        mActivityListAdapter = new ActivityListAdapter();
+//        mActivityRecycler.setAdapter(mActivityListAdapter);
+//        mActivityListAdapter.setOnItemClickListener(new BaseRecyclerAdapter.OnItemClick() {
+//            @Override
+//            public void onItemClick(View view, int position) {
+//                Intent intent = new Intent(mActivity, WebViewActivity.class);
+//                intent.putExtra("url", mActivityListAdapter.getData().get(position).getReUrl() + "?clientType=andriod&app=1");
+//                startActivity(intent);
+//            }
+//        });
         //加载数据
         mLoadingLayout.setStatus(LoadingLayout.Loading);
         mPresenter.loadIndex();
@@ -215,10 +218,12 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
             mLlServiceFee.setVisibility(View.VISIBLE);
             mFlCheckServiceFee.setVisibility(View.GONE);
             mTvRentBtn.setText("我要借款");
+            tvWarningDesc.setVisibility(View.VISIBLE);//不向学生提供借款提醒.
         } else {
             mLlServiceFee.setVisibility(View.GONE);
             mFlCheckServiceFee.setVisibility(View.VISIBLE);
             mTvRentBtn.setText("马上登录");
+            tvWarningDesc.setVisibility(View.GONE);
         }
     }
 
@@ -244,10 +249,10 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         mRollView.setContent(result.getUser_loan_log_list());
         //动态加载借款时间
         setDays(result.getAmount_days_list().getDays());
-        //热门活动集合
-        mActivityListBean = result.getIndex_images();
-        mActivityListAdapter.clearData();
-        mActivityListAdapter.addData(mActivityListBean);
+//        //热门活动集合
+//        mActivityListBean = result.getIndex_images();
+//        mActivityListAdapter.clearData();
+//        mActivityListAdapter.addData(mActivityListBean);
         //获取数据后进行显示在界面上
         setData();
 
@@ -326,7 +331,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 setLoanStatus();
             } else {//没有借款
                 nextLoanDay = bean.getNext_loan_day();
-                if (nextLoanDay > 0&&App.getConfig().getLoginStatus()) {
+                if (nextLoanDay > 0 && App.getConfig().getLoginStatus()) {
                     String countDownTag = SpUtil.getString(Constant.SHARE_TAG_COUNT_DOWN);
                     if (TextUtils.isEmpty(countDownTag) || !countDownTag.equals(Constant.SHARE_TAG_NEXT_LOAN)) {
                         SpUtil.putString(Constant.SHARE_TAG_COUNT_DOWN, Constant.SHARE_TAG_NEXT_LOAN);
@@ -450,12 +455,12 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 } else if (SpUtil.getString(Constant.SHARE_TAG_COUNT_DOWN).equals(Constant.SHARE_TAG_NEXT_LOAN)) {
                     mTvSurplusTitle.setText("距离下次申请借款时间");
                     mTvSurplusTxt.setText("还 剩");
-                    String nowLoanDate = TimeUtil.getCurrentDateByOffset("yyyy-MM-dd 00:00:00", Calendar.DAY_OF_MONTH,nextLoanDay);
-                    if (TextUtils.isEmpty(SpUtil.getString(Constant.SHARE_CALENDAR_LOAN_DATE))||
-                            !SpUtil.getString(Constant.SHARE_CALENDAR_LOAN_DATE).equals(nowLoanDate)){
+                    String nowLoanDate = TimeUtil.getCurrentDateByOffset("yyyy-MM-dd 00:00:00", Calendar.DAY_OF_MONTH, nextLoanDay);
+                    if (TextUtils.isEmpty(SpUtil.getString(Constant.SHARE_CALENDAR_LOAN_DATE)) ||
+                            !SpUtil.getString(Constant.SHARE_CALENDAR_LOAN_DATE).equals(nowLoanDate)) {
                         mTvSurplusBtn.setText("提醒我");
                         mTvSurplusBtn.setEnabled(true);
-                    }else{
+                    } else {
                         mTvSurplusBtn.setText("已添加提醒");
                         mTvSurplusBtn.setEnabled(false);
                     }
@@ -469,16 +474,18 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 break;
         }
     }
+
     private AlertFragmentDialog dialog;
+
     /**
      * 日历功能
      */
     private void showCalenderDialog() {
         String calendarPermissions = SpUtil.getString(Constant.SHARE_CALENDAR_PERMISSIONS);
-        boolean permissions = ContextCompat.checkSelfPermission(mContext,Manifest.permission.WRITE_CALENDAR)== PackageManager.PERMISSION_DENIED;
+        boolean permissions = ContextCompat.checkSelfPermission(mContext, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_DENIED;
         //未授权则弹出框
-        if (TextUtils.isEmpty(calendarPermissions)&&permissions) {
-            if (dialog==null){
+        if (TextUtils.isEmpty(calendarPermissions) && permissions) {
+            if (dialog == null) {
                 dialog = new AlertFragmentDialog.Builder(mActivity).setLeftBtnText("不允许")
                         .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
                             @Override
@@ -504,10 +511,10 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                                 });
                             }
                         }).build();
-            }else if (!dialog.getShowsDialog()){
-                dialog.show(getChildFragmentManager(),AlertFragmentDialog.TAG);
+            } else if (!dialog.getShowsDialog()) {
+                dialog.show(getChildFragmentManager(), AlertFragmentDialog.TAG);
             }
-        }else if (calendarPermissions.equals("yes")||!permissions){
+        } else if (calendarPermissions.equals("yes") || !permissions) {
             insetCalender();
         }
     }
@@ -516,8 +523,8 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         //往日历中插数据
         final String mLoanEndTime = SpUtil.getString(Constant.SHARE_CALENDAR_REPAY_DATE);//获取缓存的还款日期
         int mLoanEndMoney = SpUtil.getInt(Constant.SHARE_CALENDAR_REPAY_MONEY); //获取缓存的还款金额
-        if (TextUtils.isEmpty(mLoanEndTime) || !mLoanEndTime.equals(loanEndTime)||
-                mLoanEndMoney!=intoMoney) {//缓存的日期为空或者与返回的日期不相等，则去日历插入
+        if (TextUtils.isEmpty(mLoanEndTime) || !mLoanEndTime.equals(loanEndTime) ||
+                mLoanEndMoney != intoMoney) {//缓存的日期为空或者与返回的日期不相等，则去日历插入
             mActivity.requestPermissions(new String[]{Manifest.permission.WRITE_CALENDAR}, new PermissionsListener() {
                 @Override
                 public void onGranted() {
@@ -687,7 +694,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 App.toLogin(getActivity());
                 break;
             case R.id.ll_service_fee_check: //登录后查看服务费
-                CostDetailsDialog.newInstance(loanMoney+"",loanDay+"").show(getChildFragmentManager(),CostDetailsDialog.TAG);
+                CostDetailsDialog.newInstance(loanMoney + "", loanDay + "").show(getChildFragmentManager(), CostDetailsDialog.TAG);
                 break;
             case R.id.tv_surplus_btn:
                 String status = SpUtil.getString(Constant.SHARE_TAG_COUNT_DOWN);
@@ -699,14 +706,14 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 } else if (status.contains(Constant.SHARE_TAG_NEXT_LOAN)) {//下次可借款倒计时
                     //往日历中插数据
                     final String mLoanStartTime = SpUtil.getString(Constant.SHARE_CALENDAR_LOAN_DATE);//获取缓存的下次可借款日期
-                    Log.e("----","mLoanStartTime="+mLoanStartTime+"loanEndTime ="+loanEndTime);
+                    Log.e("----", "mLoanStartTime=" + mLoanStartTime + "loanEndTime =" + loanEndTime);
                     if (TextUtils.isEmpty(mLoanStartTime) || !mLoanStartTime.equals(loanEndTime)) {//缓存的日期为空或者与返回的日期不相等，则去日历插入
                         mActivity.requestPermissions(new String[]{Manifest.permission.WRITE_CALENDAR}, new PermissionsListener() {
                             @Override
                             public void onGranted() {
                                 CalendarUtil.deleteCalendarEvent(mContext, App.getAPPName());
                                 //下次可借款日期 格式:yyyy-MM-dd 00:00:00
-                                String refundDate = TimeUtil.getCurrentDateByOffset("yyyy-MM-dd 00:00:00", Calendar.DAY_OF_MONTH,nextLoanDay);
+                                String refundDate = TimeUtil.getCurrentDateByOffset("yyyy-MM-dd 00:00:00", Calendar.DAY_OF_MONTH, nextLoanDay);
 
                                 SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd 00:00:00");
                                 Date date;
@@ -719,9 +726,9 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                                     e.printStackTrace();
                                 }
                                 if (CalendarUtil.addCalendarEvent(getContext(),
-                                        App.getAPPName(), "今天"+App.getAPPName()+"可以申请借款啦",
+                                        App.getAPPName(), "今天" + App.getAPPName() + "可以申请借款啦",
                                         mFinalTime)) {
-                                    SpUtil.putString(Constant.SHARE_CALENDAR_LOAN_DATE,refundDate);
+                                    SpUtil.putString(Constant.SHARE_CALENDAR_LOAN_DATE, refundDate);
                                     mTvSurplusBtn.setEnabled(false);
                                     mTvSurplusBtn.setText("已添加提醒");
                                 }
@@ -730,8 +737,8 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                             @Override
                             public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
                                 SpUtil.putString(Constant.SHARE_CALENDAR_PERMISSIONS, "no");
-                                if (isNeverAsk){
-                                    mActivity.toAppSettings("日历权限已被禁止",false);
+                                if (isNeverAsk) {
+                                    mActivity.toAppSettings("日历权限已被禁止", false);
                                 }
                             }
                         });
@@ -842,10 +849,12 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 mLlServiceFee.setVisibility(View.VISIBLE);
                 mFlCheckServiceFee.setVisibility(View.GONE);
                 mTvRentBtn.setText("我要借款");
+                tvWarningDesc.setVisibility(View.VISIBLE);//不向学生提供借款提醒.
             } else {
                 mLlServiceFee.setVisibility(View.GONE);
                 mFlCheckServiceFee.setVisibility(View.VISIBLE);
                 mTvRentBtn.setText("马上登录");
+                tvWarningDesc.setVisibility(View.GONE);
             }
         }
     }
@@ -894,6 +903,14 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         super.onDestroyView();
         EventBus.getDefault().unregister(this);
         lendFragment = null;
+        unbinder.unbind();
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // TODO: inflate a fragment view
+        View rootView = super.onCreateView(inflater, container, savedInstanceState);
+        unbinder = ButterKnife.bind(this, rootView);
+        return rootView;
+    }
 }

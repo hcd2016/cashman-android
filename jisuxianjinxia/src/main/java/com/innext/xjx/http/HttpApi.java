@@ -1,6 +1,7 @@
 package com.innext.xjx.http;
 
 
+import com.innext.pretend.bean.HotListBean;
 import com.innext.xjx.bean.BaseResponse;
 import com.innext.xjx.ui.authentication.bean.BankInfoBean;
 import com.innext.xjx.ui.authentication.bean.GetBankListBean;
@@ -25,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -279,4 +281,9 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("credit-alipay/get-user-info")
     Observable<BaseResponse<SaveInfoBean>> saveAlipayInfo(@Field("data") String data);
+
+
+    //伪热点列表
+    @GET("funs/gethotpoint")
+    Call<List<HotListBean>> getHotList();
 }

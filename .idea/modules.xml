@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/PlatFormLibs/PlatFormLibs.iml" filepath="$PROJECT_DIR$/PlatFormLibs/PlatFormLibs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/SpinkitLoadingLib/SpinkitLoadingLib.iml" filepath="$PROJECT_DIR$/SpinkitLoadingLib/SpinkitLoadingLib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cashman-android.iml" filepath="$PROJECT_DIR$/cashman-android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/jisuxianjinxia/jisuxianjinxia.iml" filepath="$PROJECT_DIR$/jisuxianjinxia/jisuxianjinxia.iml" />
+    </modules>
+  </component>
+</project>

@@ -42,6 +42,9 @@ public class Constant {
 	//支付结果
 	public static final String PAY_RESULT_LEND_FAILED = "PAY_RESULT_LEND_FAILED";
 
+	//PTD查询结果key
+	public static final String QUERY_DATE_MAP = "query_date_map";//查询日期map
+
 	/************
 	 * 提升额度配置
 	 */
