@@ -26,7 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import okhttp3.MultipartBody;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -64,14 +66,14 @@ public interface HttpApi {
     //首页借款费用详情
     @FormUrlEncoded
     @POST("credit-user/service-charge")
-    Observable<BaseResponse<List<ExpenseDetailBean>>> loadExpenseDetail(@Field("moneyAmount")String money,
-                                                                       @Field("loanTerm")String day);
+    Observable<BaseResponse<List<ExpenseDetailBean>>> loadExpenseDetail(@Field("moneyAmount") String money,
+                                                                        @Field("loanTerm") String day);
 
     //验证借款
     @FormUrlEncoded
     @POST("credit-loan/get-confirm-loan")
-     Observable<BaseResponse<ConfirmLoanResponseBean>> toLoan(@Field("money")String money,
-                                     @Field("period")String period);
+    Observable<BaseResponse<ConfirmLoanResponseBean>> toLoan(@Field("money") String money,
+                                                             @Field("period") String period);
 
     //首页借款被拒绝后调用的接口
     @FormUrlEncoded
@@ -106,6 +108,7 @@ public interface HttpApi {
     @POST("credit-user/login")
     Observable<BaseResponse<LoginBean>> login(@Field("username") String username,
                                               @Field("password") String password);
+
     //退出登录
     @GET("credit-user/logout")
     Observable<BaseResponse> loginOut();
@@ -143,12 +146,14 @@ public interface HttpApi {
                                             @Field("realname") String realname,
                                             @Field("id_card") String id_card,
                                             @Field("type") String type);
+
     //找回密码设置新密码
     @FormUrlEncoded
     @POST("credit-user/reset-password")
     Observable<BaseResponse> resetPwd(@Field("phone") String phone,
                                       @Field("code") String code,
                                       @Field("password") String password);
+
     //修改登录密码
     @Headers("showDialog:true")
     @FormUrlEncoded
@@ -169,11 +174,12 @@ public interface HttpApi {
     Observable<BaseResponse<Lottery>> lotteryRequest(@Field("phone") String phone,
                                                      @Field("page") String page,
                                                      @Field("pageSize") String pageSize);
+
     //借款记录
     @FormUrlEncoded
     @POST("credit-loan/get-my-orders")
     Observable<BaseResponse<TransactionBean>> recordRequest(@Field("page") String page,
-                                                             @Field("pagsize") String pageSize);
+                                                            @Field("pagsize") String pageSize);
 
     //上传定位信息
     @FormUrlEncoded
@@ -205,7 +211,7 @@ public interface HttpApi {
 
     //获取认证信息
     @GET("credit-card/get-verification-info")
-   Observable<BaseResponse<PertfecInformationRequestBean>> getPertfecInfo();
+    Observable<BaseResponse<PertfecInformationRequestBean>> getPertfecInfo();
 
     //获取个人认证信息
     @GET("credit-card/get-person-info")
@@ -215,19 +221,19 @@ public interface HttpApi {
     @Headers("showDialog:true")
     @FormUrlEncoded
     @POST("credit-card/get-person-infos")
-    Observable<BaseResponse> getRersonInformation(@FieldMap Map<String,String> map);
+    Observable<BaseResponse> getRersonInformation(@FieldMap Map<String, String> map);
 
     //保存个人信息未实名认证
     @Headers("showDialog:true")
     @FormUrlEncoded
     @POST("credit-info/save-person-info")
-    Observable<BaseResponse>  getSaveRersonInformation(@FieldMap Map<String,String> map);
+    Observable<BaseResponse> getSaveRersonInformation(@FieldMap Map<String, String> map);
 
     /*******************************    上传图片   *****************************************/
     @Multipart
     @POST("picture/upload-image")
     Observable<BaseResponse<ImageDataBean>> uploadImageFile(
-            @Part MultipartBody.Part File, @PartMap Map<String,Integer> map);
+            @Part MultipartBody.Part File, @PartMap Map<String, Integer> map);
 
     //获取图片集合
     //1:身份证,2:学历证明,3:工作证明,4:薪资证明,5:财产证明,6、工牌照片、7、个人名片，8、银行卡 100:其它证明
@@ -257,7 +263,7 @@ public interface HttpApi {
     @Headers("showDialog:true")
     @FormUrlEncoded
     @POST("credit-card/save-work-info")
-    Observable<BaseResponse> saveWorkInfo(@FieldMap Map<String,String> params);
+    Observable<BaseResponse> saveWorkInfo(@FieldMap Map<String, String> params);
 
     //获取银行卡验证码
     @FormUrlEncoded
@@ -283,7 +289,27 @@ public interface HttpApi {
     Observable<BaseResponse<SaveInfoBean>> saveAlipayInfo(@Field("data") String data);
 
 
+    /**
+     * 伪装相关接口
+     * ---------------------------------------------------------------------------------------------------
+     */
+    //是否开启伪装
+    @FormUrlEncoded
+    @POST("funs/switch")
+    Call<String> getIsOpenPretend(@Field("appversion") String appversion,
+                                  @Field("platform") String platform);
+
     //伪热点列表
     @GET("funs/gethotpoint")
     Call<List<HotListBean>> getHotList();
+
+
+    //伪热获取图形验证码
+    @GET("captcha.svl")
+    Observable<ResponseBody> getImgVerification();
+
+    /**
+     ---------------------------------------------------------------------------------------------------
+     */
+
 }

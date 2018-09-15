@@ -15,8 +15,9 @@ android {
 
         ndk {
             // 设置支持的SO库架构
-            abiFilter   'armeabi-v7a'
+            abiFilters  "armeabi", "armeabi-v7a", "x86_64","x86"
         }
+        flavorDimensions "versionCode"
     }
     signingConfigs {
         release {
@@ -61,6 +62,14 @@ android {
 
         }
     }
+    productFlavors {
+        yingyongbao {}
+        oppo {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
 }
 
 dependencies {

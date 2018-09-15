@@ -214,9 +214,12 @@
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="5833b527a325112e2d001faa" />
+        <!--<meta-data-->
+            <!--android:name="UMENG_CHANNEL"-->
+            <!--android:value="xjx-MySelf" />-->
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="xjx-MySelf" />
+            android:value="${UMENG_CHANNEL_VALUE}"/>
 
         <activity
             android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
@@ -269,6 +272,7 @@
             android:screenOrientation="portrait" />
 
         <!--这部分为伪页面-->
+        <!--*******************************************************************************************-->
         <!--伪首页-->
         <activity
             android:name="com.innext.pretend.activity.PretendMainActivity"
@@ -294,7 +298,7 @@
         <activity
             android:name="com.innext.pretend.activity.PtdAboutUsActivity"
             android:screenOrientation="portrait" />
-
+        <!--*******************************************************************************************-->
 
 
         <service android:name=".ui.my.service.UploadPOIService"

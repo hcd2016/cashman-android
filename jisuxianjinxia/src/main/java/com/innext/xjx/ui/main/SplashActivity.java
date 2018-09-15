@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.provider.Settings;
 
 import com.innext.pretend.activity.PretendMainActivity;
+import com.innext.pretend.ptd_util.RetrofitUtil;
 import com.innext.xjx.R;
 import com.innext.xjx.app.App;
 import com.innext.xjx.base.BaseActivity;
@@ -14,18 +15,18 @@ import com.innext.xjx.config.ConfigUtil;
 import com.innext.xjx.config.Constant;
 import com.innext.xjx.dialog.AlertFragmentDialog;
 import com.innext.xjx.events.LoginNoRefreshUIEvent;
-import com.innext.xjx.http.HttpManager;
 import com.innext.xjx.ui.login.contract.LoginOutContract;
 import com.innext.xjx.ui.login.presenter.LoginOutPresenter;
 import com.innext.xjx.ui.my.contract.DeviceReportContract;
 import com.innext.xjx.ui.my.presenter.DeviceReportPresenter;
 import com.innext.xjx.util.SpUtil;
-import com.innext.xjx.util.ToastUtil;
 import com.innext.xjx.util.ViewUtil;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
 import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.List;
 
@@ -97,34 +98,50 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
         @Override
         public void onGranted() {
             if (ConfigUtil.isOpenPretend) {//是否跳转伪页面.
-//                Call<String> data = HttpManager.getApi().test("data");
-//                data.enqueue(new Callback<String>() {
-//                    @Override
-//                    public void onResponse(Call<String> call, Response<String> response) {
-//                        startActivity(PretendMainActivity.class);
-//                        finish();
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<String> call, Throwable t) {
-//                        ToastUtil.showToast("网络异常,请稍后重试");
-//                    }
-//                });
-                startActivity(PretendMainActivity.class);
+                Call<String> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(SplashActivity.this), "android");
+                call.enqueue(new Callback<String>() {
+                    @Override
+                    public void onResponse(Call<String> call, Response<String> response) {
+                        try {
+                            JSONObject object = new JSONObject(response.body());
+                            String message = object.optString("message");
+                            if ("Y".equals(message)) {//开启伪装
+                                startActivity(PretendMainActivity.class);
+                                finish();
+                            } else {
+                                normalProcess();
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            startActivity(PretendMainActivity.class);
+                            finish();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<String> call, Throwable t) {
+                        startActivity(PretendMainActivity.class);
+                        finish();
+                    }
+                });
+            } else {
+                normalProcess();
+            }
+        }
+
+        //走正常流程
+        public void normalProcess() {
+            isRequesting = false;
+            if (SpUtil.getInt(Constant.IS_FIRST_LOGIN, Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
+                mLoginOutPresenter.loginOut();
+                updateDeviceReport();
+                startActivity(GuideActivity.class);
                 finish();
             } else {
-                isRequesting = false;
-                if (SpUtil.getInt(Constant.IS_FIRST_LOGIN, Constant.HAS_ALREADY_LOGIN) == Constant.HAS_ALREADY_LOGIN) {
-                    mLoginOutPresenter.loginOut();
-                    updateDeviceReport();
-                    startActivity(GuideActivity.class);
-                    finish();
-                } else {
-                    startActivity(MainActivity.class);
-                    finish();
-                }
-                EventBus.getDefault().post(new LoginNoRefreshUIEvent(getApplicationContext(), App.getConfig().getUserInfo()));
+                startActivity(MainActivity.class);
+                finish();
             }
+            EventBus.getDefault().post(new LoginNoRefreshUIEvent(getApplicationContext(), App.getConfig().getUserInfo()));
         }
 
         @Override
