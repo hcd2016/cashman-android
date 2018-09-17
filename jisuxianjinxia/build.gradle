@@ -7,8 +7,8 @@ android {
         applicationId "com.innext.xjx"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 11
-        versionName "2.1.0"
+        versionCode 1
+        versionName "1.0.0"
         multiDexEnabled true
         resValue "string", "tray__authority", "com.innext.xjx.tray"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"

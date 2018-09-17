@@ -1,14 +1,11 @@
 package com.innext.pretend.fragment;
 
-import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -22,7 +19,6 @@ import com.innext.xjx.widget.DrawableCenterTextView;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -88,7 +84,6 @@ public class PtdInfoFragment extends BaseFragment {
                     flNoRecord.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 }
-                ptdInfoAdapter.notifyDataSetChanged();
                 refresh.setRefreshing(false);
             }
 
@@ -119,13 +114,5 @@ public class PtdInfoFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder1.unbind();
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // TODO: inflate a fragment view
-        View rootView = super.onCreateView(inflater, container, savedInstanceState);
-        unbinder2 = ButterKnife.bind(this, rootView);
-        return rootView;
     }
 }

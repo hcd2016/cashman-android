@@ -204,7 +204,7 @@
             <!--android:value="72f0010947ce4c609dbe6b8368aa5e83" />-->
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="32c24916d9b827df6755be6068fe0467" />
+            android:value="031b88512d41a6c0869cd5e2b094e9d2" />
 
 
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 
+import com.google.gson.JsonObject;
 import com.innext.pretend.activity.PretendMainActivity;
 import com.innext.pretend.ptd_util.RetrofitUtil;
 import com.innext.xjx.R;
@@ -98,12 +99,12 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
         @Override
         public void onGranted() {
             if (ConfigUtil.isOpenPretend) {//是否跳转伪页面.
-                Call<String> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(SplashActivity.this), "android");
-                call.enqueue(new Callback<String>() {
+                Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(SplashActivity.this), "android");
+                call.enqueue(new Callback<JsonObject>() {
                     @Override
-                    public void onResponse(Call<String> call, Response<String> response) {
+                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                         try {
-                            JSONObject object = new JSONObject(response.body());
+                            JSONObject object = new JSONObject(response.body().toString());
                             String message = object.optString("message");
                             if ("Y".equals(message)) {//开启伪装
                                 startActivity(PretendMainActivity.class);
@@ -119,7 +120,7 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
                     }
 
                     @Override
-                    public void onFailure(Call<String> call, Throwable t) {
+                    public void onFailure(Call<JsonObject> call, Throwable t) {
                         startActivity(PretendMainActivity.class);
                         finish();
                     }

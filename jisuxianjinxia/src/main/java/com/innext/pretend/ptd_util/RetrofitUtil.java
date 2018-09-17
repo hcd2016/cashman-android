@@ -71,7 +71,8 @@ public class RetrofitUtil {
 
                 //拦截需要的相应头
                 if(response.header("RCaptchaKey") != null) {
-                    SpUtil.putString("RCaptchaKey",response.header("RCaptchaKey"));
+                    SpUtil.remove(Constant.CAPTCHA_KEY);
+                    SpUtil.putString(Constant.CAPTCHA_KEY,response.header("RCaptchaKey"));
                 }
                 return response;
             }

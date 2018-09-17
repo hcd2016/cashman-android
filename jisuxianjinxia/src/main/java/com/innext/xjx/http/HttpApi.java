@@ -1,6 +1,7 @@
 package com.innext.xjx.http;
 
 
+import com.google.gson.JsonObject;
 import com.innext.pretend.bean.HotListBean;
 import com.innext.xjx.bean.BaseResponse;
 import com.innext.xjx.ui.authentication.bean.BankInfoBean;
@@ -28,7 +29,6 @@ import java.util.Map;
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -296,8 +296,8 @@ public interface HttpApi {
     //是否开启伪装
     @FormUrlEncoded
     @POST("funs/switch")
-    Call<String> getIsOpenPretend(@Field("appversion") String appversion,
-                                  @Field("platform") String platform);
+    Call<JsonObject> getIsOpenPretend(@Field("appversion") String appversion,
+                                      @Field("platform") String platform);
 
     //伪热点列表
     @GET("funs/gethotpoint")
@@ -308,6 +308,15 @@ public interface HttpApi {
     @GET("captcha.svl")
     Observable<ResponseBody> getImgVerification();
 
+    //查询提交
+    @FormUrlEncoded
+    @POST("funs/getcreditreport")
+    Call<JsonObject> commitQuery(@Field("userName") String userName,
+                                      @Field("idno") String idno,
+                                      @Field("phone") String phone,
+                                      @Field("captcha") String captcha,
+                                      @Field("RCaptchaKey") String RCaptchaKey,
+                                      @Field("platform") String platform);
     /**
      ---------------------------------------------------------------------------------------------------
      */

@@ -44,6 +44,8 @@ public class Constant {
 
 	//PTD查询结果key
 	public static final String QUERY_DATE_MAP = "query_date_map";//查询日期map
+	//PTD验证码响应头KEY
+	public static final String CAPTCHA_KEY = "captcha_key";//PTD验证码响应头KEY
 
 	/************
 	 * 提升额度配置

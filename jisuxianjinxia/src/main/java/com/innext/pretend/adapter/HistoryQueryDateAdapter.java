@@ -43,7 +43,7 @@ public class HistoryQueryDateAdapter extends RecyclerView.Adapter<HistoryQueryDa
             for(Map.Entry<String, List<QueryResultBean>> entry : map.entrySet()) {
                 if(keyList.get(position).equals(entry.getKey())) {
                     String item = entry.getKey();
-                    List<QueryResultBean> timeList = entry.getValue();
+                    final List<QueryResultBean> timeList = entry.getValue();
                     holder.tvDate.setText(item);
 
                     //时间列表初始化

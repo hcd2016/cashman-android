@@ -8,9 +8,9 @@
     <include layout="@layout/layout_toolbar" />
 
     <ScrollView
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/white"
         android:scrollbars="none">
 
         <LinearLayout
@@ -27,6 +27,8 @@
                 android:src="@mipmap/ptd_emoji_good" />
 
             <TextView
+                android:layout_marginRight="70dp"
+                android:layout_marginLeft="70dp"
                 android:id="@+id/tv_desc_1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -36,19 +38,10 @@
                 android:textSize="14sp"
                 tools:text="恭喜您，您的信用分打败了95%的人" />
 
-            <TextView
-                android:id="@+id/tv_desc_2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:gravity="center"
-                android:textColor="@color/ad_color_yellow"
-                android:textSize="14sp"
-                tools:text="真可谓一人之下万人之上～" />
-
 
             <!--信用分详情-->
             <TextView
+                android:layout_marginTop="19dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/theme_line_color"
@@ -87,7 +80,7 @@
                         android:id="@+id/tv_credit_points"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="650"
+                        tools:text="650"
                         android:textColor="@color/black_3"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -153,128 +146,28 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <!--公检法信息-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/theme_line_color"
-                android:padding="15dp"
-                android:text="公检法信息"
-                android:textColor="@color/black_6"
-                android:textSize="14sp" />
-
             <LinearLayout
+                android:id="@+id/ll_risk_container"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
+                android:orientation="vertical">
 
-                <LinearLayout
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="自然人识别信息"
-                        android:textColor="@color/black_9"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/tv_natural_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="无"
-                        android:textColor="@color/black_3"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-                <include layout="@layout/layout_line" />
-
+                    android:background="@color/theme_line_color"
+                    android:padding="15dp"
+                    android:text="风险项"
+                    android:textColor="@color/black_6"
+                    android:textSize="14sp" />
+                <!--风险项列表-->
                 <LinearLayout
+                    android:id="@+id/ll_risk_item_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="法院信息"
-                        android:textColor="@color/black_9"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/tv_court_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="无命中"
-                        android:textColor="@color/black_3"
-                        android:textSize="14sp" />
-                </LinearLayout>
+                    android:orientation="vertical" />
             </LinearLayout>
 
-            <!--金融信息-->
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/theme_line_color"
-                android:padding="15dp"
-                android:text="公检法信息"
-                android:textColor="@color/black_6"
-                android:textSize="14sp" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="15dp"
-                android:paddingRight="15dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="借贷情况"
-                        android:textColor="@color/black_9"
-                        android:textSize="14sp" />
-
-                    <View
-                        android:layout_width="0dp"
-                        android:layout_height="match_parent"
-                        android:layout_weight="1" />
-
-                    <TextView
-                        android:id="@+id/tv_borrowing_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="无"
-                        android:textColor="@color/black_3"
-                        android:textSize="14sp" />
-                </LinearLayout>
-
-            </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
