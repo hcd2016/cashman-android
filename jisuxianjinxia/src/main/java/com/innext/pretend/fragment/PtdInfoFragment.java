@@ -84,6 +84,7 @@ public class PtdInfoFragment extends BaseFragment {
                     flNoRecord.setVisibility(View.VISIBLE);
                     recyclerView.setVisibility(View.GONE);
                 }
+
                 refresh.setRefreshing(false);
             }
 

@@ -298,6 +298,10 @@
         <activity
             android:name="com.innext.pretend.activity.PtdAboutUsActivity"
             android:screenOrientation="portrait" />
+        <!--关于我们-->
+        <activity
+            android:name="com.innext.pretend.activity.InfoDetailActivity"
+            android:screenOrientation="portrait" />
         <!--*******************************************************************************************-->
 
 

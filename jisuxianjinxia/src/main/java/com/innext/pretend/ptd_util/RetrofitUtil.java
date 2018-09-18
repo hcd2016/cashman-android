@@ -7,6 +7,7 @@ import com.innext.xjx.app.App;
 import com.innext.xjx.config.Constant;
 import com.innext.xjx.http.HttpApi;
 import com.innext.xjx.util.SpUtil;
+import com.orhanobut.logger.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -54,9 +55,14 @@ public class RetrofitUtil {
     public static OkHttpClient genericClient() {
         Cache cache = new Cache(new File(App.getContext().getCacheDir(), "jsxjxCache"),
                 1024 * 1024 * 100);
-        //用于打印http信息的拦截器
-        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
-        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        //日志拦截器
+        HttpLoggingInterceptor logging = new HttpLoggingInterceptor(new HttpLoggingInterceptor.Logger() {
+            @Override
+            public void log(String message) {
+                Logger.t("http").e(message);
+            }
+        });
+        logging.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         //添加全局统一请求头
         Interceptor headerInterceptor = new Interceptor() {
@@ -83,7 +89,7 @@ public class RetrofitUtil {
         OkHttpClient httpClient = new OkHttpClient.Builder()
                 .cache(cache)   //缓存
                 .retryOnConnectionFailure(false)
-                .addInterceptor(interceptor)
+                .addInterceptor(logging)
                 .addInterceptor(headerInterceptor)
                 .connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)
                 .writeTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS)

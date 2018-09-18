@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:contentInsetStart="0dp"
+        app:layout_collapseMode="pin"
+        app:layout_scrollFlags="scroll">
+        <com.innext.xjx.widget.DrawableCenterTextView
+            android:id="@+id/tv_left"
+            android:text="热点资讯"
+            android:drawablePadding="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:minWidth="@dimen/title_height"
+            android:gravity="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            style="?attr/toolbarNavigationButtonStyle"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="18sp"
+            android:maxLines="1"
+            android:maxLength="11"/>
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="15dp">
+
+            <TextView
+                android:id="@+id/tv_title_desc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                tools:text="我是新闻标题中美贸易战到底是谁的锅?今晚打老虎"
+                android:textColor="@color/black_3"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tv_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:gravity="right"
+                tools:text="2018.9.18 10:12:12"
+                android:textColor="@color/black_9"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/tv_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                tools:text="我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容我是新闻内容"
+                android:textColor="@color/black_3" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

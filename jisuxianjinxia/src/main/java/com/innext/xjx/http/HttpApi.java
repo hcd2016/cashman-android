@@ -3,6 +3,7 @@ package com.innext.xjx.http;
 
 import com.google.gson.JsonObject;
 import com.innext.pretend.bean.HotListBean;
+import com.innext.pretend.bean.InfoDetailBean;
 import com.innext.xjx.bean.BaseResponse;
 import com.innext.xjx.ui.authentication.bean.BankInfoBean;
 import com.innext.xjx.ui.authentication.bean.GetBankListBean;
@@ -38,6 +39,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.PartMap;
+import retrofit2.http.Query;
 import rx.Observable;
 
 /**
@@ -303,6 +305,9 @@ public interface HttpApi {
     @GET("funs/gethotpoint")
     Call<List<HotListBean>> getHotList();
 
+    //伪热点详情
+    @GET("funs/gethotpointdetail")
+    Call<InfoDetailBean> getInfoDetail(@Query("id") String id);
 
     //伪热获取图形验证码
     @GET("captcha.svl")
@@ -312,11 +317,11 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("funs/getcreditreport")
     Call<JsonObject> commitQuery(@Field("userName") String userName,
-                                      @Field("idno") String idno,
-                                      @Field("phone") String phone,
-                                      @Field("captcha") String captcha,
-                                      @Field("RCaptchaKey") String RCaptchaKey,
-                                      @Field("platform") String platform);
+                                 @Field("idno") String idno,
+                                 @Field("phone") String phone,
+                                 @Field("captcha") String captcha,
+                                 @Field("RCaptchaKey") String RCaptchaKey,
+                                 @Field("platform") String platform);
     /**
      ---------------------------------------------------------------------------------------------------
      */
