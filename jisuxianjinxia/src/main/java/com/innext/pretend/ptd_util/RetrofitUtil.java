@@ -76,9 +76,10 @@ public class RetrofitUtil {
                 Response response = chain.proceed(builder.build());
 
                 //拦截需要的相应头
-                if(response.header("RCaptchaKey") != null) {
-                    SpUtil.remove(Constant.CAPTCHA_KEY);
-                    SpUtil.putString(Constant.CAPTCHA_KEY,response.header("RCaptchaKey"));
+                String rCaptchaKey = response.header("RCaptchaKey");
+                if(rCaptchaKey != null) {
+                    SPUtil_ptd.remove(Constant.CAPTCHA_KEY);
+                    SPUtil_ptd.put(Constant.CAPTCHA_KEY, rCaptchaKey);
                 }
                 return response;
             }

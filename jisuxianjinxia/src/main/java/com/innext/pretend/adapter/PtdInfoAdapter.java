@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.innext.pretend.activity.InfoDetailActivity;
+import com.innext.pretend.activity.InfoDetailWebviewAvtivity;
 import com.innext.pretend.bean.HotListBean;
 import com.innext.xjx.R;
 import com.innext.xjx.app.App;
@@ -30,7 +30,7 @@ public class PtdInfoAdapter extends BaseRecyclerAdapter<PtdInfoAdapter.ViewHolde
     @Override
     public void mOnBindViewHolder(ViewHolder holder, int position) {
         final HotListBean item = data.get(position);
-        Glide.with(mContext).load(App.getConfig().getBaseUrl() + item.getImg_url())
+        Glide.with(mContext).load(item.getImg_url())
                 .placeholder(R.mipmap.banner)
                 .error(R.mipmap.banner)
                 .centerCrop()
@@ -40,8 +40,9 @@ public class PtdInfoAdapter extends BaseRecyclerAdapter<PtdInfoAdapter.ViewHolde
         holder.llItemContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, InfoDetailActivity.class);
-                intent.putExtra("id", item.getId()+"");
+                Intent intent = new Intent(mContext, InfoDetailWebviewAvtivity.class);
+                intent.putExtra("url", App.getConfig().getBaseUrl()+"funs/gethotpointdetailhtml?id="+item.getId());
+                intent.putExtra("title","");
                 mContext.startActivity(intent);
             }
         });

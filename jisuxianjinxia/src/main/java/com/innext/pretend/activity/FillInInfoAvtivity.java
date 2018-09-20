@@ -15,6 +15,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.innext.pretend.bean.QueryResultBean;
 import com.innext.pretend.ptd_util.RetrofitUtil;
+import com.innext.pretend.ptd_util.SPUtil_ptd;
 import com.innext.xjx.R;
 import com.innext.xjx.base.BaseActivity;
 import com.innext.xjx.config.Constant;
@@ -125,7 +126,7 @@ public class FillInInfoAvtivity extends BaseActivity {
 
     //提交
     private void requestData(String realName, String cardNum, String phoneNum, String verification) {
-        String key = SpUtil.getString(Constant.CAPTCHA_KEY);
+        String key = (String) SPUtil_ptd.get(Constant.CAPTCHA_KEY,"");
         Call<JsonObject> call = RetrofitUtil.create().commitQuery(realName, cardNum, phoneNum, verification, key, "android");
         call.enqueue(new Callback<JsonObject>() {
             @Override

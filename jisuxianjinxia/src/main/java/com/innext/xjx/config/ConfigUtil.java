@@ -17,7 +17,9 @@ public class ConfigUtil {
     //public  String baseUrl ="http://192.168.1.161:8080/";//张苏豪测试服务器
     //public  String baseUrl =" http://118.242.26.62:8083/";//测试服务器
 //    public  String baseUrl ="http://192.168.1.179:8080/";//测试服务器
-    public  String baseUrl ="http://192.168.1.145:8080/";//测试服务器
+//    public  String baseUrl ="http://192.168.1.145:8080/";//测试服务器
+    public  static String baseUrl ="http://120.79.170.34:8080/";//测试服务器
+//    public  static String baseUrl ="http://120.79.170.179:8080/";//测试服务器
 
     public static boolean isOpenPretend = true;//是否开启伪页面
     //爬取支付宝数据js

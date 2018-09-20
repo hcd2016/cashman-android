@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class PtdFragmentFactory {
 
-    private static List<Fragment> list;
+    public static List<Fragment> list;
     private static Fragment lastFragment;
     private static FragmentManager manager;
 

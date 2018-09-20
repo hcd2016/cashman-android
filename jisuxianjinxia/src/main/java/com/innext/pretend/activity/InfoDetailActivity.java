@@ -1,6 +1,5 @@
 package com.innext.pretend.activity;
 
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.innext.xjx.base.BaseActivity;
 import com.innext.xjx.widget.DrawableCenterTextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -70,12 +68,5 @@ public class InfoDetailActivity extends BaseActivity {
                 t.toString();
             }
         });
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 }

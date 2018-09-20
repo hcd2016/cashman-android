@@ -302,6 +302,10 @@
         <activity
             android:name="com.innext.pretend.activity.InfoDetailActivity"
             android:screenOrientation="portrait" />
+        <!--资讯详情webview-->
+        <activity
+            android:name="com.innext.pretend.activity.InfoDetailWebviewAvtivity"
+            android:screenOrientation="portrait" />
         <!--*******************************************************************************************-->
 
 

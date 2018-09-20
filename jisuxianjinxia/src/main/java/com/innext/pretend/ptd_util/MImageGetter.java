@@ -35,6 +35,12 @@ public class MImageGetter implements Html.ImageGetter {
                     container.setText(container.getText());
                 }
             }
+
+            @Override
+            public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                e.toString();
+                super.onLoadFailed(e, errorDrawable);
+            }
         });
         return drawable;
     }

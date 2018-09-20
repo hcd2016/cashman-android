@@ -1,6 +1,7 @@
 package com.innext.pretend.activity;
 
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
@@ -11,7 +12,6 @@ import com.innext.xjx.util.ToastUtil;
 import com.innext.xjx.widget.MyRadioButton;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * 伪首页,你懂了.
@@ -119,5 +119,20 @@ public class PretendMainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+//        super.onSaveInstanceState(outState);
     }
 }
