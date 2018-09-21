@@ -1,10 +1,7 @@
 package com.innext.pretend.fragment;
 
-import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -16,12 +13,9 @@ import com.innext.xjx.util.ViewUtil;
 import com.innext.xjx.widget.DrawableCenterTextView;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.Unbinder;
 
 public class PtdMineFragment extends BaseFragment {
-    public static PtdMineFragment ptdMineFragment;
     @BindView(R.id.tv_left)
     DrawableCenterTextView tvLeft;
     @BindView(R.id.tv_close)
@@ -38,14 +32,7 @@ public class PtdMineFragment extends BaseFragment {
     TextView tvVersion;
     @BindView(R.id.ll_item_setting)
     LinearLayout llItemSetting;
-    Unbinder unbinder;
 
-    public static PtdMineFragment getInstance() {
-        if (ptdMineFragment == null) {
-            ptdMineFragment = new PtdMineFragment();
-        }
-        return ptdMineFragment;
-    }
 
     @Override
     public int getLayoutId() {
@@ -59,15 +46,14 @@ public class PtdMineFragment extends BaseFragment {
 
     @Override
     public void loadData() {
-        mTitle.setTitle(false,"我的");
-        tvVersion.setText("V"+ViewUtil.getAppVersion(getActivity()));
+        mTitle.setTitle(false, "我的");
+        tvVersion.setText("V" + ViewUtil.getAppVersion(getActivity()));
     }
 
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder.unbind();
     }
 
     @OnClick({R.id.ll_item_history_query, R.id.ll_item_setting})

@@ -1,11 +1,12 @@
 package com.innext.pretend.activity;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.v4.app.FragmentTransaction;
 import android.widget.FrameLayout;
 import android.widget.RadioGroup;
 
-import com.innext.pretend.fragment.PtdFragmentFactory;
+import com.innext.pretend.fragment.PtdHomeFragment;
+import com.innext.pretend.fragment.PtdInfoFragment;
+import com.innext.pretend.fragment.PtdMineFragment;
 import com.innext.xjx.R;
 import com.innext.xjx.base.BaseActivity;
 import com.innext.xjx.util.ToastUtil;
@@ -27,7 +28,9 @@ public class PretendMainActivity extends BaseActivity {
     MyRadioButton infoTab;
     @BindView(R.id.mine_tab)
     MyRadioButton mineTab;
-    private PtdFragmentFactory.FragmentStatus toTabIndex = PtdFragmentFactory.FragmentStatus.None;
+    PtdHomeFragment ptdHomeFragment = null;
+    PtdInfoFragment ptdInfoFragment = null;
+    PtdMineFragment ptdMineFragment = null;
 
     @Override
     public int getLayoutId() {
@@ -41,76 +44,63 @@ public class PretendMainActivity extends BaseActivity {
 
     @Override
     public void loadData() {
-        group.setOnCheckedChangeListener(changeListener);
-        group.check(getCheckIdByStatus(PtdFragmentFactory.FragmentStatus.HOME_TAB));
-    }
-
-    RadioGroup.OnCheckedChangeListener changeListener = new RadioGroup.OnCheckedChangeListener() {
-
-        @Override
-        public void onCheckedChanged(RadioGroup group, int checkedId) {
-            switch (checkedId) {
-                case R.id.home_tab:
-                    toTabIndex = PtdFragmentFactory.FragmentStatus.HOME_TAB;
-                    changeTab(PtdFragmentFactory.FragmentStatus.HOME_TAB);
-                    break;
-                case R.id.info_tab:
-                    toTabIndex = PtdFragmentFactory.FragmentStatus.INFO_TAB;
-                    changeTab(PtdFragmentFactory.FragmentStatus.INFO_TAB);
-                    break;
-                case R.id.mine_tab:
-                    toTabIndex = PtdFragmentFactory.FragmentStatus.MINE_TAB;
-                    changeTab(PtdFragmentFactory.FragmentStatus.MINE_TAB);
-                    break;
-                default:
-                    break;
-
+        group.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                FragmentTransaction beginTransaction = getSupportFragmentManager().beginTransaction();
+                switch (i) {
+                    case R.id.home_tab:
+                        ptdHomeFragment = (PtdHomeFragment) getSupportFragmentManager().findFragmentByTag("home_tag");//获取当前点击的fragment
+                        if (null == ptdHomeFragment) {//不存在,添加
+                            ptdHomeFragment = new PtdHomeFragment();
+                            beginTransaction.add(R.id.container, ptdHomeFragment, "home_tag");
+                        }
+                        hideAll(beginTransaction);//隐藏所有fragment
+                        beginTransaction.show(ptdHomeFragment);//显示当前fragment
+                        beginTransaction.commitAllowingStateLoss();//提交事务
+                        break;
+                    case R.id.info_tab:
+                        ptdInfoFragment = (PtdInfoFragment) getSupportFragmentManager().findFragmentByTag("info_tag");
+                        if (null == ptdInfoFragment) {
+                            ptdInfoFragment = new PtdInfoFragment();
+                            beginTransaction.add(R.id.container, ptdInfoFragment, "info_tag");
+                        }
+                        hideAll(beginTransaction);
+                        beginTransaction.show(ptdInfoFragment);
+                        beginTransaction.commitAllowingStateLoss();
+                        break;
+                    case R.id.mine_tab:
+                        ptdMineFragment = (PtdMineFragment) getSupportFragmentManager().findFragmentByTag("mine_tag");
+                        if (null == ptdMineFragment) {
+                            ptdMineFragment = new PtdMineFragment();
+                            beginTransaction.add(R.id.container, ptdMineFragment, "mine_tag");
+                        }
+                        hideAll(beginTransaction);
+                        beginTransaction.show(ptdMineFragment);
+                        beginTransaction.commitAllowingStateLoss();
+                        break;
+                }
             }
-        }
-    };
+        });
 
-    /***********
-     * 获取所选状态的checkId
-     *
-     * @return
-     */
-    public int getCheckIdByStatus(PtdFragmentFactory.FragmentStatus status) {
-        int id = R.id.home_tab;
-        switch (status) {
-            case HOME_TAB:
-                id = R.id.home_tab;
-                break;
-            case INFO_TAB:
-                id = R.id.info_tab;
-                break;
-            case MINE_TAB:
-                id = R.id.mine_tab;
-                break;
-            default:
-                break;
-        }
-        return id;
+        //第一次选中,保证第一次会回调OnCheckedChangeListener
+        homeTab.setChecked(true);
     }
 
-    /***********
-     * 切换导航栏
-     */
-    private PtdFragmentFactory.FragmentStatus oldState = PtdFragmentFactory.FragmentStatus.None;
-
-    public void changeTab(PtdFragmentFactory.FragmentStatus status) {
-        if (status == oldState) return;
-        PtdFragmentFactory.changeFragment(getSupportFragmentManager(), status, R.id.container);
-        oldState = status;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        group.setOnCheckedChangeListener(changeListener);
+    //隐藏所有
+    public void hideAll(FragmentTransaction beginTransaction) {
+        if (null != ptdHomeFragment) {
+            beginTransaction.hide(ptdHomeFragment);
+        }
+        if (null != ptdInfoFragment) {
+            beginTransaction.hide(ptdInfoFragment);
+        }
+        if (null != ptdMineFragment) {
+            beginTransaction.hide(ptdMineFragment);
+        }
     }
 
     private long exitTime = 0;
-
     @Override
     public void onBackPressed() {
         if ((System.currentTimeMillis() - exitTime) > 2000) {
@@ -119,20 +109,5 @@ public class PretendMainActivity extends BaseActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-    }
-
-    @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-//        super.onSaveInstanceState(outState);
     }
 }

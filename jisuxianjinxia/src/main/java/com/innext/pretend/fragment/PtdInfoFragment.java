@@ -25,7 +25,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class PtdInfoFragment extends BaseFragment {
-    public static PtdInfoFragment ptdInfoFragment;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     Unbinder unbinder;
@@ -44,15 +43,7 @@ public class PtdInfoFragment extends BaseFragment {
     Unbinder unbinder1;
     @BindView(R.id.fl_no_record)
     FrameLayout flNoRecord;
-    Unbinder unbinder2;
     private PtdInfoAdapter ptdInfoAdapter;
-
-    public static PtdInfoFragment getInstance() {
-        if (ptdInfoFragment == null) {
-            ptdInfoFragment = new PtdInfoFragment();
-        }
-        return ptdInfoFragment;
-    }
 
     @Override
     public void onResume() {
@@ -114,6 +105,5 @@ public class PtdInfoFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        unbinder1.unbind();
     }
 }

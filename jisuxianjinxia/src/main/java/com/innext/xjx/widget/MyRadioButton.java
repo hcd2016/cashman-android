@@ -78,6 +78,7 @@ public class MyRadioButton extends RadioButton {
         }  
         setCompoundDrawables(left, top, right, bottom);  
     }
+    //按宽高比调整icon的大小比例
     private void getDrawableSize(Drawable drawable){
         double height = drawable.getIntrinsicHeight();
         double width = drawable.getIntrinsicWidth();
