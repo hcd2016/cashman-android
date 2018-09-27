@@ -31,7 +31,7 @@
 		        android:layout_marginTop="50dp"
 		        android:src="@mipmap/register_logo"/>
 		
-		    <com.innext.xjx.widget.ClearEditText
+		    <com.credit.xiaowei.widget.ClearEditText
 		        android:id="@+id/et_phone_number"
 		        android:layout_width="fill_parent"
 		        android:layout_height="45dp"

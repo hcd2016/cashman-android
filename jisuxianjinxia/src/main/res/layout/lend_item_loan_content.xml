@@ -49,7 +49,7 @@
         android:paddingTop="5dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
-        <com.innext.xjx.widget.HomeSeekBar
+        <com.credit.xiaowei.widget.HomeSeekBar
             android:id="@+id/hsb_selected_money"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

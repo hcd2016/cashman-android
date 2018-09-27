@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     style="@style/MatchMatch.Vertical"
-    tools:context="com.innext.xjx.ui.authentication.activity.GDMapSearchActivity">
+    tools:context="com.credit.xiaowei.ui.authentication.activity.GDMapSearchActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:src="@mipmap/icon_back" />
 
-        <com.innext.xjx.widget.ClearEditText
+        <com.credit.xiaowei.widget.ClearEditText
             android:id="@+id/et_search"
             android:layout_width="0px"
             android:layout_height="35dp"

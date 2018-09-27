@@ -14,7 +14,7 @@
         app:contentInsetStart="0dp"
         app:layout_collapseMode="pin"
         app:layout_scrollFlags="scroll">
-        <com.innext.xjx.widget.DrawableCenterTextView
+        <com.credit.xiaowei.widget.DrawableCenterTextView
             android:id="@+id/tv_left"
             android:text="热点资讯"
             android:drawablePadding="20dp"

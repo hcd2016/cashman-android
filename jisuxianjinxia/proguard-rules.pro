@@ -61,25 +61,26 @@
 }
 
 #bean 防混淆
--keep class com.innext.xjx.bean.** { *; }
--keep class com.innext.xjx.ui.authentication.bean.** { *; }
--keep class com.innext.xjx.ui.lend.bean.** { *; }
--keep class com.innext.xjx.ui.login.bean.** { *; }
--keep class com.innext.xjx.ui.my.bean.** { *; }
--keep class com.innext.xjx.ui.repayment.bean.** { *; }
+-keep class com.credit.xiaowei.bean.** { *; }
+-keep class com.credit.xiaowei.ui.authentication.bean.** { *; }
+-keep class com.credit.xiaowei.ui.lend.bean.** { *; }
+-keep class com.credit.xiaowei.ui.login.bean.** { *; }
+-keep class com.credit.xiaowei.ui.my.bean.** { *; }
+-keep class com.credit.xiaowei.ui.repayment.bean.** { *; }
+-keep class com.credit.pretend.bean.** { *; }
 
 #网络层混淆
--keep class com.innext.xjx.http.** {*;}
+-keep class com.credit.xiaowei.http.** {*;}
 
 # javascript 防混淆
--keep class com.innext.xjx.ui.main.WebViewActivity$JavaMethod{*;}
+-keep class com.credit.xiaowei.ui.main.WebViewActivity$JavaMethod{*;}
 -keepattributes *JavascriptInterface*
 -keep class android.webkit.JavascriptInterface {*;}
 
 -keepclassmembers class * {
      public <init>(org.json.JSONObject);
     }
- -keep public class com.innext.xjx.R$*{
+ -keep public class com.credit.xiaowei.R$*{
       public static final int *;
  }
 
@@ -286,3 +287,4 @@
 -keep class com.sina.** {*;}
 -dontwarn com.sina.**
 -keep class  com.alipay.share.sdk.** {*;}
+

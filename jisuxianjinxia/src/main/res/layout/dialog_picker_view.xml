@@ -42,7 +42,7 @@
             android:background="@drawable/press_style" />
     </LinearLayout>
 
-    <com.innext.xjx.widget.NumberPicker
+    <com.credit.xiaowei.widget.NumberPicker
         android:id="@+id/number_picker"
         android:layout_width="wrap_content"
         android:layout_gravity="center_horizontal"

@@ -16,7 +16,7 @@
         android:textColor="@color/white"
         android:textSize="22sp"/>
 
-    <com.innext.xjx.widget.loading.LoadingLayout
+    <com.credit.xiaowei.widget.loading.LoadingLayout
         android:id="@+id/load_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -51,7 +51,7 @@
 
         </LinearLayout>
 
-    </com.innext.xjx.widget.loading.LoadingLayout>
+    </com.credit.xiaowei.widget.loading.LoadingLayout>
 
 
 </LinearLayout>

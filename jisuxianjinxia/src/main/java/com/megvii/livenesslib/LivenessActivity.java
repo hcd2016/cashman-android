@@ -18,8 +18,8 @@ import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.innext.xjx.R;
-import com.innext.xjx.util.SystemBarTintAdjustManager;
+import com.credit.xiaowei.R;
+import com.credit.xiaowei.util.SystemBarTintAdjustManager;
 import com.megvii.livenessdetection.DetectionConfig;
 import com.megvii.livenessdetection.DetectionFrame;
 import com.megvii.livenessdetection.Detector;

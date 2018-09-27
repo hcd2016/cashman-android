@@ -3,7 +3,7 @@
               style="@style/MatchMatch.Vertical">
 
     <include layout="@layout/layout_toolbar"/>
-    <com.innext.xjx.widget.loading.LoadingLayout
+    <com.credit.xiaowei.widget.loading.LoadingLayout
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -11,7 +11,7 @@
             android:id="@+id/refresh"
             style="@style/MatchMatch">
 
-            <com.innext.xjx.widget.LockableScrollView
+            <com.credit.xiaowei.widget.LockableScrollView
                 android:id="@+id/scroll_view"
                 style="@style/MatchMatch"
                 android:fillViewport="true"
@@ -52,7 +52,7 @@
                                     android:layout_marginRight="8dp"
                                     android:src="@mipmap/notice_icon"/>
 
-                                <com.innext.xjx.widget.RollView
+                                <com.credit.xiaowei.widget.RollView
                                     android:id="@+id/roll_view"
                                     android:layout_width="match_parent"
                                     android:layout_height="30dp"
@@ -159,9 +159,9 @@
                         <!--android:paddingBottom="5dp"-->
                         <!--android:paddingTop="5dp"/>-->
                 </LinearLayout>
-            </com.innext.xjx.widget.LockableScrollView>
+            </com.credit.xiaowei.widget.LockableScrollView>
         </android.support.v4.widget.SwipeRefreshLayout>
 
-    </com.innext.xjx.widget.loading.LoadingLayout>
+    </com.credit.xiaowei.widget.loading.LoadingLayout>
 
 </LinearLayout>

@@ -16,8 +16,8 @@ import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.innext.xjx.R;
-import com.innext.xjx.util.ToastUtil;
+import com.credit.xiaowei.R;
+import com.credit.xiaowei.util.ToastUtil;
 import com.megvii.idcardlib.util.DialogUtil;
 import com.megvii.idcardlib.util.ICamera;
 import com.megvii.idcardlib.util.IDCardIndicator;

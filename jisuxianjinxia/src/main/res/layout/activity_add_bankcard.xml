@@ -123,7 +123,7 @@
                 android:textColor="@color/tab_normal"
                 android:textSize="15sp" />
 
-            <com.innext.xjx.widget.CardEditText
+            <com.credit.xiaowei.widget.CardEditText
                 android:id="@+id/et_bankcard_num"
                 android:layout_width="0px"
                 android:layout_height="match_parent"

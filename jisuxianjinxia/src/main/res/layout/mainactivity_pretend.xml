@@ -18,18 +18,18 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <com.innext.xjx.widget.MyRadioButton
+        <com.credit.xiaowei.widget.MyRadioButton
             android:id="@+id/home_tab"
             style="@style/menu_tab"
             android:text="首页"
             app:rbDrawableTop="@drawable/ptd_selector_menu_1"/>
 
-        <com.innext.xjx.widget.MyRadioButton
+        <com.credit.xiaowei.widget.MyRadioButton
             android:id="@+id/info_tab"
             style="@style/menu_tab"
             android:text="资讯"
             app:rbDrawableTop="@drawable/ptd_selector_menu_2" />
-        <com.innext.xjx.widget.MyRadioButton
+        <com.credit.xiaowei.widget.MyRadioButton
             android:id="@+id/mine_tab"
             style="@style/menu_tab"
             android:text="我的"

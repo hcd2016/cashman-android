@@ -7,11 +7,11 @@
     <include layout="@layout/layout_toolbar" />
 
 
-    <com.innext.xjx.widget.loading.LoadingLayout
+    <com.credit.xiaowei.widget.loading.LoadingLayout
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <include
             layout="@layout/pull_recycle"/>
-    </com.innext.xjx.widget.loading.LoadingLayout>
+    </com.credit.xiaowei.widget.loading.LoadingLayout>
 </LinearLayout>

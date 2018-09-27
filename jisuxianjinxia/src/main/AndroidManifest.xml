@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.innext.xjx">
+          package="com.credit.xiaowei">
 
     <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="android.permission.READ_CONTACTS"/>
@@ -206,14 +206,13 @@
             android:name="com.amap.api.v2.apikey"
             android:value="031b88512d41a6c0869cd5e2b094e9d2" />
 
-
         <!-- 定位需要的服务 使用2.0的定位需要加上这个 -->
         <service android:name="com.amap.api.location.APSService" />
 
         <!-- 友盟的key与渠道 -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5833b527a325112e2d001faa" />
+            android:value="5ba9aae7f1f55631fe0000b1" />
         <!--<meta-data-->
             <!--android:name="UMENG_CHANNEL"-->
             <!--android:value="xjx-MySelf" />-->
@@ -275,36 +274,36 @@
         <!--*******************************************************************************************-->
         <!--伪首页-->
         <activity
-            android:name="com.innext.pretend.activity.PretendMainActivity"
+            android:name="com.credit.pretend.activity.PretendMainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait" />
         <!--填写信息-->
         <activity
-            android:name="com.innext.pretend.activity.FillInInfoAvtivity"
+            android:name="com.credit.pretend.activity.FillInInfoAvtivity"
             android:screenOrientation="portrait" />
         <!--查询结果-->
         <activity
-            android:name="com.innext.pretend.activity.QueryResultActivity"
+            android:name="com.credit.pretend.activity.QueryResultActivity"
             android:screenOrientation="portrait" />
         <!--历史查询-->
         <activity
-            android:name="com.innext.pretend.activity.HistoryQueryActivity"
+            android:name="com.credit.pretend.activity.HistoryQueryActivity"
             android:screenOrientation="portrait" />
         <!--设置-->
         <activity
-            android:name="com.innext.pretend.activity.PtdSettingActivity"
+            android:name="com.credit.pretend.activity.PtdSettingActivity"
             android:screenOrientation="portrait" />
         <!--关于我们-->
         <activity
-            android:name="com.innext.pretend.activity.PtdAboutUsActivity"
+            android:name="com.credit.pretend.activity.PtdAboutUsActivity"
             android:screenOrientation="portrait" />
         <!--关于我们-->
         <activity
-            android:name="com.innext.pretend.activity.InfoDetailActivity"
+            android:name="com.credit.pretend.activity.InfoDetailActivity"
             android:screenOrientation="portrait" />
         <!--资讯详情webview-->
         <activity
-            android:name="com.innext.pretend.activity.InfoDetailWebviewAvtivity"
+            android:name="com.credit.pretend.activity.InfoDetailWebviewAvtivity"
             android:screenOrientation="portrait" />
         <!--*******************************************************************************************-->
 
@@ -380,7 +379,7 @@
             <intent-filter>
 
                 <!-- 【必须】 请修改为当前APP名包.PUSH_ACTION，如demo的包名为：com.qq.xgdemo com.innext.xjx -->
-                <action android:name="com.innext.xjx.PUSH_ACTION" />
+                <action android:name="com.credit.xiaowei.PUSH_ACTION" />
             </intent-filter>
         </service>
 
@@ -416,7 +415,7 @@
       -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.innext.xjx.provider.fileprovider"
+            android:authorities="com.credit.xiaowei.provider.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

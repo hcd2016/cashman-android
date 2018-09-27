@@ -9,7 +9,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.innext.xjx.R;
+import com.credit.xiaowei.R;
 import com.megvii.livenessdetection.Detector.DetectionType;
 
 import java.util.ArrayList;

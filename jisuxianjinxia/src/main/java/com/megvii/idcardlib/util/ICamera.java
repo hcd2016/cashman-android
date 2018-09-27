@@ -17,7 +17,7 @@ import android.support.v4.app.FragmentActivity;
 import android.view.Surface;
 import android.widget.RelativeLayout;
 
-import com.innext.xjx.dialog.AlertFragmentDialog;
+import com.credit.xiaowei.dialog.AlertFragmentDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;

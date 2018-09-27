@@ -15,7 +15,7 @@
                     则 返回一个URI   content://com.example.myapp.fileprovider/myimages/default_image.jpg -->
         <!--当path 为空时 5个全配置就可以解决-->
         <!--下载apk-->
-        <external-path path="" name="com.innext.xjx" />
+        <external-path path="" name="com.credit.xiaowei" />
         <!--相机相册裁剪-->
         <external-files-path   path="" name="camera_has_sdcard"/>
         <files-path path=""     name="camera_no_sdcard"/>

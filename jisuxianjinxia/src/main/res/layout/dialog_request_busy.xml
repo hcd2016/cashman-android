@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/shape_red_top_circle">
-        <com.innext.xjx.widget.DrawableCenterTextView
+        <com.credit.xiaowei.widget.DrawableCenterTextView
             android:id="@+id/tv_title"
             android:text="操作频繁，请在60s后重试"
             android:textSize="17sp"

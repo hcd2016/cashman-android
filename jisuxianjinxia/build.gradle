@@ -4,13 +4,14 @@ android {
     buildToolsVersion "27.0.3"
 
     defaultConfig {
-        applicationId "com.innext.xjx"
+//        applicationId "com.innext.xjx"
+        applicationId "com.credit.xiaowei"
         minSdkVersion 15
         targetSdkVersion 25
         versionCode 1
         versionName "1.0.0"
         multiDexEnabled true
-        resValue "string", "tray__authority", "com.innext.xjx.tray"
+        resValue "string", "tray__authority", "com.credit.xiaowei.tray"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -53,11 +54,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-//            //混淆
+            //混淆
 //            minifyEnabled true
 //            // 移除无用的resource文件
 //            shrinkResources true
-            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
+//            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
+            signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
         }
@@ -65,6 +67,8 @@ android {
     productFlavors {
         yingyongbao {}
         oppo {}
+        xiaowei_open_pretend {}
+        xiaowei_no_pretend {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

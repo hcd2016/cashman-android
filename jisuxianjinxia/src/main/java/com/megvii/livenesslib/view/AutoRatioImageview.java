@@ -5,7 +5,7 @@ import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
-import com.innext.xjx.R;
+import com.credit.xiaowei.R;
 
 /**
  * Created by binghezhouke on 14-1-2.

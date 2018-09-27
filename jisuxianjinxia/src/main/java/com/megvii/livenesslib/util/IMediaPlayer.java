@@ -4,7 +4,7 @@ import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 
-import com.innext.xjx.R;
+import com.credit.xiaowei.R;
 import com.megvii.livenessdetection.Detector;
 
 public class IMediaPlayer {

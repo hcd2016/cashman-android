@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.innext.xjx.R;
+import com.credit.xiaowei.R;
 import com.megvii.idcardquality.IDCardQualityResult;
 import com.megvii.idcardquality.bean.IDCardAttr;
 
