@@ -25,10 +25,12 @@ public class CalendarUtil {
     private static String CALANDER_URL = "content://com.android.calendar/calendars";
     private static String CALANDER_EVENT_URL = "content://com.android.calendar/events";
     private static String CALANDER_REMIDER_URL = "content://com.android.calendar/reminders";
-    private static String CALENDARS_NAME = "xianjinxia";
-    private static String CALENDARS_ACCOUNT_NAME = "xianjinxia@gmail.com";
+//    private static String CALENDARS_NAME = "xianjinxia";
+//    private static String CALENDARS_ACCOUNT_NAME = "xianjinxia@gmail.com";
+    private static String CALENDARS_NAME = "xiaoweixinyong";
+    private static String CALENDARS_ACCOUNT_NAME = "xiaoweixinyong@gmail.com";
     private static String CALENDARS_ACCOUNT_TYPE = "com.android.exchange";
-    private static String CALENDARS_DISPLAY_NAME = "现金侠";
+    private static String CALENDARS_DISPLAY_NAME = "小微信用";
     private static final long ONE_HOUR = 10;//设置终止时间
 
     /**

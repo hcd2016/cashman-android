@@ -46,7 +46,10 @@
                             android:textSize="45sp"
                             android:layout_below="@+id/tv_credit_limit_txt"
                             android:layout_centerHorizontal="true"/>
+
+                        <!--提额隐藏-->
                         <ImageView
+                            android:visibility="gone"
                             android:id="@+id/iv_query"
                             android:src="@mipmap/icon_more_query"
                             android:layout_width="wrap_content"

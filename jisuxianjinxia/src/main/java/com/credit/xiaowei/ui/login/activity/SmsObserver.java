@@ -44,7 +44,7 @@ public class SmsObserver extends ContentObserver {
 			return;
 		if (cur.moveToNext()) {
 			String body = cur.getString(cur.getColumnIndex("body"));
-			if (body != null && body.contains("现金侠") && body.contains("验证码")) {
+			if (body != null && body.contains("小微信用") && body.contains("验证码")) {
 				Pattern p = Pattern.compile("[0-9.]{4,6}"); // java默认的为贪婪匹配模式
 				Matcher matcher = p.matcher(body);
 				int count = 0;

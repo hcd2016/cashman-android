@@ -545,7 +545,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                     }
                     String fomater = CalendarUtil.dateFomater(refundDate);
                     if (CalendarUtil.addCalendarEvent(getContext(),
-                            App.getAPPName(), "明天" + fomater + ",极速现金侠需还款" + refundAmount + "元(如已提前还款请忽略)",
+                            App.getAPPName(), "明天" + fomater + ",小微信用需还款" + refundAmount + "元(如已提前还款请忽略)",
                             mFinalTime)) {
                         SpUtil.putString(Constant.SHARE_CALENDAR_REPAY_DATE, loanEndTime);
                         SpUtil.putInt(Constant.SHARE_CALENDAR_REPAY_MONEY, intoMoney);

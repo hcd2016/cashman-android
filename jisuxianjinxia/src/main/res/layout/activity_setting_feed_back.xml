@@ -111,7 +111,7 @@
                 android:layout_marginTop="10dp"
                 android:textColor="@color/global_label_color"
                 android:textSize="15sp"
-                android:text="客服QQ：414383376"/>
+                android:text="客服QQ：592472157"/>
 
         </LinearLayout>
 

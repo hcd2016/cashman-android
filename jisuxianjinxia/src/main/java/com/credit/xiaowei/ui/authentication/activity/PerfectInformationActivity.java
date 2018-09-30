@@ -55,6 +55,7 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
     private PerfectInformationAdapter mAdapter;
     private DividerItemDecoration itemDecoration;
     private List<AuthenticationinformationBean> items;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_perfect_information;
@@ -107,9 +108,10 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void refreshPerfectInfo(AuthenticationRefreshEvent event){
+    public void refreshPerfectInfo(AuthenticationRefreshEvent event) {
         mPresenter.getPertfecInformation();
     }
+
     @Override
     public void PertfecInformationSccess(PertfecInformationRequestBean bean) {
         mLoadingLayout.setStatus(LoadingLayout.Success);
@@ -142,9 +144,9 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
 
     @Override
     public void showLoading(String content) {
-        if (items==null){
+        if (items == null) {
             mLoadingLayout.setStatus(LoadingLayout.Loading);
-        }else{
+        } else {
             App.loadingContent(this, content);
         }
     }
@@ -158,9 +160,9 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
     @Override
     public void showErrorMsg(String msg, String type) {
         showToast(msg);
-        if ("网络不可用".equals(msg)){
+        if ("网络不可用".equals(msg)) {
             mLoadingLayout.setStatus(LoadingLayout.No_Network);
-        }else{
+        } else {
             mLoadingLayout.setErrorText(msg)
                     .setStatus(LoadingLayout.Error);
         }
@@ -207,31 +209,31 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
                 return;
             }
         } else if (Constant.TAG_QUOTA_BANK == type) {//银行卡信息
-            if(realVerifyStatus == 1){//是否实名认证
-                intent.putExtra("url",item.getUrl());
-            }else{
+            if (realVerifyStatus == 1) {//是否实名认证
+                intent.putExtra("url", item.getUrl());
+            } else {
                 showDialog("亲，请先填写个人信息哦~");
                 return;
             }
         } else if (Constant.TAG_QUOTA_ZMXY == type) {//芝麻信用
-            if(realVerifyStatus == 1){
-                intent.putExtra("url",item.getUrl());
-            }else{
+            if (realVerifyStatus == 1) {
+                intent.putExtra("url", item.getUrl());
+            } else {
                 showDialog("亲，请先填写个人信息哦~");
                 return;
             }
         } else if (Constant.TAG_QUOTA_WORK == type) {//工作信息
-            intent.setClass(this,LendWorkDetailsActivity.class);
+            intent.setClass(this, LendWorkDetailsActivity.class);
         } else if (Constant.TAG_QUOTA_ALIPAY == type) {
             intent.putExtra("url", item.getUrl());
-        //支付宝认证
+            //支付宝认证
         } else if (Constant.TAG_QUOTA_MORE == type) { //更多
             intent.putExtra("url", item.getUrl());
         }
         startActivity(intent);
     }
 
-    private void showDialog(String content){
+    private void showDialog(String content) {
         new AlertFragmentDialog.Builder(this)
                 .setContent(content)
                 .setRightBtnText("确定")

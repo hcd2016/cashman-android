@@ -60,7 +60,6 @@ public class MainActivity extends BaseActivity {
         mGroup.setOnCheckedChangeListener(changeListener);
         check(FragmentFactory.FragmentStatus.Lend);
         registerPush();
-
     }
 
     public void check(FragmentFactory.FragmentStatus status) {
@@ -239,19 +238,4 @@ public class MainActivity extends BaseActivity {
     protected void onSaveInstanceState(Bundle outState) {
 //        super.onSaveInstanceState(outState);
     }
-
-//
-//    @Override
-//    public void onAttachFragment(Fragment fragment) {
-//        if (LendFragment.lendFragment != null && fragment instanceof LendFragment) {
-//            LendFragment.lendFragment = (LendFragment) fragment;
-//        }
-//        if(RepaymentFragment.sFragment != null && fragment instanceof  RepaymentFragment) {
-//            RepaymentFragment.sFragment = (RepaymentFragment) fragment;
-//        }
-//        if(MoreFragment.fragment != null && fragment instanceof  MoreFragment) {
-//            MoreFragment.fragment = (MoreFragment) fragment;
-//        }
-//        super.onAttachFragment(fragment);
-//    }
 }

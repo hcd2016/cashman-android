@@ -190,7 +190,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackPresenter> implements
 
     private void phoneService() {
         if (Tool.isBlank(service_phone)) {
-            service_phone = "021-56350010";
+            service_phone = "0571-85099655";
         }
         new AlertFragmentDialog.Builder(this).setContent(service_phone)
                 .setLeftBtnText("取消").setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
@@ -249,7 +249,7 @@ public class FeedBackActivity extends BaseActivity<FeedBackPresenter> implements
             return qqGroupList.get(random.nextInt(qqGroupList.size()));
         } else {
             if (null == qqList) {
-                qqList = new String[]{"3356190848"};
+                qqList = new String[]{"592472157"};
             }
             return qqList[random.nextInt(qqList.length)];
         }

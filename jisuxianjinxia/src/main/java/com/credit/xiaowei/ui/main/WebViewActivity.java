@@ -71,7 +71,7 @@ import butterknife.BindView;
  * 网页加载容器
  * xiejingwen
  */
-public class WebViewActivity extends BaseActivity<MyPresenter> implements MyContract.View,SaveAlipayInfoContract.View{
+public class WebViewActivity extends BaseActivity<MyPresenter> implements MyContract.View, SaveAlipayInfoContract.View {
 
     @BindView(R.id.web_view)
     WebView mWebView;
@@ -90,7 +90,9 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     private boolean isFinish;
     private MoreContentBean mMoreContentBean;
     private SaveAlipayInfoPresenter alipayInfoPresenter;
-    /**发送与接收的广播**/
+    /**
+     * 发送与接收的广播
+     **/
     String SENT_SMS_ACTION = "SENT_SMS_ACTION";
     String DELIVERED_SMS_ACTION = "DELIVERED_SMS_ACTION";
 
@@ -108,7 +110,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     public void loadData() {
         mTitle.setTitle("");
         initView();
-        mUrl=HttpManager.getUrl(mUrl);
+        mUrl = HttpManager.getUrl(mUrl);
         mWebView.loadUrl(mUrl);
     }
 
@@ -121,7 +123,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             }
             if (!StringUtil.isBlank(getIntent().getStringExtra("improveUrl"))) {//该链接是为了提额的改动
                 mUrl = getIntent().getStringExtra("improveUrl");
-            }else{
+            } else {
                 mUrl = getIntent().getStringExtra("url");
             }
 
@@ -187,10 +189,10 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (alipayInfoPresenter!=null){
+        if (alipayInfoPresenter != null) {
             alipayInfoPresenter.onDestroy();
         }
-        if (mUrl.contains("repayment/detail")){
+        if (mUrl.contains("repayment/detail")) {
             //通知还款或续期成功
             EventBus.getDefault().post(new FragmentRefreshEvent(UIBaseEvent.EVENT_REPAY_SUCCESS));
         }
@@ -210,8 +212,8 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     @Override
     public void showLoading(String content) {
         //认证支付宝因为已经有了dialog，所以不弹出
-        if (mWebView.getVisibility()==View.VISIBLE){
-            App.loadingContent(this,content);
+        if (mWebView.getVisibility() == View.VISIBLE) {
+            App.loadingContent(this, content);
         }
     }
 
@@ -222,11 +224,11 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
     @Override
     public void showErrorMsg(String msg, String type) {
-        if (TextUtils.isEmpty(type)){
+        if (TextUtils.isEmpty(type)) {
             ToastUtil.showToast(msg);
             return;
         }
-        if (type.equals(alipayInfoPresenter.TYPE_ALIPAY_INFO)){
+        if (type.equals(alipayInfoPresenter.TYPE_ALIPAY_INFO)) {
             dismissDialog(msg);
         }
     }
@@ -242,6 +244,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         /*************** START  支付宝和淘宝等第三方数据抓取和认证操作***************/
         /**
          * 隐藏页面 显示认证进度 布局
+         *
          * @param type 传入 0
          */
         @JavascriptInterface
@@ -263,6 +266,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                     break;
             }
         }
+
         /**
          * 保存传入的键值
          *
@@ -273,6 +277,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         public void saveText(String key, String text) {
             mHashMap.put(key, text);
         }
+
         /**
          * 根据键获取值
          *
@@ -374,18 +379,19 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
             }
         }
+
         /**
          * 调用改方法去发送短信
          *
          * @param phoneNumber 手机号码
-         * @param message 短信内容
-         * **/
+         * @param message     短信内容
+         **/
         @JavascriptInterface
-        public void sendMessage(String phoneNumber,String message){
+        public void sendMessage(String phoneNumber, String message) {
             // 注册广播 发送消息
-            Log.e("这里是日志","输出日志===phoneNumber"+phoneNumber+"---message="+message);
+            Log.e("这里是日志", "输出日志===phoneNumber" + phoneNumber + "---message=" + message);
             //发送短信并且到发送短信页面
-            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:"+phoneNumber));
+            Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
             intent.putExtra("sms_body", message);
             startActivity(intent);
             //直接发送短信不跳转发送短信页面
@@ -410,10 +416,10 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 //                sms.sendTextMessage(phoneNumber, null, message, sentPI, deliverPI);
 //            }
         }
+
         /**
          * 发送短信Receiver
-         *
-         * */
+         */
         private BroadcastReceiver sendMessage = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -421,11 +427,11 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 switch (getResultCode()) {
                     case Activity.RESULT_OK:
 //                        Toast.makeText(context, "短信发送成功", Toast.LENGTH_SHORT).show();
-                        Log.e("发送短信","短信发送成功");
+                        Log.e("发送短信", "短信发送成功");
                         break;
                     default:
 //                        Toast.makeText(mContext, "发送失败", Toast.LENGTH_LONG).show();
-                        Log.e("发送短信","短信发送失败");
+                        Log.e("发送短信", "短信发送失败");
                         break;
                 }
             }
@@ -436,14 +442,15 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             public void onReceive(Context context, Intent intent) {
                 //表示对方成功收到短信
 //                Toast.makeText(mContext, "对方接收成功",Toast.LENGTH_LONG).show();
-                Log.e("发送短信","对方接收成功");
+                Log.e("发送短信", "对方接收成功");
             }
         };
+
         /**
          * 调用该方法可以复制文字到手机的粘贴板
          *
          * @param text 需要复制的文字
-         * PS:暂未使用到
+         *             PS:暂未使用到
          */
         @JavascriptInterface
         public void copyTextMethod(String text) {
@@ -458,9 +465,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         /**
          * 跳转到拨号页面，拨打传入的手机号码
          *
-         * @param tele
-         *
-         * PS:暂未使用到
+         * @param tele PS:暂未使用到
          */
         @JavascriptInterface
         public void callPhoneMethod(final String tele) {
@@ -498,7 +503,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            mTitle.setRightTitle("分享",new OnClickListener() {
+                            mTitle.setRightTitle("分享", new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
                                     new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
@@ -546,7 +551,6 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             finish();
         }
 
-
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
@@ -570,6 +574,7 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
     }
+
     @Override
     public void onBackPressed() {
         if (isZhbTitle) {
@@ -611,11 +616,13 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
             //handler.cancel(); // Android默认的处理方式
             handler.proceed();  // 接受所有网站的证书  授权证书()
         }
+
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
             mProgressBar.setVisibility(View.VISIBLE);
         }
+
         @Override
         public void onPageFinished(final WebView view, String url) {
             super.onPageFinished(view, url);
@@ -626,20 +633,20 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                 mTitle.showClose(new OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                                if (isZhbTitle) {
-                                    new AlertFragmentDialog.Builder(mActivity)
-                                            .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
-                                            .setLeftBtnText("取消认证")
-                                            .setRightBtnText("继续认证")
-                                            .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                                                @Override
-                                                public void dialogLeftBtnClick() {
-                                                    finish();
-                                                }
-                                            }).build();
-                                } else {
-                                    finish();
-                                }
+                        if (isZhbTitle) {
+                            new AlertFragmentDialog.Builder(mActivity)
+                                    .setContent("返回操作将中断支付宝认证，\n确认要退出吗？")
+                                    .setLeftBtnText("取消认证")
+                                    .setRightBtnText("继续认证")
+                                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+                                        @Override
+                                        public void dialogLeftBtnClick() {
+                                            finish();
+                                        }
+                                    }).build();
+                        } else {
+                            finish();
+                        }
                     }
                 });
             } else {
@@ -696,16 +703,16 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                                 }
                             }
                         }
-                    },title);
+                    }, title);
                     if (title.equals("拒就送现金")) {
-                        mTitle.setRightTitle("分享",new OnClickListener() {
+                        mTitle.setRightTitle("分享", new OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 toShare();
                             }
                         });
-                    }  else {
-                        mTitle.setRightTitle("",null);
+                    } else {
+                        mTitle.setRightTitle("", null);
                     }
                 }
             } else {

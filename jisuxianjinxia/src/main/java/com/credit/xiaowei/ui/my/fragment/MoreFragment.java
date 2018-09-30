@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
@@ -144,8 +145,10 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
         mTvInvitCode.setText(mMoreContentBean.getInvite_code());
         setCreditLimitAnimation(mTcProgress, Integer.valueOf(mMoreContentBean.getCredit_info().getCard_amount()) / 100);
         mTvRemainingBorrow.setText("剩余可借：" + Integer.valueOf(mMoreContentBean.getCredit_info().getCard_unused_amount()) / 100 + "元");
-        if (null!=mMoreContentBean.getService()){
+        if (null!=mMoreContentBean.getService() && !TextUtils.isEmpty(mMoreContentBean.getService().getQq_group())){
             mTvQqGroup.setText(mMoreContentBean.getService().getQq_group());
+        }else {
+            mTvQqGroup.setText("592472157");
         }
     }
 

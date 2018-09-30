@@ -260,7 +260,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
                     android:layout_toRightOf="@id/ck_agreement"
-                    android:text="我已阅读并同意《现金侠借款协议》"
+                    android:text="我已阅读并同意《小微信用借款协议》"
                     android:textColor="@color/global_black_color"
                     android:textSize="14sp" />
 
