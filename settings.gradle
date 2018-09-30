@@ -1,1 +1,1 @@
-include ':jisuxianjinxia', ':SpinkitLoadingLib', ':PlatFormLibs'
+include ':xiaoweixinyong', ':SpinkitLoadingLib', ':PlatFormLibs'
