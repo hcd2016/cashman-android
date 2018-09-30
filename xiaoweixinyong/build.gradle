@@ -16,16 +16,19 @@ android {
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters  "armeabi", "armeabi-v7a", "x86_64","x86"
+            abiFilters "armeabi", "armeabi-v7a", "x86_64", "x86"
         }
         flavorDimensions "versionCode"
     }
     signingConfigs {
         release {
             storeFile file("appkey.jks")
-            storePassword "xianjinxia"
-            keyAlias "现金侠"
-            keyPassword "xianjinxia"
+//            storePassword "xianjinxia"
+//            keyAlias "现金侠"
+//            keyPassword "xianjinxia"
+            storePassword "xiaoweixinyong"
+            keyAlias "小微信用"
+            keyPassword "xiaoweixinyong"
             v2SigningEnabled false
         }
     }
