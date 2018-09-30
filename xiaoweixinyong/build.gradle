@@ -1,0 +1,131 @@
+apply plugin: 'com.android.application'
+android {
+    compileSdkVersion 25
+    buildToolsVersion "27.0.3"
+
+    defaultConfig {
+//        applicationId "com.innext.xjx"
+        applicationId "com.credit.xiaowei"
+        minSdkVersion 15
+        targetSdkVersion 25
+        versionCode 1
+        versionName "1.0.0"
+        multiDexEnabled true
+        resValue "string", "tray__authority", "com.credit.xiaowei.tray"
+//        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters  "armeabi", "armeabi-v7a", "x86_64","x86"
+        }
+        flavorDimensions "versionCode"
+    }
+    signingConfigs {
+        release {
+            storeFile file("appkey.jks")
+            storePassword "xianjinxia"
+            keyAlias "现金侠"
+            keyPassword "xianjinxia"
+            v2SigningEnabled false
+        }
+    }
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+        disable 'Missing  Translation', 'ExtraTranslation'
+    }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+
+
+    buildTypes {
+        release {
+            minifyEnabled true
+            // 移除无用的resource文件
+            shrinkResources true
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            //混淆
+//            minifyEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources true
+//            //前一部分代表系统默认的android程序的混淆文件，该文件已经包含了基本的混淆声明
+            signingConfig signingConfigs.release
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+        }
+    }
+    productFlavors {
+        yingyongbao {}
+        oppo {}
+        xiaowei_open_pretend {}
+        xiaowei_no_pretend {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+}
+
+dependencies {
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testImplementation 'junit:junit:4.12'
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation 'com.android.support:appcompat-v7:25.2.0'
+    implementation 'com.android.support:design:25.2.0'
+    implementation 'com.android.support:support-v4:25.2.0'
+    implementation 'com.android.support:recyclerview-v7:25.2.0'
+    //突破Dex文件方法数不能超过最大值65536的上限
+    implementation 'com.android.support:multidex:1.0.0'
+    //图片加载框架
+    implementation 'com.github.bumptech.glide:glide:3.7.0'
+    implementation 'com.github.bumptech.glide:okhttp3-integration:1.4.0@aar'
+    //json解析框架
+    implementation 'com.google.code.gson:gson:2.6.2'
+    implementation 'com.alibaba:fastjson:1.2.24'
+    //网络加载框架
+    implementation 'com.squareup.okhttp3:okhttp:3.2.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    //网络加载封装
+    implementation 'com.squareup.retrofit2:retrofit:2.0.0'
+    implementation 'com.squareup.retrofit2:converter-gson:2.0.0'
+    implementation 'com.squareup.retrofit2:adapter-rxjava:2.0.0'
+    /*compile 'com.squareup.retrofit2:converter-scalars:2.0.0' 返回类型转成String */
+    implementation 'com.squareup.okhttp3:okhttp-urlconnection:3.2.0'
+    implementation 'io.reactivex:rxjava:1.1.2'
+    implementation 'io.reactivex:rxandroid:1.1.0'
+    //总线处理框架
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    //log工具
+    implementation 'com.orhanobut:logger:1.15'
+    //bug检测
+    implementation 'com.tencent.bugly:crashreport:latest.release'
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release'
+    implementation files('libs/idcardquality.jar')
+    implementation files('libs/jg_filter_sdk_1.1.jar')
+    implementation files('libs/licensemanager-v1.1.jar')
+    implementation files('libs/livenessdetection-proguard-2.4.1.jar')
+    implementation files('libs/umeng-analytics-v6.0.4.jar')
+    implementation files('libs/utdid4all-1.0.4.jar')
+    implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
+    implementation files('libs/Xg_sdk_v2.43_20160308_1031.jar')
+    implementation files('libs/zmxySDKALCmini_V1.01450366738902_release.jar')
+    implementation project(':SpinkitLoadingLib')
+    //友盟相关库与代码
+    implementation project(':PlatFormLibs')
+
+    implementation 'net.grandcentrix.tray:tray:0.11.1'
+}
