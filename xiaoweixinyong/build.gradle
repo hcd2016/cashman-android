@@ -70,8 +70,8 @@ android {
     productFlavors {
         yingyongbao {}
         oppo {}
-        xiaowei_open_pretend {}
-        xiaowei_no_pretend {}
+        open_pretend {}
+        no_pretend {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

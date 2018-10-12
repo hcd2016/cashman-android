@@ -14,7 +14,7 @@
             android:layout_marginTop="180dp">
             <EditText
                 android:id="@+id/edt_url"
-                android:hint="默认服务器:http://super.xianjinxia.com/"
+                android:hint="默认服务器:http://120.79.170.34:8080/"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:gravity="center"

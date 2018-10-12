@@ -326,4 +326,7 @@ public interface HttpApi {
      ---------------------------------------------------------------------------------------------------
      */
 
+    //版本更新检查
+    @GET("version/update")
+    Call<JsonObject> checkUpdateVersion(@Query("appversion") String appVersion,@Query("platform") String platform);
 }

@@ -159,7 +159,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     //地理位置
     private PoiItem poiItem;
 
-    private boolean isChange=false;
+    private boolean isChange = false;
 
     @Override
     public int getLayoutId() {
@@ -184,14 +184,15 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             public void onClick(View v) {
                 onBackPressed();
             }
-        },R.string.personal_information);
+        }, R.string.personal_information);
         mTitle.setRightTitle("保存", new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    save();
-                }
-            });
+            @Override
+            public void onClick(View v) {
+                save();
+            }
+        });
     }
+
     @OnClick({R.id.iv_face_img, R.id.iv_idcard_facade, R.id.iv_idcard_contrary, R.id.layout_choose_home_area, R.id.layout_choose_live_time, R.id.layout_choose_degree, R.id.layout_choose_marriage})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -211,25 +212,25 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 break;
             //选择居住时间
             case R.id.layout_choose_live_time:
-                if (live_time_list!=null){
+                if (live_time_list != null) {
                     selectDialog(TYPE_LIVE_TIME, live_time_pos, live_time_list, mTvLiveTime);
-                }else{
+                } else {
                     mPresenter.getPersonalInformation();
                 }
                 break;
             //选择学历
             case R.id.layout_choose_degree:
-                if (degree_list!=null){
+                if (degree_list != null) {
                     selectDialog(TYPE_DEGREE, degree_pos, degree_list, mTvDegree);
-                }else{
+                } else {
                     mPresenter.getPersonalInformation();
                 }
                 break;
             //婚姻状况
             case R.id.layout_choose_marriage:
-                if (marriage_list!=null){
+                if (marriage_list != null) {
                     selectDialog(TYPE_MARRIAGE, marriage_pos, marriage_list, mTvMarriage);
-                }else{
+                } else {
                     mPresenter.getPersonalInformation();
                 }
                 break;
@@ -239,7 +240,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     //选择dailog
     private void selectDialog(final int selectType, final int oldPosition, final List<EnterTimeAndSalaryBean> typeList, final TextView textView) {
         ArrayList<String> items = new ArrayList<>();
-        for (int i = 0; i < typeList.size(); i++){
+        for (int i = 0; i < typeList.size(); i++) {
             items.add(typeList.get(i).getName());
         }
         new PickerViewFragmentDialog(oldPosition, items, new PickerViewFragmentDialog.OnValueSelectListener() {
@@ -317,20 +318,22 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             ToastUtil.showToast("请输入真实姓名");
         } else if (StringUtil.isBlankEdit(mEtCardNumber)) {
             ToastUtil.showToast("请输入身份证号");
-        }else if (StringUtil.isBlankEdit(mTvDegree)) {
+        } else if (StringUtil.isBlankEdit(mTvDegree)) {
             ToastUtil.showToast("请选择学历");
-        }else if(StringUtil.isBlankEdit(mTvHomeArea)) {
+        } else if (StringUtil.isBlankEdit(mTvHomeArea)) {
             ToastUtil.showToast("请选择现居地址");
-        }else if (StringUtil.isBlankEdit(mEtHomeAddress)) {
+        } else if (StringUtil.isBlankEdit(mEtHomeAddress)) {
             ToastUtil.showToast("请输入详细地址");
-        }else if (!isChange){
+        } else if (!isChange) {
             ToastUtil.showToast("请修改内容后再保存");
-        }else{
+        } else {
             return true;
         }
         return false;
     }
+
     private String imgUrl = "";//当前点击的图片url
+
     //拍照选择
     private void imageAction(final int type) {
         String str = null; //展示的文字
@@ -362,14 +365,14 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             dialog.addSheetItem("查看大图", ActionSheetDialog.SheetItemColor.Red, new ActionSheetDialog.OnSheetItemClickListener() {
                 @Override
                 public void onClick(int which) {
-                    ShowSinglePictureActivity.startAction(mContext, mImageView,imgUrl);
+                    ShowSinglePictureActivity.startAction(mContext, mImageView, imgUrl);
                 }
             });
         }
         if (realVerifyStatus != 1) {//是否实名认证
             dialog.setCancelable(true)
                     .setCanceledOnTouchOutside(false)
-                    .addSheetItem(type == KEY_UPLOAD_FACE ? "智能识别（优先）" : "智能扫描（优先）",
+                    .addSheetItem(type == KEY_UPLOAD_FACE ? "智能识别" : "智能扫描（优先）",
                             ActionSheetDialog.SheetItemColor.Red,
                             new ActionSheetDialog.OnSheetItemClickListener() {
                                 @Override
@@ -384,17 +387,21 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                                     }
                                     toFace(faceType);
                                 }
-                            }).addSheetItem(str, ActionSheetDialog.SheetItemColor.Red,
-                    new ActionSheetDialog.OnSheetItemClickListener() {
-                        @Override
-                        public void onClick(int which) {
-                            // 拍照
-                            camera(type);
-                        }
-                    });
+                            });
+            if (type != KEY_UPLOAD_FACE) {//暂时去除人脸识别的手持拍摄身份证 去除智能识别后的优先
+                dialog.addSheetItem(str, ActionSheetDialog.SheetItemColor.Red,
+                        new ActionSheetDialog.OnSheetItemClickListener() {
+                            @Override
+                            public void onClick(int which) {
+                                // 拍照
+                                camera(type);
+                            }
+                        });
+            }
         }
         dialog.show();
     }
+
     /**
      * 跳转face++
      */
@@ -436,6 +443,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                     }
                 }).start();
             }
+
             @Override
             public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
                 if (isNeverAsk) {
@@ -473,6 +481,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                     startActivityForResult(intent, type);
 
                 }
+
                 //拒绝
                 @Override
                 public void onDenied(List<String> deniedPermissions, boolean isNeverAsk) {
@@ -524,9 +533,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
     @Override
     public void showLoading(String content) {
-        if (mBean==null){
+        if (mBean == null) {
             mLoadingLayout.setStatus(LoadingLayout.Loading);
-        }else {
+        } else {
             App.loadingContent(mActivity, content);
         }
     }
@@ -553,74 +562,78 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                 }
             }
 
-                if (!StringUtil.isBlank(mBean.getFace_recognition_picture())) {
-                    facePic = mBean.getFace_recognition_picture();
-                    Tool.setImage(mActivity, mBean.getFace_recognition_picture(), mIvFaceImg);
-                }
-                //设置身份证正面头像
-                if (!StringUtil.isBlank(mBean.getId_number_z_picture())) {
-                    IdCardFrontPic = mBean.getId_number_z_picture();
-                    Tool.setImage(mActivity, IdCardFrontPic, mIvIdcardFacade);
-                }
-                //设置身份证反面头像
-                if (!StringUtil.isBlank(mBean.getId_number_f_picture())) {
-                    IdCardBackPic = mBean.getId_number_f_picture();
-                    Tool.setImage(mActivity, IdCardBackPic, mIvIdcardContrary);
-                }
+            if (!StringUtil.isBlank(mBean.getFace_recognition_picture())) {
+                facePic = mBean.getFace_recognition_picture();
+                Tool.setImage(mActivity, mBean.getFace_recognition_picture(), mIvFaceImg);
             }
-            //设置街道和门牌号
-            if (!StringUtil.isBlank(mBean.getAddress_distinct())) {
-                mEtHomeAddress.setText(mBean.getAddress());
-                mEtHomeAddress.setSelection(mEtHomeAddress.length());
+            //设置身份证正面头像
+            if (!StringUtil.isBlank(mBean.getId_number_z_picture())) {
+                IdCardFrontPic = mBean.getId_number_z_picture();
+                Tool.setImage(mActivity, IdCardFrontPic, mIvIdcardFacade);
             }
-            //设置居住地址
-            if (!StringUtil.isBlank(mBean.getAddress())) {
-                mTvHomeArea.setText(mBean.getAddress_distinct());
+            //设置身份证反面头像
+            if (!StringUtil.isBlank(mBean.getId_number_f_picture())) {
+                IdCardBackPic = mBean.getId_number_f_picture();
+                Tool.setImage(mActivity, IdCardBackPic, mIvIdcardContrary);
             }
-            degree = mBean.getDegrees();
-            live_time = mBean.getLive_period();
+        }
+        //设置街道和门牌号
+        if (!StringUtil.isBlank(mBean.getAddress_distinct())) {
+            mEtHomeAddress.setText(mBean.getAddress());
+            mEtHomeAddress.setSelection(mEtHomeAddress.length());
+        }
+        //设置居住地址
+        if (!StringUtil.isBlank(mBean.getAddress())) {
+            mTvHomeArea.setText(mBean.getAddress_distinct());
+        }
+        degree = mBean.getDegrees();
+        live_time = mBean.getLive_period();
 
-            marriage = mBean.getMarriage();
-            degree_list = mBean.getDegrees_all();
-             LogUtils.loge(degree_list.size()+"degree_list");
-            live_time_list = mBean.getLive_time_type_all();
-            marriage_list = mBean.getMarriage_all();
-            for (EnterTimeAndSalaryBean timeBean : live_time_list) {
-                if (timeBean.getLive_time_type().equals(live_time)) {
-                    mTvLiveTime.setText(timeBean.getName());
-                    live_time_pos = live_time_list.indexOf(timeBean);
-                    break;
-                }
+        marriage = mBean.getMarriage();
+        degree_list = mBean.getDegrees_all();
+        LogUtils.loge(degree_list.size() + "degree_list");
+        live_time_list = mBean.getLive_time_type_all();
+        marriage_list = mBean.getMarriage_all();
+        for (EnterTimeAndSalaryBean timeBean : live_time_list) {
+            if (timeBean.getLive_time_type().equals(live_time)) {
+                mTvLiveTime.setText(timeBean.getName());
+                live_time_pos = live_time_list.indexOf(timeBean);
+                break;
             }
-            for (EnterTimeAndSalaryBean degreeBean : degree_list) {
-                if (degreeBean.getDegrees().equals(degree )) {
-                    mTvDegree.setText(degreeBean.getName());
-                    degree_pos = degree_list.indexOf(degreeBean);
-                    break;
-                }
+        }
+        for (EnterTimeAndSalaryBean degreeBean : degree_list) {
+            if (degreeBean.getDegrees().equals(degree)) {
+                mTvDegree.setText(degreeBean.getName());
+                degree_pos = degree_list.indexOf(degreeBean);
+                break;
             }
-            for (EnterTimeAndSalaryBean marriageBean : marriage_list) {
-                if (marriageBean.getMarriage().equals(marriage)) {
-                    mTvMarriage.setText(marriageBean.getName());
-                    marriage_pos = marriage_list.indexOf(marriageBean);
-                    break;
-                }
+        }
+        for (EnterTimeAndSalaryBean marriageBean : marriage_list) {
+            if (marriageBean.getMarriage().equals(marriage)) {
+                mTvMarriage.setText(marriageBean.getName());
+                marriage_pos = marriage_list.indexOf(marriageBean);
+                break;
             }
-            mEtHomeAddress.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {}
-                @Override
-                public void afterTextChanged(Editable s) {
-                    isChange = true;
-                }
-            });
+        }
+        mEtHomeAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                isChange = true;
+            }
+        });
     }
 
     //上传图片成功
     @Override
-    public void UpLoadImageSccess(ImageDataBean imageDataBean,int type, File file, ImageView mImageView) {
+    public void UpLoadImageSccess(ImageDataBean imageDataBean, int type, File file, ImageView mImageView) {
         Tool.setImage(mActivity, file, mImageView);
         if (imageDataBean != null) {
             mEtCardName.setText(imageDataBean.getName());
@@ -636,14 +649,15 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             IdCardBackPic = file.getAbsolutePath();
         }
     }
+
     //保存用户信息成功返回
     @Override
     public void SaveInformationSuccess() {
         //刷新实名认证（在添加银行卡的时候会用到）
 
-        if (TextUtils.isEmpty(SpUtil.getString(Constant.SHARE_TAG_REAL_NAME))&&
+        if (TextUtils.isEmpty(SpUtil.getString(Constant.SHARE_TAG_REAL_NAME)) &&
                 !TextUtils.isEmpty(mEtCardName.getText().toString())) {
-            SpUtil.putString(Constant.SHARE_TAG_REAL_NAME,mEtCardName.getText().toString());
+            SpUtil.putString(Constant.SHARE_TAG_REAL_NAME, mEtCardName.getText().toString());
             EventBus.getDefault().post(new FragmentRefreshEvent(UIBaseEvent.EVENT_REALNAME_AUTHENTICATION_SUCCESS));
         }
         ToastUtil.showToast("保存成功");
@@ -660,9 +674,9 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     public void showErrorMsg(String msg, String type) {
         ToastUtil.showToast(msg);
         if (type != null && type.equals(mPresenter.TYPE_GET_INFO)) {
-            if ("网络不可用".equals(msg)){
+            if ("网络不可用".equals(msg)) {
                 mLoadingLayout.setStatus(LoadingLayout.No_Network);
-            }else{
+            } else {
                 mLoadingLayout.setErrorText(msg)
                         .setStatus(LoadingLayout.Error);
             }
@@ -681,7 +695,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.e("这里是日志","输出日志信息---requestCode="+requestCode+"--resultCode="+resultCode+"---data="+data);
+        Log.e("这里是日志", "输出日志信息---requestCode=" + requestCode + "--resultCode=" + resultCode + "---data=" + data);
         if (resultCode != RESULT_OK) {
             return;
         }
@@ -695,7 +709,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                         int resID = result.getResultcode();
                         if (resID == R.string.verify_success) {
                             // 上传 人脸识别图片
-                            imageType =KEY_UPLOAD_FACE;
+                            imageType = KEY_UPLOAD_FACE;
                             code = 0;
                             saveFile(result.getImgs().get(0), code, imageType);
                         }
@@ -725,7 +739,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                         ToastUtil.showToast("图片获取失败");
                     }
                 }
-            }else if (requestCode == GDMapActivity.GET_POI_REQUEST_CODE) {//定位
+            } else if (requestCode == GDMapActivity.GET_POI_REQUEST_CODE) {//定位
                 isChange = true;
                 poiItem = data.getParcelableExtra("result");
                 mTvHomeArea.setText(poiItem.getTitle() + " — (" + poiItem.getSnippet() + ")");
@@ -741,12 +755,13 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
             } else if (requestCode == KEY_UPLOAD_IDCRAD_FRONT) {
                 imageType = KEY_UPLOAD_IDCRAD_FRONT;
             } else if (requestCode == KEY_UPLOAD_IDCRAD_BACK) {
-                imageType =KEY_UPLOAD_IDCRAD_BACK;;
+                imageType = KEY_UPLOAD_IDCRAD_BACK;
+                ;
             }
-            if (newFile!=null&&!TextUtils.isEmpty(newFile.getPath())){
-                String cameimage=newFile.getPath();
+            if (newFile != null && !TextUtils.isEmpty(newFile.getPath())) {
+                String cameimage = newFile.getPath();
                 saveFile(cameimage, requestCode, imageType);
-            }else {
+            } else {
                 ToastUtil.showToast("照片获取失败,请重试");
             }
         }
@@ -770,13 +785,14 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         }
 
     }
+
     /***
      * 文件压缩上传
      * @param imagePath 图片地址
      * @param ocrtype  上传类型
      * @param  type 接口是上传类型
      * */
-    private void saveFile(final String imagePath, final int ocrtype,final int type) {
+    private void saveFile(final String imagePath, final int ocrtype, final int type) {
         Observable.create(new Observable.OnSubscribe<String>() {
             @Override
             public void call(Subscriber<? super String> subscriber) {
@@ -786,17 +802,17 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                     //压缩图片
                     Bitmap bitmap = ConvertUtil.getCompressedBmp(imagePath);
                     //如果旋转度数大于0则进行校正
-                    if (degree > 0){
+                    if (degree > 0) {
                         bitmap = ConvertUtil.rotateBitmapByDegree(bitmap, degree);
                     }
                     //保存压缩、校正旋转之后的图片(覆盖掉所拍的图片)
                     ConvertUtil.saveBitmap(imagePath, bitmap);
-                    if (bitmap != null){
+                    if (bitmap != null) {
                         bitmap.recycle();//释放内存
                     }
                     subscriber.onNext(imagePath);
                     subscriber.onCompleted();
-                }else{
+                } else {
                     subscriber.onError(new IOException("图片保存失败"));
                 }
             }
@@ -809,8 +825,8 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
                         HashMap<String, Integer> map = new HashMap<>();
                         map.put("type", type);
                         map.put("ocrtype", ocrtype);
-                        Log.e("输出当前日志信息","type====="+type+"----ocrtyp="+String.valueOf(ocrtype));
-                        File file =new File(s);
+                        Log.e("输出当前日志信息", "type=====" + type + "----ocrtyp=" + String.valueOf(ocrtype));
+                        File file = new File(s);
                         mPresenter.getUpLoadImage(file, map, mImageView);
                     }
                 }, new Action1<Throwable>() {

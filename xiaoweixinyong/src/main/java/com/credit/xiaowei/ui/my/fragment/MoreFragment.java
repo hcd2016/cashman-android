@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.app.App;
@@ -30,6 +31,8 @@ import com.credit.xiaowei.util.StringUtil;
 import com.credit.xiaowei.util.ToastUtil;
 import com.credit.xiaowei.util.Tool;
 import com.credit.xiaowei.widget.loading.LoadingLayout;
+import com.tencent.connect.auth.QQAuth;
+import com.tencent.open.wpa.WPA;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
@@ -50,7 +53,7 @@ import butterknife.OnClick;
  * 更多页面
  */
 public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnClickListener, MyContract.View
-,SwipeRefreshLayout.OnRefreshListener{
+        , SwipeRefreshLayout.OnRefreshListener {
     public static MoreFragment fragment;
 
     @BindView(R.id.loading_layout)
@@ -93,7 +96,7 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
     public void loadData() {
         mActivity = (MainActivity) getActivity();
         EventBus.getDefault().register(this);
-        mRefresh.setColorSchemeColors(ContextCompat.getColor(mContext,R.color.theme_color));
+        mRefresh.setColorSchemeColors(ContextCompat.getColor(mContext, R.color.theme_color));
         mRefresh.setOnRefreshListener(this);
         if (App.getConfig().getLoginStatus()) {
             mPresenter.getInfo();
@@ -103,9 +106,9 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
         mTitle.setRightTitle(R.mipmap.shezhi, new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mMoreContentBean==null){
+                if (mMoreContentBean == null) {
                     mPresenter.getInfo();
-                }else{
+                } else {
                     Intent intent = new Intent(mActivity, MoreActivity.class);
                     intent.putExtra("bean", mMoreContentBean);
                     startActivity(intent);
@@ -116,13 +119,13 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onEvent(FragmentRefreshEvent event) {
-        if (UIBaseEvent.EVENT_BANK_CARD_SUCCESS==event.getType()||//银行卡绑定或修改成功
-            UIBaseEvent.EVENT_LOGIN==event.getType() || //登录成功
-            UIBaseEvent.EVENT_REPAY_SUCCESS==event.getType()||  //还款成功
-            UIBaseEvent.EVENT_REALNAME_AUTHENTICATION_SUCCESS==event.getType()||    //实名认证成功
-            UIBaseEvent.EVENT_LOAN_SUCCESS==event.getType()||   //借款申请成功
-            UIBaseEvent.EVENT_LOAN_FAILED ==event.getType()){   //借款申请失败
-            if (UIBaseEvent.EVENT_LOGIN==event.getType()){
+        if (UIBaseEvent.EVENT_BANK_CARD_SUCCESS == event.getType() ||//银行卡绑定或修改成功
+                UIBaseEvent.EVENT_LOGIN == event.getType() || //登录成功
+                UIBaseEvent.EVENT_REPAY_SUCCESS == event.getType() ||  //还款成功
+                UIBaseEvent.EVENT_REALNAME_AUTHENTICATION_SUCCESS == event.getType() ||    //实名认证成功
+                UIBaseEvent.EVENT_LOAN_SUCCESS == event.getType() ||   //借款申请成功
+                UIBaseEvent.EVENT_LOAN_FAILED == event.getType()) {   //借款申请失败
+            if (UIBaseEvent.EVENT_LOGIN == event.getType()) {
                 mTitle.setTitle(false, StringUtil.changeMobile(SpUtil.getString(Constant.SHARE_TAG_USERNAME)));
             }
             if (App.getConfig().getLoginStatus()) {
@@ -145,9 +148,9 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
         mTvInvitCode.setText(mMoreContentBean.getInvite_code());
         setCreditLimitAnimation(mTcProgress, Integer.valueOf(mMoreContentBean.getCredit_info().getCard_amount()) / 100);
         mTvRemainingBorrow.setText("剩余可借：" + Integer.valueOf(mMoreContentBean.getCredit_info().getCard_unused_amount()) / 100 + "元");
-        if (null!=mMoreContentBean.getService() && !TextUtils.isEmpty(mMoreContentBean.getService().getQq_group())){
+        if (null != mMoreContentBean.getService() && !TextUtils.isEmpty(mMoreContentBean.getService().getQq_group())) {
             mTvQqGroup.setText(mMoreContentBean.getService().getQq_group());
-        }else {
+        } else {
             mTvQqGroup.setText("592472157");
         }
     }
@@ -201,7 +204,7 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
 
     @OnClick({R.id.layout_perfect, R.id.layout_lend_record, R.id.layout_bank,
             R.id.layout_invitation_code, R.id.layout_invitation, R.id.layout_message,
-            R.id.layout_help, R.id.layout_qq, R.id.tv_lottery,R.id.iv_query})
+            R.id.layout_help, R.id.layout_qq, R.id.tv_lottery, R.id.iv_query})
     public void onClick(View view) {
         /**
          * 防止多次点击进入重复界面
@@ -222,9 +225,9 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
                     try {
                         if (mMoreContentBean.getVerify_info().getReal_verify_status().equals("1")) {
                             //if (mMoreContentBean.getVerify_info().getReal_bind_bank_card_status().equals("1")) {
-                                Intent intent = new Intent(mActivity, WebViewActivity.class);
-                                intent.putExtra("url", mMoreContentBean.getCard_url());
-                                startActivity(intent);
+                            Intent intent = new Intent(mActivity, WebViewActivity.class);
+                            intent.putExtra("url", mMoreContentBean.getCard_url());
+                            startActivity(intent);
                             /*} else {
                                 startActivity(AddBankCardActivity.class);
                             }*/
@@ -286,6 +289,18 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
                         })
                         .setCancel(true).build();
                 break;
+            case R.id.layout_qq://打开QQ
+                QQAuth mqqAuth = QQAuth.createInstance("123456789", getActivity()); //123456789为你申请的APP_ID,mContext是上下文
+                WPA mWPA = new WPA(getActivity(), mqqAuth.getQQToken());
+                String ESQ = "592472157";  //123456为客服QQ号
+                int ret = mWPA.startWPAConversation(getActivity(), ESQ, ""); //客服QQ
+
+                if (ret != 0) { //如果ret不为0，就说明调用SDK出现了错误
+                    Toast.makeText(getActivity(),
+                            "抱歉，联系客服出现了错误~. error:" + ret,
+                            Toast.LENGTH_LONG).show();
+                }
+                break;
         }
     }
 
@@ -300,7 +315,7 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
 
     @Override
     public void showLoading(String content) {
-        if (mMoreContentBean == null){
+        if (mMoreContentBean == null) {
             mLoadingLayout.setStatus(LoadingLayout.Loading);
         }
     }
@@ -313,11 +328,11 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
     @Override
     public void showErrorMsg(String msg, String type) {
         ToastUtil.showToast(msg);
-        if ("网络不可用".equals(msg)){
+        if ("网络不可用".equals(msg)) {
             mLoadingLayout.setStatus(LoadingLayout.No_Network);
-        }else{
+        } else {
             mLoadingLayout.setErrorText(msg)
-                .setStatus(LoadingLayout.Error);
+                    .setStatus(LoadingLayout.Error);
         }
         mLoadingLayout.setOnReloadListener(new LoadingLayout.OnReloadListener() {
             @Override
