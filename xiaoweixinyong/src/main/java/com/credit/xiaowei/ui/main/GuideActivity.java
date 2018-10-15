@@ -17,17 +17,26 @@ import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.credit.pretend.activity.PretendMainActivity;
+import com.credit.pretend.ptd_util.RetrofitUtil;
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.base.BaseActivity;
 import com.credit.xiaowei.config.ConfigUtil;
 import com.credit.xiaowei.config.Constant;
 import com.credit.xiaowei.util.ConvertUtil;
 import com.credit.xiaowei.util.SpUtil;
+import com.credit.xiaowei.util.ViewUtil;
+import com.google.gson.JsonObject;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * 引导页
@@ -85,15 +94,41 @@ public class GuideActivity extends BaseActivity {
                     if (isTransparent) {
                         SpUtil.putInt(Constant.IS_FIRST_LOGIN, Constant.NOT_FIRST_LOGIN);
                         if (ConfigUtil.isOpenPretend) {//是否开启伪页面
-                            startActivity(PretendMainActivity.class);
+                            Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(GuideActivity.this), "android");
+                            call.enqueue(new Callback<JsonObject>() {
+                                @Override
+                                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                    try {
+                                        JSONObject object = new JSONObject(response.body().toString());
+                                        String message = object.optString("message");
+                                        if ("Y".equals(message)) {//开启伪装
+                                            startActivity(PretendMainActivity.class);
+                                            finish();
+                                        } else {
+                                            Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                            startActivity(intent);
+                                            finish();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        startActivity(PretendMainActivity.class);
+                                        finish();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<JsonObject> call, Throwable t) {
+                                    startActivity(PretendMainActivity.class);
+                                    finish();
+                                }
+                            });
                         } else {
                             Intent intent = new Intent(GuideActivity.this, MainActivity.class);
                             startActivity(intent);
+                            finish();
                         }
-                        finish();
                         isTransparent = false;
                     }
-
                 }
             }
 
@@ -144,12 +179,39 @@ public class GuideActivity extends BaseActivity {
                         public void onClick(View v) {
                             SpUtil.putInt(Constant.IS_FIRST_LOGIN, Constant.NOT_FIRST_LOGIN);
                             if (ConfigUtil.isOpenPretend) {//是否开启伪页面
-                                startActivity(PretendMainActivity.class);
+                                Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(GuideActivity.this), "android");
+                                call.enqueue(new Callback<JsonObject>() {
+                                    @Override
+                                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                        try {
+                                            JSONObject object = new JSONObject(response.body().toString());
+                                            String message = object.optString("message");
+                                            if ("Y".equals(message)) {//开启伪装
+                                                startActivity(PretendMainActivity.class);
+                                                finish();
+                                            } else {
+                                                Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            startActivity(PretendMainActivity.class);
+                                            finish();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<JsonObject> call, Throwable t) {
+                                        startActivity(PretendMainActivity.class);
+                                        finish();
+                                    }
+                                });
                             } else {
                                 Intent intent = new Intent(GuideActivity.this, MainActivity.class);
                                 startActivity(intent);
+                                finish();
                             }
-                            finish();
                         }
                     });
                     list.add(view);

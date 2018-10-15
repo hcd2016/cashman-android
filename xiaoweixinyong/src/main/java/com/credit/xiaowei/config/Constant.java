@@ -33,11 +33,17 @@ public class Constant {
     public static final int HAS_ALREADY_LOGIN = 1;//首次
     public static final int NOT_FIRST_LOGIN = -1;
 
+//    //分享相关的key
+//    public static String WX_APP_KEY = "wx0fe8b6b8cdb10084";//微信KEY
+//    public static String WX_APP_SECRET = "bb315d93a9ca6b62fc5ae4371fe122c1";//微信SECRET
+
     //分享相关的key
-    public static String WX_APP_KEY = "wx0fe8b6b8cdb10084";//微信KEY
-    public static String WX_APP_SECRET = "bb315d93a9ca6b62fc5ae4371fe122c1";//微信SECRET
-    public static String QQ_APP_ID = "1105823848";//QQ appid
-    public static String QQ_APP_KEY = "KEYIMprMOv1WGgd9Lkh";//QQ appkey
+    public static String WX_APP_KEY = "wxf6fe1a3803680bc4";//微信KEY
+    public static String WX_APP_SECRET = "8db8ed5b2fc10608f7087c493602407d";//微信SECRET
+//    public static String QQ_APP_ID = "1105823848";//QQ appid
+    public static String QQ_APP_ID = "101512652";//QQ appid
+//    public static String QQ_APP_KEY = "KEYIMprMOv1WGgd9Lkh";//QQ appkey
+    public static String QQ_APP_KEY = "ad2c69a9373baf0fedda56393e36befa";//QQ appkey
 
     //支付结果
     public static final String PAY_RESULT_LEND_FAILED = "PAY_RESULT_LEND_FAILED";

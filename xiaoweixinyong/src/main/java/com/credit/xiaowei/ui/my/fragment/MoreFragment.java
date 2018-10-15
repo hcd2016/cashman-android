@@ -290,7 +290,7 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
                         .setCancel(true).build();
                 break;
             case R.id.layout_qq://打开QQ
-                QQAuth mqqAuth = QQAuth.createInstance("123456789", getActivity()); //123456789为你申请的APP_ID,mContext是上下文
+                QQAuth mqqAuth = QQAuth.createInstance(Constant.QQ_APP_ID, getActivity()); //123456789为你申请的APP_ID,mContext是上下文
                 WPA mWPA = new WPA(getActivity(), mqqAuth.getQQToken());
                 String ESQ = "592472157";  //123456为客服QQ号
                 int ret = mWPA.startWPAConversation(getActivity(), ESQ, ""); //客服QQ

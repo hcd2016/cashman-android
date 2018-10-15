@@ -64,7 +64,7 @@ public class App extends MultiDexApplication{
 		configUtil.setChannelName(MARKET_NAME);
 		//关闭默认统计
 		MobclickAgent.openActivityDurationTrack(false);
-		//MobclickAgent.setDebugMode(true);
+		MobclickAgent.setDebugMode(true);
 	}
 
 

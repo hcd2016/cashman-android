@@ -69,6 +69,8 @@ android {
     }
     productFlavors {
         yingyongbao {}
+        anzhi {}
+        guanwang {}
         oppo {}
         open_pretend {}
         no_pretend {}
