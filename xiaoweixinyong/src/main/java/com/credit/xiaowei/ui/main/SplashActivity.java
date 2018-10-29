@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
 
-import com.google.gson.JsonObject;
 import com.credit.pretend.activity.PretendMainActivity;
 import com.credit.pretend.ptd_util.RetrofitUtil;
 import com.credit.xiaowei.R;
@@ -22,6 +21,7 @@ import com.credit.xiaowei.ui.my.contract.DeviceReportContract;
 import com.credit.xiaowei.ui.my.presenter.DeviceReportPresenter;
 import com.credit.xiaowei.util.SpUtil;
 import com.credit.xiaowei.util.ViewUtil;
+import com.google.gson.JsonObject;
 import com.tencent.android.tpush.XGPushClickedResult;
 import com.tencent.android.tpush.XGPushManager;
 
@@ -99,7 +99,8 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
         @Override
         public void onGranted() {
             if (ConfigUtil.isOpenPretend) {//是否跳转伪页面.
-                Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(SplashActivity.this), "android");
+                String appMetaData = ViewUtil.getAppMetaData(SplashActivity.this);
+                Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(SplashActivity.this), ViewUtil.getAppMetaData(SplashActivity.this),"android");
                 call.enqueue(new Callback<JsonObject>() {
                     @Override
                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -114,15 +115,13 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
-                            startActivity(PretendMainActivity.class);
-                            finish();
+                            normalProcess();
                         }
                     }
 
                     @Override
                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                        startActivity(PretendMainActivity.class);
-                        finish();
+                        normalProcess();
                     }
                 });
             } else {

@@ -94,7 +94,7 @@ public class GuideActivity extends BaseActivity {
                     if (isTransparent) {
                         SpUtil.putInt(Constant.IS_FIRST_LOGIN, Constant.NOT_FIRST_LOGIN);
                         if (ConfigUtil.isOpenPretend) {//是否开启伪页面
-                            Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(GuideActivity.this), "android");
+                            Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(GuideActivity.this), ViewUtil.getAppMetaData(GuideActivity.this), "android");
                             call.enqueue(new Callback<JsonObject>() {
                                 @Override
                                 public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -111,14 +111,16 @@ public class GuideActivity extends BaseActivity {
                                         }
                                     } catch (JSONException e) {
                                         e.printStackTrace();
-                                        startActivity(PretendMainActivity.class);
+                                        Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                        startActivity(intent);
                                         finish();
                                     }
                                 }
 
                                 @Override
                                 public void onFailure(Call<JsonObject> call, Throwable t) {
-                                    startActivity(PretendMainActivity.class);
+                                    Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                    startActivity(intent);
                                     finish();
                                 }
                             });
@@ -179,7 +181,7 @@ public class GuideActivity extends BaseActivity {
                         public void onClick(View v) {
                             SpUtil.putInt(Constant.IS_FIRST_LOGIN, Constant.NOT_FIRST_LOGIN);
                             if (ConfigUtil.isOpenPretend) {//是否开启伪页面
-                                Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(GuideActivity.this), "android");
+                                Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(GuideActivity.this), ViewUtil.getAppMetaData(GuideActivity.this), "android");
                                 call.enqueue(new Callback<JsonObject>() {
                                     @Override
                                     public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
@@ -196,14 +198,16 @@ public class GuideActivity extends BaseActivity {
                                             }
                                         } catch (JSONException e) {
                                             e.printStackTrace();
-                                            startActivity(PretendMainActivity.class);
+                                            Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                            startActivity(intent);
                                             finish();
                                         }
                                     }
 
                                     @Override
                                     public void onFailure(Call<JsonObject> call, Throwable t) {
-                                        startActivity(PretendMainActivity.class);
+                                        Intent intent = new Intent(GuideActivity.this, MainActivity.class);
+                                        startActivity(intent);
                                         finish();
                                     }
                                 });

@@ -219,11 +219,11 @@
             android:name="UMENG_CHANNEL"
             android:value="${UMENG_CHANNEL_VALUE}" />
 
-        <activity
-            android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"
-            android:configChanges="keyboardHidden|orientation"
-            android:exported="false"
-            android:windowSoftInputMode="adjustResize" />
+        <!--<activity-->
+        <!--android:name="com.sina.weibo.sdk.component.WeiboSdkBrowser"-->
+        <!--android:configChanges="keyboardHidden|orientation"-->
+        <!--android:exported="false"-->
+        <!--android:windowSoftInputMode="adjustResize" />-->
 
         <!-- ############ 微信回调配置 ############ -->
         <activity
@@ -233,24 +233,24 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
-        <!-- ############ QQ空间和QQ SSO授权的Activity注册 ############ -->
-        <activity
-            android:name="com.tencent.tauth.AuthActivity"
-            android:launchMode="singleTask"
-            android:noHistory="true">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+        <!--############ QQ空间和QQ SSO授权的Activity注册 ############-->
+        <!--<activity-->
+        <!--android:name="com.tencent.tauth.AuthActivity"-->
+        <!--android:launchMode="singleTask"-->
+        <!--android:noHistory="true">-->
+        <!--<intent-filter>-->
+        <!--<action android:name="android.intent.action.VIEW" />-->
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+        <!--<category android:name="android.intent.category.DEFAULT" />-->
+        <!--<category android:name="android.intent.category.BROWSABLE" />-->
 
-                <data android:scheme="tencent1105823848" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name="com.tencent.connect.common.AssistActivity"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <!--<data android:scheme="tencent1105823848" />-->
+        <!--</intent-filter>-->
+        <!--</activity>-->
+        <!--<activity-->
+        <!--android:name="com.tencent.connect.common.AssistActivity"-->
+        <!--android:screenOrientation="portrait"-->
+        <!--android:theme="@android:style/Theme.Translucent.NoTitleBar" />-->
 
         <!-- Face++ -->
         <activity
@@ -399,15 +399,15 @@
 
         <!-- 【必须】 请修改为APP的AccessId，“21”开头的10位数字，中间没空格 -->
         <!--<meta-data-->
-            <!--android:name="XG_V2_ACCESS_ID"-->
-            <!--android:value="2100242352" />-->
+        <!--android:name="XG_V2_ACCESS_ID"-->
+        <!--android:value="2100242352" />-->
         <meta-data
             android:name="XG_V2_ACCESS_ID"
             android:value="2100313213" />
         <!-- 【必须】 请修改为APP的AccessKey，“A”开头的12位字符串，中间没空格 -->
         <!--<meta-data-->
-            <!--android:name="XG_V2_ACCESS_KEY"-->
-            <!--android:value="AW555L6L7VAB" />-->
+        <!--android:name="XG_V2_ACCESS_KEY"-->
+        <!--android:value="AW555L6L7VAB" />-->
         <meta-data
             android:name="XG_V2_ACCESS_KEY"
             android:value="AW555L6L7VAB" />

@@ -2,13 +2,13 @@ package com.credit.xiaowei.ui.my.fragment;
 
 import android.animation.ValueAnimator;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.app.App;
@@ -31,13 +31,12 @@ import com.credit.xiaowei.util.StringUtil;
 import com.credit.xiaowei.util.ToastUtil;
 import com.credit.xiaowei.util.Tool;
 import com.credit.xiaowei.widget.loading.LoadingLayout;
-import com.tencent.connect.auth.QQAuth;
-import com.tencent.open.wpa.WPA;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -157,6 +156,11 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
 
     private UMShareListener umShareListener = new UMShareListener() {
         @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
+        @Override
         public void onResult(SHARE_MEDIA platform) {
             ToastUtil.showToast("分享成功");
         }
@@ -168,7 +172,9 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
 
         @Override
         public void onCancel(SHARE_MEDIA platform) {
+            ToastUtil.showToast("分享取消");
         }
+
     };
 
 
@@ -259,12 +265,22 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
                 break;
             case R.id.layout_invitation:
                 if (mMoreContentBean != null) {
+                    UMWeb web = new UMWeb(mMoreContentBean.getShare_url());
+                    web.setTitle(mMoreContentBean.getShare_title());//标题
+                    web.setThumb(new UMImage(mActivity, mMoreContentBean.getShare_logo()));  //缩略图
+                    web.setDescription(mMoreContentBean.getShare_body());//描述
+
                     new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                            .withTitle(mMoreContentBean.getShare_title())
-                            .withText(mMoreContentBean.getShare_body())
-                            .withTargetUrl(mMoreContentBean.getShare_url())
-                            .withMedia(new UMImage(mActivity, mMoreContentBean.getShare_logo()))
+                            .withMedia(web)
                             .setCallback(umShareListener).open();
+
+//                    new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+//                            .withTitle(mMoreContentBean.getShare_title())
+//                            .withText(mMoreContentBean.getShare_body())
+//                            .withTargetUrl(mMoreContentBean.getShare_url())
+//                            .withMedia(new UMImage(mActivity, mMoreContentBean.getShare_logo()))
+//                            .setCallback(umShareListener).open();
+
                 }
                 break;
             case R.id.layout_message:
@@ -290,15 +306,21 @@ public class MoreFragment extends BaseFragment<MyPresenter> implements View.OnCl
                         .setCancel(true).build();
                 break;
             case R.id.layout_qq://打开QQ
-                QQAuth mqqAuth = QQAuth.createInstance(Constant.QQ_APP_ID, getActivity()); //123456789为你申请的APP_ID,mContext是上下文
-                WPA mWPA = new WPA(getActivity(), mqqAuth.getQQToken());
-                String ESQ = "592472157";  //123456为客服QQ号
-                int ret = mWPA.startWPAConversation(getActivity(), ESQ, ""); //客服QQ
-
-                if (ret != 0) { //如果ret不为0，就说明调用SDK出现了错误
-                    Toast.makeText(getActivity(),
-                            "抱歉，联系客服出现了错误~. error:" + ret,
-                            Toast.LENGTH_LONG).show();
+//                QQAuth mqqAuth = QQAuth.createInstance(Constant.QQ_APP_ID, getActivity()); //123456789为你申请的APP_ID,mContext是上下文
+//                WPA mWPA = new WPA(getActivity(), mqqAuth.getQQToken());
+//                String ESQ = "592472157";  //123456为客服QQ号
+//                int ret = mWPA.startWPAConversation(getActivity(), ESQ, ""); //客服QQ
+//
+//                if (ret != 0) { //如果ret不为0，就说明调用SDK出现了错误
+//                    Toast.makeText(getActivity(),
+//                            "抱歉，联系客服出现了错误~. error:" + ret,
+//                            Toast.LENGTH_LONG).show();
+//                }
+                String qq_url = "mqqwpa://im/chat?chat_type=wpa&uin=" + "592472157";//
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(qq_url)));
+                } catch (Exception e) {
+                    ToastUtil.showToast("请确认安装了QQ客户端");
                 }
                 break;
         }

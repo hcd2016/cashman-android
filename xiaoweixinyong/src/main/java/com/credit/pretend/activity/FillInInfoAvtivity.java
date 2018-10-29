@@ -10,9 +10,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import com.google.gson.reflect.TypeToken;
 import com.credit.pretend.bean.QueryResultBean;
 import com.credit.pretend.ptd_util.RetrofitUtil;
 import com.credit.pretend.ptd_util.SPUtil_ptd;
@@ -21,6 +18,9 @@ import com.credit.xiaowei.base.BaseActivity;
 import com.credit.xiaowei.config.Constant;
 import com.credit.xiaowei.util.SpUtil;
 import com.credit.xiaowei.widget.DrawableCenterTextView;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.megvii.idcardlib.util.Util;
 
 import org.json.JSONException;
@@ -126,7 +126,7 @@ public class FillInInfoAvtivity extends BaseActivity {
 
     //提交
     private void requestData(String realName, String cardNum, String phoneNum, String verification) {
-        String key = (String) SPUtil_ptd.get(Constant.CAPTCHA_KEY,"");
+        String key = (String) SPUtil_ptd.get(Constant.CAPTCHA_KEY, "");
         Call<JsonObject> call = RetrofitUtil.create().commitQuery(realName, cardNum, phoneNum, verification, key, "android");
         call.enqueue(new Callback<JsonObject>() {
             @Override
@@ -137,12 +137,16 @@ public class FillInInfoAvtivity extends BaseActivity {
                     String error = object.optString("error");
                     if (error.equals("N")) {
                         Gson gson = new Gson();
-                        QueryResultBean.QueryDetailBean queryDetailBean = gson.fromJson(string,  QueryResultBean.QueryDetailBean.class);
+                        QueryResultBean.QueryDetailBean queryDetailBean = gson.fromJson(string, QueryResultBean.QueryDetailBean.class);
                         if (null != queryDetailBean) {
                             Bundle bundle = new Bundle();
                             int totalScore = calculateTotalScore(queryDetailBean);
-                            queryDetailBean.message.final_score = totalScore+"";//改变接口中的总分
-                            saveDate(totalScore+"",queryDetailBean);
+                            if (totalScore == 0) {
+                                Util.showToast(FillInInfoAvtivity.this, "服务器异常,请稍后重试!");
+                                return;
+                            }
+                            queryDetailBean.message.final_score = totalScore + "";//改变接口中的总分
+                            saveDate(totalScore + "", queryDetailBean);
                             bundle.putSerializable("queryDetailBean", queryDetailBean);
                             startActivity(QueryResultActivity.class, bundle);
                         }
@@ -165,9 +169,12 @@ public class FillInInfoAvtivity extends BaseActivity {
     }
 
     //    计算总分
-    private int calculateTotalScore( QueryResultBean.QueryDetailBean queryDetailBean) {
+    private int calculateTotalScore(QueryResultBean.QueryDetailBean queryDetailBean) {
         int resultScore = 750;//总分750
         List<QueryResultBean.QueryDetailBean.MessageBean.RiskItemBean> riskItems = queryDetailBean.message.risk_item;
+        if (riskItems == null) {
+            return 0;
+        }
         for (int i = 0; i < riskItems.size(); i++) {
             if (i == 10) {//第10项以后不再扣除
                 return resultScore;
@@ -203,15 +210,15 @@ public class FillInInfoAvtivity extends BaseActivity {
             List<QueryResultBean> timeList = map.get(currentDate);
             if (timeList == null) {//没有这天存储记录
                 timeList = new ArrayList<>();
-                timeList.add(0,queryResultBean);//在最前面插入
+                timeList.add(0, queryResultBean);//在最前面插入
                 map.put(currentDate, timeList);
             } else {
-                timeList.add(0,queryResultBean);
+                timeList.add(0, queryResultBean);
             }
         } else {//没有存储过
             map = new HashMap<>();
             List<QueryResultBean> timeList = new ArrayList<>();
-            timeList.add(0,queryResultBean);
+            timeList.add(0, queryResultBean);
             map.put(currentDate, timeList);
         }
         SpUtil.putString(Constant.QUERY_DATE_MAP, gson.toJson(map));

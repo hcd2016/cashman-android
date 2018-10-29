@@ -23,7 +23,7 @@ import com.credit.xiaowei.util.ToastUtil;
 import com.credit.xiaowei.util.ViewUtil;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.analytics.MobclickAgent.UMAnalyticsConfig;
+import com.umeng.commonsdk.UMConfigure;
 import com.umeng.socialize.PlatformConfig;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,17 +54,19 @@ public class App extends MultiDexApplication{
 		initUM();
 		initLoadingView(this);
 		
-		 /*设置market*/
-	    String MARKET_NAME = getAppChannel(this);
-		LogUtils.loge("当前渠道:"+MARKET_NAME);
+//		 /*设置market*/
+//	    String MARKET_NAME = getAppChannel(this);
+//		LogUtils.loge("当前渠道:"+MARKET_NAME);
 		/********
 		 * 注册UMENG
 		 */
-		MobclickAgent.startWithConfigure(new UMAnalyticsConfig(this,"5833b527a325112e2d001faa",MARKET_NAME));
-		configUtil.setChannelName(MARKET_NAME);
+//		MobclickAgent.startWithConfigure(new UMAnalyticsConfig(this,"5833b527a325112e2d001faa",MARKET_NAME));
+		UMConfigure.init(this,"5ba9aae7f1f55631fe0000b1"
+				,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
+//		configUtil.setChannelName(MARKET_NAME);
 		//关闭默认统计
 		MobclickAgent.openActivityDurationTrack(false);
-		MobclickAgent.setDebugMode(true);
+//		MobclickAgent.setDebugMode(true);
 	}
 
 

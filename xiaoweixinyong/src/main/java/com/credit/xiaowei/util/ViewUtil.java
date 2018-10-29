@@ -16,7 +16,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.TouchDelegate;
 import android.view.View;
@@ -407,14 +406,12 @@ public class ViewUtil {
 	}
 
 	/**
-	 * 获取app当前的渠道号或application中指定的meta-data
+	 * 获取app当前友盟的渠道号或application中指定的meta-data
 	 *
 	 * @return 如果没有获取成功(没有对应值，或者异常)，则返回值为空
 	 */
-	public static String getAppMetaData(Context context, String key) {
-		if (context == null || TextUtils.isEmpty(key)) {
-			return null;
-		}
+	public static String getAppMetaData(Context context) {
+		String key = "UMENG_CHANNEL";
 		String channelNumber = null;
 		try {
 			PackageManager packageManager = context.getPackageManager();

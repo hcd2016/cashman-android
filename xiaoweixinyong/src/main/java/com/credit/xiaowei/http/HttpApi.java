@@ -299,6 +299,7 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("funs/switch")
     Call<JsonObject> getIsOpenPretend(@Field("appversion") String appversion,
+                                      @Field("channelname") String channel,
                                       @Field("platform") String platform);
 
     //伪热点列表
@@ -329,4 +330,10 @@ public interface HttpApi {
     //版本更新检查
     @GET("version/update")
     Call<JsonObject> checkUpdateVersion(@Query("appversion") String appVersion,@Query("platform") String platform);
+
+    //检测借款金额是否超出限制
+    @GET("credit-loan/check-limit")
+    Call<JsonObject> checkLimit();
+
+
 }

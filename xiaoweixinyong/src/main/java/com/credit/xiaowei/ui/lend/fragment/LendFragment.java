@@ -26,6 +26,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.credit.pretend.ptd_util.RetrofitUtil;
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.app.App;
 import com.credit.xiaowei.base.BaseFragment;
@@ -55,11 +56,14 @@ import com.credit.xiaowei.widget.HomeSeekBar;
 import com.credit.xiaowei.widget.LockableScrollView;
 import com.credit.xiaowei.widget.RollView;
 import com.credit.xiaowei.widget.loading.LoadingLayout;
+import com.google.gson.JsonObject;
 import com.umeng.analytics.MobclickAgent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
@@ -74,6 +78,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import butterknife.Unbinder;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 /**********
@@ -259,10 +266,41 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
     }
 
     @Override
-    public void toLoanSuccess(ConfirmLoanBean result) {
-        Intent intent = new Intent(getActivity(), LendConfirmLoanActivity.class);
-        intent.putExtra(BankInputPwdActivity.TAG_OPERATE_BEAN, result);
-        startActivity(intent);
+    public void toLoanSuccess(final ConfirmLoanBean result) {
+        //验证借款成功,判断借款今日金额是否已达上限
+        Call<JsonObject> call = RetrofitUtil.create().checkLimit();
+        call.enqueue(new Callback<JsonObject>() {
+            @Override
+            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                try {
+                    JSONObject object = new JSONObject(response.body().toString());
+                    String code = object.optString("code");
+                    if(code != null && code.equals("Y")) {//已达上限
+                        String msg = object.optString("msg");
+                        String title = object.optString("title");
+                        new AlertFragmentDialog.Builder(getActivity())
+                                .setTitle(title)
+                                .setContent(msg)
+                                .setLeftBtnText("确定")
+                                .setCancel(true)
+                                .build();
+                    }else {
+                        Intent intent = new Intent(getActivity(), LendConfirmLoanActivity.class);
+                        intent.putExtra(BankInputPwdActivity.TAG_OPERATE_BEAN, result);
+                        startActivity(intent);
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+                Intent intent = new Intent(getActivity(), LendConfirmLoanActivity.class);
+                intent.putExtra(BankInputPwdActivity.TAG_OPERATE_BEAN, result);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

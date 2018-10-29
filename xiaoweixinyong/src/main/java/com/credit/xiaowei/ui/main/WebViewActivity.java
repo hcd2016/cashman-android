@@ -58,6 +58,7 @@ import com.umeng.socialize.UMShareAPI;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 
 import org.greenrobot.eventbus.EventBus;
 import org.json.JSONObject;
@@ -177,12 +178,20 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
 
     private void showShare() {
         if (mMoreContentBean != null) {
-            new ShareAction(WebViewActivity.this).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                    .withTitle(mMoreContentBean.getShare_title())
-                    .withText(mMoreContentBean.getShare_body())
-                    .withTargetUrl(mMoreContentBean.getShare_url())
-                    .withMedia(new UMImage(WebViewActivity.this, mMoreContentBean.getShare_logo()))
+            UMWeb web = new UMWeb(mMoreContentBean.getShare_url());
+            web.setTitle(mMoreContentBean.getShare_title());//标题
+            web.setThumb(new UMImage(mActivity, mMoreContentBean.getShare_logo()));  //缩略图
+            web.setDescription(mMoreContentBean.getShare_body());//描述
+
+            new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+                    .withMedia(web)
                     .setCallback(umShareListener).open();
+//            new ShareAction(WebViewActivity.this).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+//                    .withTitle(mMoreContentBean.getShare_title())
+//                    .withText(mMoreContentBean.getShare_body())
+//                    .withTargetUrl(mMoreContentBean.getShare_url())
+//                    .withMedia(new UMImage(WebViewActivity.this, mMoreContentBean.getShare_logo()))
+//                    .setCallback(umShareListener).open();
         }
     }
 
@@ -506,23 +515,39 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
                             mTitle.setRightTitle("分享", new OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    UMWeb web = new UMWeb(bean.getShare_url());
+                                    web.setTitle(bean.getShare_title());//标题
+                                    web.setThumb(new UMImage(mActivity, bean.getShare_logo()));  //缩略图
+                                    web.setDescription(bean.getShare_body());//描述
+
                                     new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                                            .withTitle(bean.getShare_title())
-                                            .withText(bean.getShare_body())
-                                            .withTargetUrl(bean.getShare_url())
-                                            .withMedia(new UMImage(WebViewActivity.this, bean.getShare_logo()))
+                                            .withMedia(web)
                                             .setCallback(umShareListener).open();
+//                                    new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+//                                            .withTitle(bean.getShare_title())
+//                                            .withText(bean.getShare_body())
+//                                            .withTargetUrl(bean.getShare_url())
+//                                            .withMedia(new UMImage(WebViewActivity.this, bean.getShare_logo()))
+//                                            .setCallback(umShareListener).open();
                                 }
                             });
                         }
                     });
                 } else {
+                    UMWeb web = new UMWeb(bean.getShare_url());
+                    web.setTitle(bean.getShare_title());//标题
+                    web.setThumb(new UMImage(mActivity, bean.getShare_logo()));  //缩略图
+                    web.setDescription(bean.getShare_body());//描述
+
                     new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                            .withTitle(bean.getShare_title())
-                            .withText(bean.getShare_body())
-                            .withTargetUrl(bean.getShare_url())
-                            .withMedia(new UMImage(mActivity, bean.getShare_logo()))
+                            .withMedia(web)
                             .setCallback(umShareListener).open();
+//                    new ShareAction(mActivity).setDisplayList(SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
+//                            .withTitle(bean.getShare_title())
+//                            .withText(bean.getShare_body())
+//                            .withTargetUrl(bean.getShare_url())
+//                            .withMedia(new UMImage(mActivity, bean.getShare_logo()))
+//                            .setCallback(umShareListener).open();
                 }
             }
         }
@@ -554,6 +579,11 @@ public class WebViewActivity extends BaseActivity<MyPresenter> implements MyCont
     }
 
     private UMShareListener umShareListener = new UMShareListener() {
+        @Override
+        public void onStart(SHARE_MEDIA share_media) {
+
+        }
+
         @Override
         public void onResult(SHARE_MEDIA platform) {
             ToastUtil.showToast("分享成功");

@@ -19,6 +19,7 @@ android {
             abiFilters "armeabi", "armeabi-v7a", "x86_64", "x86"
         }
         flavorDimensions "versionCode"
+        manifestPlaceholders = [qqappid: "101512652"]
     }
     signingConfigs {
         release {
@@ -123,14 +124,23 @@ dependencies {
     implementation files('libs/jg_filter_sdk_1.1.jar')
     implementation files('libs/licensemanager-v1.1.jar')
     implementation files('libs/livenessdetection-proguard-2.4.1.jar')
-    implementation files('libs/umeng-analytics-v6.0.4.jar')
+    //    implementation files('libs/umeng-analytics-v6.0.4.jar')
     implementation files('libs/utdid4all-1.0.4.jar')
     implementation files('libs/wup-1.0.0.E-SNAPSHOT.jar')
     implementation files('libs/Xg_sdk_v2.43_20160308_1031.jar')
     implementation files('libs/zmxySDKALCmini_V1.01450366738902_release.jar')
     implementation project(':SpinkitLoadingLib')
     //友盟相关库与代码
-    implementation project(':PlatFormLibs')
-
+    //    implementation project(':PlatFormLibs')
+    //友盟统计
+    implementation 'com.umeng.sdk:common:1.5.1'
+    implementation 'com.umeng.sdk:analytics:7.5.0'
+    //友盟社会化分享
+    implementation 'com.umeng.sdk:share-core:6.9.1'
+    implementation 'com.umeng.sdk:share-qq:6.9.1.1'
+    implementation 'com.umeng.sdk:share-wechat:6.9.1'
+    implementation 'com.umeng.sdk:share-sina:6.9.1'
+    //分享面板
+    implementation 'com.umeng.sdk:shareboard-widget:6.9.1'
     implementation 'net.grandcentrix.tray:tray:0.11.1'
 }

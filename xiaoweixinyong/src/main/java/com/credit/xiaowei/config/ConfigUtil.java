@@ -1,8 +1,10 @@
 package com.credit.xiaowei.config;
 
+import com.credit.xiaowei.app.App;
 import com.credit.xiaowei.ui.my.bean.UserInfoBean;
 import com.credit.xiaowei.util.ConvertUtil;
 import com.credit.xiaowei.util.SpUtil;
+import com.credit.xiaowei.util.ViewUtil;
 
 public class ConfigUtil {
 
@@ -18,10 +20,11 @@ public class ConfigUtil {
     //public  String baseUrl =" http://118.242.26.62:8083/";//测试服务器
 //    public  String baseUrl ="http://192.168.1.179:8080/";//测试服务器
 //    public  String baseUrl ="http://192.168.1.145:8080/";//测试服务器
-    public static String baseUrl = "http://120.79.170.34:8080/";//测试服务器
+    public static String baseUrl = "http://120.79.170.34:8080/";//正式服务器
 //    public  static String baseUrl ="http://120.79.170.179:8080/";//测试服务器
 
     public static boolean isOpenPretend = true;//是否开启伪页面
+    private boolean isDebug = true;//是否调试模式
     //爬取支付宝数据js
     public String GET_ALIPAY_JS = baseUrl + "resources/js/alipay.js";
 
@@ -45,10 +48,10 @@ public class ConfigUtil {
 
     public static final String SHARED_USERLIST_KEY = "userList";
 
-    private boolean isDebug = true;//是否调试模式
     private boolean isLogin = false;//用户的登陆态
     //private String channelName = "xjx-yingyongbao_a";//渠道号
-    private String channelName = "xjx-MySelf";//渠道号
+//    private String channelName = "xjx-MySelf";//渠道号
+    private String channelName = ViewUtil.getAppMetaData(App.getContext());//渠道号
 
     public ConfigUtil() {
         setUserInfo(getUserInfo());

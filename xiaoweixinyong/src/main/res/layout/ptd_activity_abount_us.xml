@@ -17,7 +17,7 @@
         android:layout_below="@+id/iv_logo"
         android:layout_marginTop="10dp"
         android:gravity="center"
-        android:text="杭州微源技术有限公司 版权所有"
+        android:text="小微信用 版权所有"
         android:textColor="@color/black_9"
         android:textSize="14sp" />
 </RelativeLayout>   
