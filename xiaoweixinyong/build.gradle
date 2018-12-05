@@ -75,6 +75,7 @@ android {
         oppo {}
         open_pretend {}
         no_pretend {}
+        xiaomi {}
     }
     productFlavors.all {
         flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]

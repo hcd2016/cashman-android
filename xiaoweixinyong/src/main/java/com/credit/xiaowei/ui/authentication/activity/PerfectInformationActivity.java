@@ -1,10 +1,14 @@
 package com.credit.xiaowei.ui.authentication.activity;
 
 import android.content.Intent;
+import android.os.Build;
+import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.TextView;
 
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.app.App;
@@ -22,7 +26,6 @@ import com.credit.xiaowei.util.StatusViewUtil;
 import com.credit.xiaowei.util.Tool;
 import com.credit.xiaowei.widget.loading.LoadingLayout;
 import com.credit.xiaowei.widget.recycler.BaseRecyclerAdapter;
-import com.credit.xiaowei.widget.recycler.DividerItemDecoration;
 import com.credit.xiaowei.widget.refresh.base.OnRefreshListener;
 import com.credit.xiaowei.widget.refresh.base.SwipeToLoadLayout;
 
@@ -33,6 +36,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.List;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 
 import static com.credit.xiaowei.http.HttpManager.getUrl;
 import static com.credit.xiaowei.util.ToastUtil.showToast;
@@ -48,12 +52,18 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
     RecyclerView mSwipeTarget;
     @BindView(R.id.refresh)
     SwipeToLoadLayout mRefresh;
+//    @BindView(R.id.tv_title)
+//    TextView tvTitle;
+//    @BindView(R.id.iv_back)
+//    ImageView ivBack;
+//    @BindView(R.id.v_status)
+//    View vStatus;
     private View footView;
     private int contactStatus;
     private int realVerifyStatus;
 
     private PerfectInformationAdapter mAdapter;
-    private DividerItemDecoration itemDecoration;
+//    private DividerItemDecoration itemDecoration;
     private List<AuthenticationinformationBean> items;
 
     @Override
@@ -94,17 +104,50 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
 
     }
 
+//    public int getStatusBarHeight() {
+//        int statusBarHeight = 0;
+//        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+//        if (resourceId > 0) {
+//            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
+//        }
+//        return statusBarHeight;
+//    }
+
     /**
      * 初始化titile
      */
     private void initView() {
-        mTitle.setTitle(R.string.perfect_information);
+        setWindowTranslucentFlags();
+//        mTitle.setTitle(R.string.perfect_information);
         mAdapter = new PerfectInformationAdapter(this);
         mSwipeTarget.setLayoutManager(new LinearLayoutManager(mContext));
-        itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST);
-        mSwipeTarget.addItemDecoration(itemDecoration);
+//        itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST);
+//        mSwipeTarget.addItemDecoration(itemDecoration);
         mSwipeTarget.setAdapter(mAdapter);
+        View view = View.inflate(this,R.layout.header_renzheng,null);
+        TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
+        tv_title.setText(R.string.perfect_information);
+        view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        mAdapter.addHeaderView(view);
         mAdapter.setOnItemClickListener(this);
+    }
+
+    /**
+     * 设置状态栏和导航栏透明
+     * 为沉浸式状态栏的必要一步
+     */
+    public void setWindowTranslucentFlags() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            int statusBarHeight = getStatusBarHeight();
+//            vStatus.setPadding(0, statusBarHeight + 16, 0, 0);
+            //透明状态栏
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -126,8 +169,8 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
             if (footView == null) {
                 footView = LayoutInflater.from(mContext).inflate(R.layout.encrypt_footer_item, null);
                 mAdapter.addFooterView(footView, Tool.dip2px(mContext, 60));
-                itemDecoration.setFootViewCount(mAdapter.getFootersCount());
-                mSwipeTarget.addItemDecoration(itemDecoration);
+//                itemDecoration.setFootViewCount(mAdapter.getFootersCount());
+//                mSwipeTarget.addItemDecoration(itemDecoration);
             }
         } else {
             StatusViewUtil.showDefaultPopWin(this, new StatusViewUtil.IOnTouchRefresh() {
@@ -238,5 +281,12 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
                 .setContent(content)
                 .setRightBtnText("确定")
                 .build();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 }

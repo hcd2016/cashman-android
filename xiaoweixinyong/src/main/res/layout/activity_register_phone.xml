@@ -29,7 +29,7 @@
 		        android:layout_width="60dp"
 		        android:layout_height="60dp"
 		        android:layout_marginTop="50dp"
-		        android:src="@mipmap/register_logo"/>
+		        android:src="@mipmap/logo_radius"/>
 		
 		    <com.credit.xiaowei.widget.ClearEditText
 		        android:id="@+id/et_phone_number"

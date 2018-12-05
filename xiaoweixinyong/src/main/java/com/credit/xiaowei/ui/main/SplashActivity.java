@@ -4,6 +4,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.Settings;
+import android.util.Log;
 
 import com.credit.pretend.activity.PretendMainActivity;
 import com.credit.pretend.ptd_util.RetrofitUtil;
@@ -100,6 +101,7 @@ public class SplashActivity extends BaseActivity implements LoginOutContract.Vie
         public void onGranted() {
             if (ConfigUtil.isOpenPretend) {//是否跳转伪页面.
                 String appMetaData = ViewUtil.getAppMetaData(SplashActivity.this);
+                Log.i("appMetaData",appMetaData);
                 Call<JsonObject> call = RetrofitUtil.create().getIsOpenPretend(ViewUtil.getAppVersion(SplashActivity.this), ViewUtil.getAppMetaData(SplashActivity.this),"android");
                 call.enqueue(new Callback<JsonObject>() {
                     @Override

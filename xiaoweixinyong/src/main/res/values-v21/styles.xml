@@ -6,4 +6,7 @@
         <item name="android:windowFullscreen">true</item>
         <item name="android:windowDrawsSystemBarBackgrounds">false</item>
     </style>
+
+    <!--标题栏适配-->
+    <dimen name="status_top_bar_height">25dp</dimen>
 </resources>

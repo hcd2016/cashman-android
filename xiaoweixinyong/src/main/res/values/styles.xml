@@ -19,9 +19,9 @@
 
     <!-- 解决启动页刚启动时白屏问题，实现秒启动-->
     <style name="AppTheme.Launcher" parent="AppTheme">
-        <item name="android:windowBackground">@drawable/layer_launcher</item>
+        <!--<item name="android:windowBackground">@drawable/layer_launcher</item>-->
         <item name="android:windowFullscreen">true</item>
-        <item name="android:windowDrawsSystemBarBackgrounds">false</item>
+        <!--<item name="android:windowDrawsSystemBarBackgrounds">false</item>-->
     </style>
     <!-- 提示dialog-->
     <style name="alert_dialog" parent="@android:style/Theme.Dialog">
@@ -107,6 +107,9 @@
         <item name="android:minHeight">8dip</item>
         <item name="android:maxHeight">20dip</item>
     </style>
+
+    <!--标题栏适配-->
+    <dimen name="status_top_bar_height">25dp</dimen>
 </resources>
 
 

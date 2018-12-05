@@ -1,69 +1,99 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="66dp"
-              android:background="@drawable/press_style">
-                
-    
-    <ImageView
-        android:id="@+id/iv_authentication"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"/>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/press_style"
+    android:orientation="vertical">
 
-    <TextView
-      style="@style/WrapWrap"
-      android:id="@+id/tv_title"
-      android:layout_marginLeft="10dp"
-      android:layout_marginTop="15dp"
-      android:layout_toRightOf="@id/iv_authentication"
-      android:text="个人详细信息"
-      android:textColor="@color/black_3"
-      android:textSize="15sp"
-        />
-    <TextView
-        android:id="@+id/tv_tag"
-        style="@style/WrapWrap"
-        android:layout_marginLeft="3dp"
-        android:layout_alignBottom="@id/tv_title"
-        android:layout_toRightOf="@id/tv_title"
-        android:textSize="13sp"
-        android:text="选填"/>
 
-    <TextView
-        android:id="@+id/tv_info"
-        style="@style/WrapWrap"
-        android:layout_alignLeft="@id/tv_title"
-        android:layout_below="@id/tv_title"
-        android:layout_marginTop="3dp"
-        android:text="个人详细信息"
-        android:textColor="@color/black_9"
-        android:textSize="13sp"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingBottom="22dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:paddingTop="22dp">
 
-    <ImageView
-        android:id="@+id/iv_enter"
-        style="@style/WrapWrap"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="15dp"
-        android:src="@mipmap/icon_enter"/>
+        <TextView
+            android:id="@+id/tv_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="@color/black_3"
+            android:textSize="16sp"
+            tools:text="个人信息" />
 
-    <TextView
-        android:id="@+id/tv_status"
-        style="@style/WrapWrap"
-        android:layout_centerVertical="true"
-        android:layout_marginRight="10dp"
-        android:layout_toLeftOf="@id/iv_enter"
-        android:text="已完成"
-        android:textColor="@color/black_3"
-        android:textSize="13sp"/>
+        <TextView
+            android:id="@+id/tv_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/black_9"
+            android:textSize="15sp"
+            tools:text="已完成" />
+
+        <ImageView
+            android:id="@+id/iv_enter"
+            style="@style/WrapWrap"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@mipmap/icon_enter" />
+
+    </LinearLayout>
+    <!--<TextView-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:id="@+id/tv_title"-->
+    <!--style="@style/WrapWrap"-->
+    <!--android:layout_marginLeft="10dp"-->
+    <!--android:text="个人详细信息"-->
+    <!--android:textColor="@color/black_3"-->
+    <!--android:textSize="15sp" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/tv_tag"-->
+    <!--style="@style/WrapWrap"-->
+    <!--android:layout_marginLeft="3dp"-->
+    <!--android:layout_alignBottom="@id/tv_title"-->
+    <!--android:layout_toRightOf="@id/tv_title"-->
+    <!--android:textSize="13sp"-->
+    <!--android:text="选填"/>-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_info"-->
+    <!--style="@style/WrapWrap"-->
+    <!--android:layout_alignLeft="@id/tv_title"-->
+    <!--android:layout_below="@id/tv_title"-->
+    <!--android:layout_marginTop="3dp"-->
+    <!--android:text="个人详细信息"-->
+    <!--android:textColor="@color/black_9"-->
+    <!--android:textSize="13sp"/>-->
+
+    <!--<ImageView-->
+    <!--android:id="@+id/iv_enter"-->
+    <!--style="@style/WrapWrap"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="15dp"-->
+    <!--android:src="@mipmap/icon_enter" />-->
+
+    <!--<TextView-->
+    <!--android:id="@+id/tv_status"-->
+    <!--style="@style/WrapWrap"-->
+    <!--android:layout_centerVertical="true"-->
+    <!--android:layout_marginRight="10dp"-->
+    <!--android:layout_toLeftOf="@id/iv_enter"-->
+    <!--android:text="已完成"-->
+    <!--android:textColor="@color/black_3"-->
+    <!--android:textSize="15sp" />-->
+
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="1px"
-        android:layout_below="@id/tv_info"
         android:layout_marginBottom="1px"
-        android:layout_marginTop="14dp"
-        android:background="@color/theme_line_color"/>
-</RelativeLayout>
+        android:layout_marginLeft="15dp"
+        android:background="@color/theme_line_color" />
+</LinearLayout>

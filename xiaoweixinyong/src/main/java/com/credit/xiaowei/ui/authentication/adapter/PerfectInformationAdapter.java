@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.ui.authentication.bean.AuthenticationinformationBean;
 import com.credit.xiaowei.widget.recycler.BaseRecyclerAdapter;
@@ -38,32 +37,32 @@ public class PerfectInformationAdapter extends BaseRecyclerAdapter<PerfectInform
 
     @Override
     public void mOnBindViewHolder(ViewHolder holder, int position) {
-         Glide.with(mActivity)
-                 .load(item.getLogo())
-                 .placeholder(R.drawable.image_default)
-                 .error(R.drawable.image_default)
-                 .into(holder.mIvAuthentication);//设置图片
+//         Glide.with(mActivity)
+//                 .load(item.getLogo())
+//                 .placeholder(R.drawable.image_default)
+//                 .error(R.drawable.image_default)
+//                 .into(holder.mIvAuthentication);//设置图片
          holder.mTvTitle.setText(item.getTitle());
-         if (item.getTitle_mark() != null) {
-             holder.mTvTag.setText(Html.fromHtml(item.getTitle_mark()));
-          } else {
-             holder.mTvTag.setText("");
-         }
-         holder.mTvInfo.setText(item.getSubtitle());
+//         if (item.getTitle_mark() != null) {
+//             holder.mTvTag.setText(Html.fromHtml(item.getTitle_mark()));
+//          } else {
+//             holder.mTvTag.setText("");
+//         }
+//         holder.mTvInfo.setText(item.getSubtitle());
          holder.mTvStatus.setText(Html.fromHtml(item.getOperator()));
 
 
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        @BindView(R.id.iv_authentication)
-        ImageView mIvAuthentication;
+//        @BindView(R.id.iv_authentication)
+//        ImageView mIvAuthentication;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
-        @BindView(R.id.tv_tag)
-        TextView mTvTag;
-        @BindView(R.id.tv_info)
-        TextView mTvInfo;
+//        @BindView(R.id.tv_tag)
+//        TextView mTvTag;
+//        @BindView(R.id.tv_info)
+//        TextView mTvInfo;
         @BindView(R.id.iv_enter)
         ImageView mIvEnter;
         @BindView(R.id.tv_status)
