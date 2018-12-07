@@ -114,6 +114,24 @@ public class HomeIndexResponseBean {
         private List<Integer> amounts;
         private List<Integer> days;
         private List<Double> interests;
+        private String authstatus;
+        private String rate;//日利率
+
+        public String getRate() {
+            return rate;
+        }
+
+        public void setRate(String rate) {
+            this.rate = rate;
+        }
+
+        public String getAuthstatus() {
+            return authstatus;
+        }
+
+        public void setAuthstatus(String authstatus) {
+            this.authstatus = authstatus;
+        }
 
         public List<Integer> getAmounts() {
             return amounts;

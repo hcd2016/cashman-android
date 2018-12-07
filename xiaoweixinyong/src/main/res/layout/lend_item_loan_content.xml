@@ -1,15 +1,15 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Created by xiejingwen at -->
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?><!-- Created by xiejingwen at -->
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/ll_loan_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:orientation="vertical">
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/home_bg_side">
+
         <TextView
             android:id="@+id/tv_money"
             android:layout_width="wrap_content"
@@ -19,7 +19,8 @@
             android:text="----"
             android:textColor="@color/theme_color"
             android:textSize="48sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold" />
+
         <TextView
             android:id="@+id/_downline"
             android:layout_width="wrap_content"
@@ -29,7 +30,8 @@
             android:layout_toRightOf="@+id/tv_money"
             android:text="元"
             android:textColor="@color/theme_color"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
+
         <TextView
             android:id="@+id/tv_bigMoney"
             android:layout_width="wrap_content"
@@ -38,7 +40,7 @@
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
             android:text="最高借款额度"
-            android:textColor="@color/black_3"/>
+            android:textColor="@color/black_3" />
     </RelativeLayout>
     <!--滑动进度条-->
     <FrameLayout
@@ -46,9 +48,10 @@
         android:layout_height="36dp"
         android:background="@mipmap/home_bg_side"
         android:gravity="center"
-        android:paddingTop="5dp"
         android:paddingLeft="16dp"
-        android:paddingRight="16dp">
+        android:paddingRight="16dp"
+        android:paddingTop="5dp">
+
         <com.credit.xiaowei.widget.HomeSeekBar
             android:id="@+id/hsb_selected_money"
             android:layout_width="match_parent"
@@ -58,7 +61,7 @@
             android:progressDrawable="@drawable/home_seekbar_bg"
             android:splitTrack="false"
             android:thumb="@drawable/home_seekbar_thumb"
-            android:thumbOffset="0dp"/>
+            android:thumbOffset="0dp" />
     </FrameLayout>
 
     <TextView
@@ -70,7 +73,7 @@
         android:paddingTop="10dp"
         android:text="借款期限"
         android:textColor="@color/black_21"
-        android:textSize="14sp"/>
+        android:textSize="14sp" />
     <!--天数选择-->
     <RadioGroup
         android:id="@+id/rg_days"
@@ -81,12 +84,12 @@
         android:paddingBottom="30dp"
         android:paddingLeft="36dp"
         android:paddingRight="36dp"
-        android:paddingTop="20dp"/>
+        android:paddingTop="20dp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp"
-        android:background="@mipmap/home_bg_middle"/>
+        android:background="@mipmap/home_bg_middle" />
     <!--服务费说明-->
     <LinearLayout
         android:id="@+id/ll_service_fee"
@@ -117,15 +120,17 @@
                 android:layout_marginTop="7dp"
                 android:text="0.00"
                 android:textColor="@color/black_75"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
 
         <View
+            android:id="@+id/view_line"
             android:layout_width="1px"
             android:layout_height="40dp"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="20dp"
-            android:background="@color/global_line_color"/>
+            android:background="@color/global_line_color" />
+
 
         <LinearLayout
             android:id="@+id/ll_service_fee_check"
@@ -136,6 +141,17 @@
             android:orientation="vertical">
 
             <TextView
+                android:visibility="gone"
+                android:id="@+id/tv_earnings_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5dp"
+                android:text="日利率"
+                android:textColor="@color/black_75"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_service_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="5dp"
@@ -151,7 +167,7 @@
                 android:layout_marginTop="7dp"
                 android:text="0.00"
                 android:textColor="@color/black_75"
-                android:textSize="12sp"/>
+                android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
 
@@ -169,7 +185,7 @@
             android:layout_marginTop="24dp"
             android:text="查看服务费"
             android:textColor="#7bcef5"
-            android:textSize="12sp"/>
+            android:textSize="12sp" />
     </FrameLayout>
     <!--认证步骤布局-->
     <LinearLayout
@@ -185,17 +201,18 @@
             android:layout_height="wrap_content"
             android:text="!"
             android:textColor="@color/theme_color"
-            android:textSize="16sp"/>
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/tv_phone_auth"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="2dp"
-            android:text="您已经完成0/5认证，加油"/>
+            android:text="您已经完成0/5认证，加油" />
     </LinearLayout>
 
     <LinearLayout
+        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@mipmap/home_bg_side"
@@ -212,17 +229,17 @@
             android:gravity="center"
             android:text="马上登录"
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tv_warning_desc"
-            android:textSize="12sp"
-            android:textColor="@color/theme_gray"
-            android:layout_marginTop="10dp"
-            android:gravity="center"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="本平台不向在校学生开放"/>
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="本平台不向在校学生开放"
+            android:textColor="@color/theme_gray"
+            android:textSize="12sp"
+            android:visibility="gone" />
     </LinearLayout>
 </LinearLayout>

@@ -150,6 +150,14 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
     @BindView(R.id.tv_warning_desc)
     TextView tvWarningDesc;
     Unbinder unbinder;
+    @BindView(R.id.tv_earnings_desc)
+    TextView tvEarningsDesc;
+    @BindView(R.id.tv_service_desc)
+    TextView tvServiceDesc;
+    @BindView(R.id.view_line)
+    View viewLine;
+    @BindView(R.id.ll_money)
+    LinearLayout llMoney;
     private HomeIndexResponseBean.ItemBean bean;
     private int maxMoney, loanMoney;
     private int loanDay;
@@ -275,7 +283,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 try {
                     JSONObject object = new JSONObject(response.body().toString());
                     String code = object.optString("code");
-                    if(code != null && code.equals("Y")) {//已达上限
+                    if (code != null && code.equals("Y")) {//已达上限
                         String msg = object.optString("msg");
                         String title = object.optString("title");
                         new AlertFragmentDialog.Builder(getActivity())
@@ -284,7 +292,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                                 .setLeftBtnText("确定")
                                 .setCancel(true)
                                 .build();
-                    }else {
+                    } else {
                         Intent intent = new Intent(getActivity(), LendConfirmLoanActivity.class);
                         intent.putExtra(BankInputPwdActivity.TAG_OPERATE_BEAN, result);
                         startActivity(intent);
@@ -390,6 +398,19 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 }
 
             }
+        }
+
+        //没验证的隐藏到账金额,显示日利率
+        if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+            tvEarningsDesc.setVisibility(View.VISIBLE);
+            tvServiceDesc.setVisibility(View.GONE);
+            viewLine.setVisibility(View.GONE);
+            llMoney.setVisibility(View.GONE);
+        } else {
+            tvEarningsDesc.setVisibility(View.GONE);
+            tvServiceDesc.setVisibility(View.VISIBLE);
+            viewLine.setVisibility(View.VISIBLE);
+            llMoney.setVisibility(View.VISIBLE);
         }
     }
 
@@ -732,6 +753,11 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 App.toLogin(getActivity());
                 break;
             case R.id.ll_service_fee_check: //登录后查看服务费
+                if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus())) {
+                    if (moneyPeriodBean.getAuthstatus().equals("N")) {
+                        return;
+                    }
+                }
                 CostDetailsDialog.newInstance(loanMoney + "", loanDay + "").show(getChildFragmentManager(), CostDetailsDialog.TAG);
                 break;
             case R.id.tv_surplus_btn:
@@ -853,12 +879,17 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
 
         if (loanMoney == 0) {
             mTvHomeLimit1.setText("0.00元");
-            mTvHomeLimit2.setText("0.00元");
+            if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+                mTvHomeLimit2.setText(moneyPeriodBean.getRate());
+            } else {
+                mTvHomeLimit2.setText("0.00元");
+            }
         } else {
             List<Double> interests = moneyPeriodBean.getInterests();
             if (amountDaysList.size() != interests.size()) {
                 return;
             }
+
             for (int i = 0; i < interests.size(); i++) {
                 if (loanDay == amountDaysList.get(i)) {
                     double maxInterests = moneyPeriodBean.getInterests().get(i) / 100;
@@ -866,7 +897,11 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                     serviceMoney = maxInterests * offset;
                     realMoney = loanMoney - serviceMoney;
                     mTvHomeLimit1.setText(new DecimalFormat("0.00").format(realMoney) + "元");
-                    mTvHomeLimit2.setText(new DecimalFormat("0.00").format(serviceMoney) + "元");
+                    if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+                        mTvHomeLimit2.setText(moneyPeriodBean.getRate());
+                    } else {
+                        mTvHomeLimit2.setText(new DecimalFormat("0.00").format(serviceMoney) + "元");
+                    }
                     break;
                 }
             }
