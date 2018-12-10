@@ -12,6 +12,6 @@ public interface LoginContract {
         void loginSuccess(UserInfoBean bean);
     }
     interface presenter{
-        void login(String username,String password);
+        void login(String username,String password,String blackbox);
     }
 }

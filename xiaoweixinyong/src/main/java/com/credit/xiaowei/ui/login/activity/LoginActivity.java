@@ -27,10 +27,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.tongdun.android.shell.FMAgent;
 
 import static com.credit.xiaowei.util.ToastUtil.showToast;
 
-public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View ,ForgetPwdContract.View {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements LoginContract.View, ForgetPwdContract.View {
     @BindView(R.id.tv_user_name)
     TextView mTvUserName;
     @BindView(R.id.et_password)
@@ -47,6 +48,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     private String resultPhone;
     private String tipMsg = "";
     private ForgetPwdPresenter forgetPwdPresenter;
+
     @Override
     public int getLayoutId() {
         return R.layout.activity_login;
@@ -89,11 +91,11 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
                 if (mEtPassword.length() < 6) {
                     showToast("密码必须为6~16字符");
                 } else {
-                    mPresenter.login(resultPhone, mEtPassword.getText().toString());
+                    mPresenter.login(resultPhone, mEtPassword.getText().toString(), FMAgent.onEvent(this));
                 }
                 break;
             case R.id.tv_forget_pwd:
-                forgetPwdPresenter.forgetPwd(resultPhone,"find_pwd");
+                forgetPwdPresenter.forgetPwd(resultPhone, "find_pwd");
                 break;
             case R.id.tv_login_more:
                 new ActionSheetDialog(LoginActivity.this)
@@ -142,7 +144,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public void loginSuccess(UserInfoBean bean) {
-        EventBus.getDefault().post(new LoginEvent(getApplicationContext(),bean));
+        EventBus.getDefault().post(new LoginEvent(getApplicationContext(), bean));
         /*Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);*/
@@ -163,7 +165,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    public void showErrorMsg(String msg,String type) {
+    public void showErrorMsg(String msg, String type) {
         showToast(msg);
     }
 

@@ -288,3 +288,8 @@
 -dontwarn com.sina.**
 -keep class  com.alipay.share.sdk.** {*;}
 
+#TONGDUN
+-dontwarn android.os.**
+-dontwarn com.android.internal.**
+    -keep class cn.tongdun.android.**{*;}
+

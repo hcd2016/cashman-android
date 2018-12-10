@@ -12,8 +12,8 @@ import com.credit.xiaowei.ui.login.contract.LoginContract;
 
 public class LoginPresenter extends BasePresenter<LoginContract.View> implements LoginContract.presenter{
     @Override
-    public void login(String username, String password) {
-        toSubscribe(HttpManager.getApi().login(username, password), new HttpSubscriber<LoginBean>() {
+    public void login(String username, String password,String blackbox) {
+        toSubscribe(HttpManager.getApi().login(username, password,blackbox), new HttpSubscriber<LoginBean>() {
             @Override
             public void _onStart() {
                 mView.showLoading("登录中...");

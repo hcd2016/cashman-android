@@ -32,8 +32,13 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import cn.tongdun.android.shell.FMAgent;
+import cn.tongdun.android.shell.exception.FMException;
 
 public class App extends MultiDexApplication{
 
@@ -67,6 +72,15 @@ public class App extends MultiDexApplication{
 		//关闭默认统计
 		MobclickAgent.openActivityDurationTrack(false);
 //		MobclickAgent.setDebugMode(true);
+
+		//同盾初始化
+		try{
+			Map<String, Object> options = new HashMap<>();
+			options.put(FMAgent.OPTION_PARTNER_CODE, "wyxx");  //partner_code
+			FMAgent.initWithOptions(this, FMAgent.ENV_PRODUCTION, options);
+		} catch (FMException e) {
+			e.printStackTrace();
+		}
 	}
 
 

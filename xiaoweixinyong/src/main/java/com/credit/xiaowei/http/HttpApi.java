@@ -109,7 +109,8 @@ public interface HttpApi {
     @FormUrlEncoded
     @POST("credit-user/login")
     Observable<BaseResponse<LoginBean>> login(@Field("username") String username,
-                                              @Field("password") String password);
+                                              @Field("password") String password,
+                                              @Field("tdFmdevice") String blackbox);
 
     //退出登录
     @GET("credit-user/logout")
@@ -323,13 +324,14 @@ public interface HttpApi {
                                  @Field("captcha") String captcha,
                                  @Field("RCaptchaKey") String RCaptchaKey,
                                  @Field("platform") String platform);
+
     /**
-     ---------------------------------------------------------------------------------------------------
+     * ---------------------------------------------------------------------------------------------------
      */
 
     //版本更新检查
     @GET("version/update")
-    Call<JsonObject> checkUpdateVersion(@Query("appversion") String appVersion,@Query("platform") String platform);
+    Call<JsonObject> checkUpdateVersion(@Query("appversion") String appVersion, @Query("platform") String platform);
 
     //检测借款金额是否超出限制
     @GET("credit-loan/check-limit")

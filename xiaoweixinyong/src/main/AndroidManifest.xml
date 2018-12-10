@@ -63,6 +63,21 @@
     <!-- 接收消息 -->
     <uses-permission android:name="android.permission.RECEIVE_SMS" />
 
+        <!--&lt;!&ndash; 必选权限 &ndash;&gt;-->
+        <!--<uses-permission android:name="android.permission.INTERNET" />-->
+        <!--<uses-permission android:name="android.permission.READ_PHONE_STATE" />-->
+        <!--<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />-->
+        <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
+        <!-- 可选权限，不声明此部分权限将放弃部分设备信息的采集，对数据分析及设备指纹的精准度有一定影响 -->
+        ​
+        <!--<uses-permission android:name="android.permission.GET_TASKS" />-->
+        <!--<uses-permission android:name="android.permission.BLUETOOTH" />-->
+        <!--<uses-permission android:name="android.permission.WRITE_SETTINGS"/>-->
+        <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
+        <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
+        <!--<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />-->
+        <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>-->
+
     <application
         android:name=".app.App"
         android:allowBackup="true"
@@ -71,7 +86,8 @@
         android:persistent="true"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
+        <!-- 您的合作方标识 -->
+        <meta-data android:name="PARTNER_CODE" android:value="wyxx" />
         <!--<activity-->
         <!--android:name=".ui.main.UrlSelectorActivity"-->
         <!--android:screenOrientation="portrait">-->
