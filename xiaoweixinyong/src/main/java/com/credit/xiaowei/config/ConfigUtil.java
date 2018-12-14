@@ -23,6 +23,9 @@ public class ConfigUtil {
     public static String baseUrl = "http://120.79.170.34:8080/";//正式服务器
 //    public  static String baseUrl ="http://120.79.170.179:8080/";//测试服务器
 //    public  static String baseUrl ="http://192.168.1.179:8081/";//测试服务器
+//    public  static String baseUrl ="http://new.vpfinance.cn/appserver/";//测试服务器
+//    public  static String baseUrl ="http://39.108.146.92:8080/appserver/";//测试服务器
+
 
     public static boolean isOpenPretend = true;//是否开启伪页面
     private boolean isDebug = false;//是否调试模式
