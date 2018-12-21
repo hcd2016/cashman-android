@@ -8,15 +8,16 @@ android {
         applicationId "com.credit.xiaowei"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 2
-        versionName "1.0.2"
+        versionCode 3
+        versionName "1.0.3"
         multiDexEnabled true
         resValue "string", "tray__authority", "com.credit.xiaowei.tray"
 //        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
             // 设置支持的SO库架构
-            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
+//            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86'
+            abiFilters "armeabi", "armeabi-v7a", "x86", "mips"
         }
         flavorDimensions "versionCode"
         manifestPlaceholders = [qqappid: "101512652"]

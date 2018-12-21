@@ -10,8 +10,8 @@
 
     <ImageView
         android:id="@+id/iv_repey_type_img"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

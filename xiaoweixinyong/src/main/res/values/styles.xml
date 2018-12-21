@@ -110,6 +110,13 @@
 
     <!--标题栏适配-->
     <dimen name="status_top_bar_height">25dp</dimen>
+
+    <!--不带动画的对话框style-->
+    <style name="style_dialog_without_anim" parent="Theme.AppCompat.Light.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>
 
 

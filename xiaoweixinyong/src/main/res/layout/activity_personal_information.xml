@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              style="@style/MatchMatch.Vertical"
-              android:background="@color/theme_background_color">
+    style="@style/MatchMatch.Vertical"
+    android:background="@color/theme_background_color">
 
     <include layout="@layout/layout_toolbar" />
+
     <com.credit.xiaowei.widget.loading.LoadingLayout
         android:id="@+id/loading_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -17,96 +19,171 @@
                 style="@style/MatchWrap"
                 android:background="@color/white"
                 android:divider="@drawable/divider_horizontal"
-                android:orientation="vertical"
-                android:showDividers="middle"
                 android:focusable="true"
-                android:focusableInTouchMode="true">
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:showDividers="middle">
+
                 <TextView
                     android:id="@+id/tv_tag"
                     android:layout_width="fill_parent"
                     android:layout_height="35dp"
+                    android:background="#FFF2E5"
                     android:gravity="center_vertical"
                     android:paddingLeft="15dp"
                     android:text="身份认证信息保存后将无法修改，请务必保证正确"
-                    android:textColor="@color/theme_color"
-                    android:textSize="13sp"
-                    android:background="@color/default_background"/>
+                    android:textColor="@color/oranger_warning_text"
+                    android:textSize="13sp" />
+
+                <!--人脸识别-->
                 <LinearLayout
                     android:id="@+id/face_recognition"
-                    android:layout_width="fill_parent"
-                    android:layout_height="70dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="21dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="20dp">
 
                     <TextView
-                        android:layout_width="0px"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="人脸识别"
-                        android:textColor="@color/tab_normal"
+                        android:textColor="@color/black_3"
                         android:textSize="15sp" />
 
-                    <LinearLayout
-                        android:id="@+id/layout_face_pic"
-                        android:layout_width="0px"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="3.5"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal">
-
-                        <ImageView
-                            android:id="@+id/iv_face_img"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/icon_default_face" />
-                    </LinearLayout>
+                    <ImageView
+                        android:id="@+id/iv_face_img"
+                        android:layout_width="165dp"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="15dp"
+                        android:src="@mipmap/face" />
                 </LinearLayout>
 
-                <!--身份证识别-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="#F0F2F5" />
+
+
+                <!--身份证照-->
                 <LinearLayout
-                    android:layout_width="fill_parent"
-                    android:layout_height="70dp"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:paddingLeft="15dp"
-                    android:paddingRight="15dp">
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingBottom="21dp"
+                    android:paddingLeft="16dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="20dp">
 
                     <TextView
-                        android:layout_width="0px"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="身份证照"
-                        android:textColor="@color/tab_normal"
+                        android:textColor="@color/black_3"
                         android:textSize="15sp" />
 
                     <LinearLayout
-                        android:id="@+id/layout_idcard_pic"
-                        android:layout_width="0px"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="10dp"
-                        android:layout_weight="3.5"
-                        android:gravity="center_vertical"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/iv_idcard_facade"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginRight="20dp"
-                            android:src="@mipmap/icon_default_idcard_z" />
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:src="@mipmap/card_front" />
 
                         <ImageView
                             android:id="@+id/iv_idcard_contrary"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/icon_default_idcard_f" />
+                            android:layout_width="0dp"
+                            android:layout_height="100dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_weight="1"
+                            android:src="@mipmap/card_back" />
                     </LinearLayout>
                 </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="15dp"
+                    android:background="#F0F2F5" />
+                <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingLeft="15dp"-->
+                <!--android:paddingRight="15dp">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="人脸识别"-->
+                <!--android:textColor="@color/tab_normal"-->
+                <!--android:textSize="15sp" />-->
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/layout_face_pic"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_weight="3.5"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@mipmap/icon_default_face" />-->
+                <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
+
+                <!--&lt;!&ndash;身份证识别&ndash;&gt;-->
+                <!--<LinearLayout-->
+                <!--android:layout_width="fill_parent"-->
+                <!--android:layout_height="70dp"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:paddingLeft="15dp"-->
+                <!--android:paddingRight="15dp">-->
+
+                <!--<TextView-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_weight="1"-->
+                <!--android:text="身份证照"-->
+                <!--android:textColor="@color/tab_normal"-->
+                <!--android:textSize="15sp" />-->
+
+                <!--<LinearLayout-->
+                <!--android:id="@+id/layout_idcard_pic"-->
+                <!--android:layout_width="0px"-->
+                <!--android:layout_height="fill_parent"-->
+                <!--android:layout_marginLeft="10dp"-->
+                <!--android:layout_weight="3.5"-->
+                <!--android:gravity="center_vertical"-->
+                <!--android:orientation="horizontal">-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginRight="20dp"-->
+                <!--android:src="@mipmap/icon_default_idcard_z" />-->
+
+                <!--<ImageView-->
+                <!--android:layout_width="50dp"-->
+                <!--android:layout_height="50dp"-->
+                <!--android:layout_marginRight="10dp"-->
+                <!--android:src="@mipmap/icon_default_idcard_f" />-->
+                <!--</LinearLayout>-->
+                <!--</LinearLayout>-->
 
                 <!--用户姓名-->
                 <LinearLayout style="@style/Fill_55_horizontal">
@@ -128,13 +205,13 @@
                         android:layout_marginRight="15dp"
                         android:layout_weight="3"
                         android:background="@null"
-                        android:lines="1"
                         android:gravity="center_vertical"
                         android:hint="真实姓名"
+                        android:lines="1"
                         android:maxLines="1"
                         android:textColor="@color/global_black_color"
                         android:textColorHint="@color/global_label_color"
-                        android:textSize="15sp"/>
+                        android:textSize="15sp" />
                 </LinearLayout>
 
 
@@ -158,9 +235,9 @@
                         android:layout_marginRight="15dp"
                         android:layout_weight="3"
                         android:background="@null"
-                        android:lines="1"
                         android:gravity="center_vertical"
                         android:hint="身份证号码"
+                        android:lines="1"
                         android:maxLines="1"
                         android:textColor="@color/global_black_color"
                         android:textColorHint="@color/global_label_color"
@@ -278,9 +355,9 @@
                         android:background="@null"
                         android:gravity="center_vertical"
                         android:hint="详细街道和门牌号"
-                        android:paddingRight="10dp"
-                        android:maxLines="1"
                         android:lines="1"
+                        android:maxLines="1"
+                        android:paddingRight="10dp"
                         android:textColor="@color/tab_normal"
                         android:textColorHint="@color/global_label_color"
                         android:textSize="15sp" />
@@ -326,8 +403,8 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center_vertical|right"
-                            android:paddingRight="10dp"
                             android:maxLines="1"
+                            android:paddingRight="10dp"
                             android:textColor="@color/tab_normal"
                             android:textColorHint="@color/global_label_color"
                             android:textSize="15sp" />
@@ -381,8 +458,8 @@
                             android:layout_weight="1"
                             android:background="@null"
                             android:gravity="center_vertical|right"
-                            android:paddingRight="10dp"
                             android:maxLines="1"
+                            android:paddingRight="10dp"
                             android:textColor="@color/tab_normal"
                             android:textColorHint="@color/global_label_color"
                             android:textSize="15sp" />
@@ -395,8 +472,8 @@
                     </LinearLayout>
 
                 </LinearLayout>
-                <include
-                    layout="@layout/layout_logo_bottom"/>
+
+                <include layout="@layout/layout_logo_bottom" />
             </LinearLayout>
         </ScrollView>
     </com.credit.xiaowei.widget.loading.LoadingLayout>

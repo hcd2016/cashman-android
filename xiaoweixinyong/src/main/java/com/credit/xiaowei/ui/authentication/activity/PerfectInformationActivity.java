@@ -52,7 +52,7 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
     RecyclerView mSwipeTarget;
     @BindView(R.id.refresh)
     SwipeToLoadLayout mRefresh;
-//    @BindView(R.id.tv_title)
+    //    @BindView(R.id.tv_title)
 //    TextView tvTitle;
 //    @BindView(R.id.iv_back)
 //    ImageView ivBack;
@@ -63,7 +63,7 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
     private int realVerifyStatus;
 
     private PerfectInformationAdapter mAdapter;
-//    private DividerItemDecoration itemDecoration;
+    //    private DividerItemDecoration itemDecoration;
     private List<AuthenticationinformationBean> items;
 
     @Override
@@ -124,10 +124,10 @@ public class PerfectInformationActivity extends BaseActivity<PerfectInformationP
 //        itemDecoration = new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL_LIST);
 //        mSwipeTarget.addItemDecoration(itemDecoration);
         mSwipeTarget.setAdapter(mAdapter);
-        View view = View.inflate(this,R.layout.header_renzheng,null);
+        View view = View.inflate(this, R.layout.header_renzheng, null);
         TextView tv_title = (TextView) view.findViewById(R.id.tv_title);
         tv_title.setText(R.string.perfect_information);
-        view.findViewById(R.id.iv_back).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.rl_back_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

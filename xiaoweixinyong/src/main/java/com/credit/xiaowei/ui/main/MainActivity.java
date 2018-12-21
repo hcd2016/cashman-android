@@ -269,44 +269,76 @@ public class MainActivity extends BaseActivity {
 
                     if (info != null) {//有更新
                         final int force = info.optInt("force");//1位强制更新,其他为普通更新
-                        final String url = App.getConfig().getBaseUrl()+info.optString("update_url");
+                        final String url = App.getConfig().getBaseUrl() + info.optString("update_url");
                         String description = info.optString("description");
                         final String noticeTitle = App.getAPPName();
                         final String authority = "com.credit.xiaowei.provider.fileprovider";
                         if (force == 1) {//强制更新
                             new AlertFragmentDialog.Builder(MainActivity.this)
-                                    .setTitle("发现新版本")
+                                    .setTitle("更新提示")
                                     .setContent(description)
-                                    .setLeftBtnText("立即更新")
-                                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+                                    .setRightBtnText("立即更新")
+                                    .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                                         @Override
-                                        public void dialogLeftBtnClick() {
+                                        public void dialogRightBtnClick() {
                                             AppUpdateUtil.getInstance().downLoadApk(MainActivity.this, url, "xiaowei_credit", noticeTitle, authority, force);
                                         }
                                     })
                                     .setCancel(false)
                                     .build();
+
+//                            new AlertFragmentDialog.Builder(MainActivity.this)
+//                                    .setTitle("发现新版本")
+//                                    .setContent(description)
+//                                    .setLeftBtnText("立即更新")
+//                                    .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+//                                        @Override
+//                                        public void dialogLeftBtnClick() {
+//                                            AppUpdateUtil.getInstance().downLoadApk(MainActivity.this, url, "xiaowei_credit", noticeTitle, authority, force);
+//                                        }
+//                                    })
+//                                    .setCancel(false)
+//                                    .build();
                         } else {//非强制更新
                             long lastTime = SpUtil.getLong(Constant.LAST_UPDATE_SHOW_TIME);
                             long currentTimeMillis = System.currentTimeMillis();
                             if (lastTime == 0 || currentTimeMillis - lastTime > 1000 * 60 * 60 * 24) {//未取消过 或 取消间隔大于1天
                                 new AlertFragmentDialog.Builder(MainActivity.this)
-                                        .setTitle("发现新版本")
+                                        .setTitle("更新提示")
                                         .setContent(description)
-                                        .setLeftBtnText("立即更新")
-                                        .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                                            @Override
-                                            public void dialogLeftBtnClick() {
-                                                AppUpdateUtil.getInstance().downLoadApk(MainActivity.this, url, "xiaowei_credit", noticeTitle, authority, force);
-                                            }
-                                        })
-                                        .setRightBtnText("暂不更新")
+                                        .setRightBtnText("立即更新")
                                         .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                                             @Override
                                             public void dialogRightBtnClick() {
+                                                AppUpdateUtil.getInstance().downLoadApk(MainActivity.this, url, "xiaowei_credit", noticeTitle, authority, force);
+                                            }
+                                        })
+                                        .setLeftBtnText("暂不更新")
+                                        .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+                                            @Override
+                                            public void dialogLeftBtnClick() {
                                                 SpUtil.putLong(Constant.LAST_UPDATE_SHOW_TIME, System.currentTimeMillis());//记录上次取消时间
                                             }
-                                        }).build();
+                                        })
+                                        .setCancel(false)
+                                        .build();
+//                                new AlertFragmentDialog.Builder(MainActivity.this)
+//                                        .setTitle("发现新版本")
+//                                        .setContent(description)
+//                                        .setLeftBtnText("立即更新")
+//                                        .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
+//                                            @Override
+//                                            public void dialogLeftBtnClick() {
+//                                                AppUpdateUtil.getInstance().downLoadApk(MainActivity.this, url, "xiaowei_credit", noticeTitle, authority, force);
+//                                            }
+//                                        })
+//                                        .setRightBtnText("暂不更新")
+//                                        .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
+//                                            @Override
+//                                            public void dialogRightBtnClick() {
+//                                                SpUtil.putLong(Constant.LAST_UPDATE_SHOW_TIME, System.currentTimeMillis());//记录上次取消时间
+//                                            }
+//                                        }).build();
                             }
                         }
                     }

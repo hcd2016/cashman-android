@@ -4,6 +4,10 @@
     style="@style/MatchMatch.Vertical"
     android:background="@color/theme_background_color">
 
+    <View
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_top_bar_height"/>
     <!--标题-->
     <include layout="@layout/layout_toolbar" />
     <com.credit.xiaowei.widget.loading.LoadingLayout

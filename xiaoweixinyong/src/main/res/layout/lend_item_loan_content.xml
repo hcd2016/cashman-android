@@ -3,54 +3,60 @@
     android:id="@+id/ll_loan_content"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/home_bg_side">
+        android:layout_width="255dp"
+        android:layout_height="129dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:background="@mipmap/home_5000">
+
 
         <TextView
             android:id="@+id/tv_money"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:text="----"
+            android:text="5000.00"
             android:textColor="@color/theme_color"
-            android:textSize="48sp"
+            android:textSize="36sp"
             android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/_downline"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/tv_money"
-            android:layout_centerHorizontal="true"
-            android:layout_toRightOf="@+id/tv_money"
-            android:text="元"
-            android:textColor="@color/theme_color"
-            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/tv_bigMoney"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_money"
+            android:layout_above="@+id/tv_money"
             android:layout_centerHorizontal="true"
             android:layout_marginRight="5dp"
-            android:text="最高借款额度"
-            android:textColor="@color/black_3" />
+            android:text="最高借款 (元)"
+            android:textColor="@color/black_9" />
+        <!--<TextView-->
+        <!--android:id="@+id/_downline"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignBaseline="@+id/tv_money"-->
+        <!--android:layout_centerHorizontal="true"-->
+        <!--android:layout_toRightOf="@+id/tv_money"-->
+        <!--android:text="元"-->
+        <!--android:textColor="@color/theme_color"-->
+        <!--android:textSize="15sp" />-->
+
+
     </RelativeLayout>
     <!--滑动进度条-->
     <FrameLayout
-        android:layout_width="match_parent"
+        android:id="@+id/fl_process_container"
+        android:layout_width="290dp"
         android:layout_height="36dp"
-        android:background="@mipmap/home_bg_side"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
         android:gravity="center"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="5dp">
+        android:paddingTop="5dp"
+        android:visibility="visible">
 
         <com.credit.xiaowei.widget.HomeSeekBar
             android:id="@+id/hsb_selected_money"
@@ -64,44 +70,56 @@
             android:thumbOffset="0dp" />
     </FrameLayout>
 
-    <TextView
+    <LinearLayout
+        android:id="@+id/ll_days_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@mipmap/home_bg_side"
-        android:gravity="center_horizontal"
-        android:paddingTop="10dp"
-        android:text="借款期限"
-        android:textColor="@color/black_21"
-        android:textSize="14sp" />
-    <!--天数选择-->
-    <RadioGroup
-        android:id="@+id/rg_days"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/home_bg_side"
-        android:orientation="horizontal"
-        android:paddingBottom="30dp"
-        android:paddingLeft="36dp"
-        android:paddingRight="36dp"
-        android:paddingTop="20dp" />
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@color/white"
+            android:gravity="center_horizontal"
+            android:paddingTop="10dp"
+            android:text="借款期限"
+            android:textColor="@color/black_9"
+            android:textSize="14sp"
+            android:visibility="visible" />
+        <!--天数选择-->
+        <!--android:background="@mipmap/home_bg_side"-->
+        <RadioGroup
+            android:id="@+id/rg_days"
+            android:layout_width="255dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal"
+            android:paddingBottom="30dp"
+            android:paddingTop="20dp"
+            android:visibility="visible" />
+    </LinearLayout>
 
     <View
+        android:background="@color/global_line_color"
+        android:layout_marginBottom="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@mipmap/home_bg_middle" />
+        android:layout_height="1px"/>
     <!--服务费说明-->
     <LinearLayout
         android:id="@+id/ll_service_fee"
         style="@style/MatchWrap.Horizontal"
-        android:background="@mipmap/home_bg_side"
+        android:background="@color/white"
         android:gravity="center">
 
         <LinearLayout
-            android:id="@+id/ll_money"
+            android:id="@+id/ll_day"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -109,18 +127,50 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="到账金额"
+                android:text="7/14/30天"
+                android:textColor="@color/black_3"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="借款期限"
                 android:textColor="@color/black_75"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/v_day_line"
+            android:layout_width="1px"
+            android:layout_height="40dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:background="@color/global_line_color" />
+
+        <LinearLayout
+            android:id="@+id/ll_money"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/tv_home_limit1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
                 android:text="0.00"
+                android:textColor="@color/black_3"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:text="到账金额"
                 android:textColor="@color/black_75"
-                android:textSize="12sp" />
+                android:textSize="13sp" />
         </LinearLayout>
 
         <View
@@ -141,58 +191,63 @@
             android:orientation="vertical">
 
             <TextView
-                android:visibility="gone"
+                android:id="@+id/tv_home_limit2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.03%/日"
+                android:textColor="@color/black_3"
+                android:textSize="15sp" />
+
+            <TextView
                 android:id="@+id/tv_earnings_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
                 android:drawablePadding="5dp"
-                android:text="日利率"
+                android:text="借款利息"
                 android:textColor="@color/black_75"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                android:visibility="visible" />
 
             <TextView
                 android:id="@+id/tv_service_desc"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:drawablePadding="5dp"
                 android:drawableRight="@mipmap/home_service_fee"
                 android:text="服务费用"
                 android:textColor="@color/black_75"
-                android:textSize="12sp" />
+                android:textSize="13sp"
+                android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/tv_home_limit2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
-                android:text="0.00"
-                android:textColor="@color/black_75"
-                android:textSize="12sp" />
+
         </LinearLayout>
     </LinearLayout>
 
-    <FrameLayout
-        android:id="@+id/fl_check_service_fee"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@mipmap/home_bg_side">
+    <!--<FrameLayout-->
+        <!--android:id="@+id/fl_check_service_fee"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="@mipmap/home_bg_side"-->
+        <!--android:visibility="gone">-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="24dp"
-            android:text="查看服务费"
-            android:textColor="#7bcef5"
-            android:textSize="12sp" />
-    </FrameLayout>
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_gravity="center_horizontal"-->
+            <!--android:layout_marginBottom="15dp"-->
+            <!--android:layout_marginTop="24dp"-->
+            <!--android:text="查看服务费"-->
+            <!--android:textColor="#7bcef5"-->
+            <!--android:textSize="12sp" />-->
+    <!--</FrameLayout>-->
     <!--认证步骤布局-->
     <LinearLayout
         android:id="@+id/ll_verify"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/home_bg_side"
+        android:background="@color/white"
         android:gravity="center"
         android:paddingBottom="10dp">
 
@@ -212,12 +267,12 @@
     </LinearLayout>
 
     <LinearLayout
-        android:paddingTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/home_bg_side"
+        android:background="@color/white"
         android:orientation="vertical"
-        android:paddingBottom="24dp">
+        android:paddingBottom="24dp"
+        android:paddingTop="10dp">
 
         <TextView
             android:id="@+id/tv_rent_btn"

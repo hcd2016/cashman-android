@@ -101,4 +101,7 @@
     <color name="black_9">#999</color>
 
     <color name="loading_text">#666666</color>
+
+    <color name="oranger_warning_text">#FFA64D</color>
+
 </resources>

@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
     <RelativeLayout
-        android:paddingTop="@dimen/status_top_bar_height"
         android:id="@+id/rl_title_container"
         android:layout_width="match_parent"
         android:layout_height="164dp"
         android:background="@mipmap/banner_renzheng"
         android:orientation="horizontal"
         android:paddingLeft="15dp"
-        android:paddingRight="15dp">
+        android:paddingRight="15dp"
+        android:paddingTop="@dimen/status_top_bar_height">
 
         <RelativeLayout
             android:layout_marginTop="16dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            >
 
-            <ImageView
-                android:layout_centerVertical="true"
-                android:id="@+id/iv_back"
-                android:layout_width="8dp"
-                android:layout_height="18dp"
-                android:src="@mipmap/icon_back" />
+            <RelativeLayout
+                android:id="@+id/rl_back_container"
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true">
+
+                <ImageView
+                    android:id="@+id/iv_back"
+                    android:layout_width="8dp"
+                    android:layout_height="18dp"
+                    android:layout_centerVertical="true"
+                    android:src="@mipmap/icon_back" />
+            </RelativeLayout>
 
             <TextView
                 android:id="@+id/tv_title"
@@ -36,9 +46,9 @@
     </RelativeLayout>
 
     <LinearLayout
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="100dp"
+        android:background="@color/white"
         android:gravity="center"
         android:orientation="horizontal">
 

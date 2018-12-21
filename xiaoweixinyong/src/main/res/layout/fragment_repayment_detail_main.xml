@@ -2,7 +2,10 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     style="@style/MatchMatch.Vertical"
     android:background="@color/default_background">
-
+    <View
+        android:background="@color/colorPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/status_top_bar_height"/>
     <include
         layout="@layout/layout_toolbar"/>
     <com.credit.xiaowei.widget.loading.LoadingLayout
@@ -21,7 +24,7 @@
                 android:orientation="vertical">
 
                 <include
-                    layout="@layout/view_attach"
+                    layout="@layout/view_attach_new"
                     android:layout_width="match_parent"
                     android:layout_height="0px"
                     android:layout_weight="1" />

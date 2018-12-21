@@ -19,6 +19,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amap.api.services.core.PoiItem;
+import com.bumptech.glide.Glide;
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.app.App;
 import com.credit.xiaowei.base.BaseActivity;
@@ -81,16 +82,16 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     TextView mTvTag;
     @BindView(R.id.iv_face_img) //人脸识别
     ImageView mIvFaceImg;
-    @BindView(R.id.layout_face_pic)
-    LinearLayout mLayoutFacePic;
+//    @BindView(R.id.layout_face_pic)
+//    LinearLayout mLayoutFacePic;
     @BindView(R.id.face_recognition)
     LinearLayout mFaceRecognition;
     @BindView(R.id.iv_idcard_facade)//身份证正面
     ImageView mIvIdcardFacade;
     @BindView(R.id.iv_idcard_contrary)//身份证反面
     ImageView mIvIdcardContrary;
-    @BindView(R.id.layout_idcard_pic)
-    LinearLayout mLayoutIdcardPic;
+//    @BindView(R.id.layout_idcard_pic)
+//    LinearLayout mLayoutIdcardPic;
     @BindView(R.id.et_card_name)//姓名
     ClearEditText mEtCardName;
     @BindView(R.id.et_card_number)
@@ -402,6 +403,7 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
         dialog.show();
     }
 
+
     /**
      * 跳转face++
      */
@@ -564,7 +566,12 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
 
             if (!StringUtil.isBlank(mBean.getFace_recognition_picture())) {
                 facePic = mBean.getFace_recognition_picture();
-                Tool.setImage(mActivity, mBean.getFace_recognition_picture(), mIvFaceImg);
+//                Tool.setImage(mActivity,mBean.getFace_recognition_picture() , mIvFaceImg);
+                Glide.with(mActivity).load(mBean.getFace_recognition_picture())//设置图片并且去除换成防止下次加载显示上张图片禁用磁盘缓存
+                        .placeholder(R.drawable.image_default)//设置图片并且去除换成防止下次加载显示上张图片禁用磁盘缓存
+                        .error(R.mipmap.face)
+                        .centerCrop()
+                        .into(mIvFaceImg);
             }
             //设置身份证正面头像
             if (!StringUtil.isBlank(mBean.getId_number_z_picture())) {

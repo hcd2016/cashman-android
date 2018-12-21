@@ -6,7 +6,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
     <LinearLayout
         style="@style/MatchWrap.Vertical"
-        android:background="@mipmap/home_bg_side"
+        android:background="@color/white"
         android:paddingTop="20dp">
         <TextView
             android:id="@+id/tv_surplus_title"
@@ -95,7 +95,7 @@
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@mipmap/home_bg_side">
+        android:background="@color/white">
         <com.credit.xiaowei.widget.DrawableCenterTextView
             android:id="@+id/tv_surplus_btn"
             android:text="提醒我"
