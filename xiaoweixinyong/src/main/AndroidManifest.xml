@@ -320,6 +320,9 @@
         <activity
             android:name="com.credit.pretend.activity.InfoDetailWebviewAvtivity"
             android:screenOrientation="portrait" />
+        <activity
+            android:name="com.megvii.idcardlib.IDCardScanActivityNew"
+           />
         <!--*******************************************************************************************-->
 
 

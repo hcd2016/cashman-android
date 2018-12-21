@@ -122,7 +122,7 @@ dependencies {
     //bug检测
     implementation 'com.tencent.bugly:crashreport:latest.release'
     implementation 'com.tencent.bugly:nativecrashreport:latest.release'
-    implementation files('libs/idcardquality.jar')
+//    implementation files('libs/idcardquality.jar')
     implementation files('libs/jg_filter_sdk_1.1.jar')
     implementation files('libs/licensemanager-v1.1.jar')
     implementation files('libs/livenessdetection-proguard-2.4.1.jar')
@@ -147,4 +147,5 @@ dependencies {
     implementation 'net.grandcentrix.tray:tray:0.11.1'
     //同盾
     implementation(name: 'fraudmetrix-3.1.9', ext: 'aar')
+    implementation files('libs/idcardquality-proguard-1.2.2.jar')
 }

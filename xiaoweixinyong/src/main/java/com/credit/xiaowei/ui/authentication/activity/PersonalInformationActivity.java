@@ -702,6 +702,8 @@ public class PersonalInformationActivity extends BaseActivity<PersonalInformatio
     @Override
     protected void onActivityResult(final int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+
         Log.e("这里是日志", "输出日志信息---requestCode=" + requestCode + "--resultCode=" + resultCode + "---data=" + data);
         if (resultCode != RESULT_OK) {
             return;

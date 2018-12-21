@@ -8,16 +8,16 @@ import android.graphics.RectF;
 import android.graphics.SurfaceTexture;
 import android.hardware.Camera;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.v4.app.FragmentActivity;
 import android.view.TextureView;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.WindowManager;
+import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.credit.xiaowei.R;
-import com.credit.xiaowei.util.ToastUtil;
 import com.megvii.idcardlib.util.DialogUtil;
 import com.megvii.idcardlib.util.ICamera;
 import com.megvii.idcardlib.util.IDCardIndicator;
@@ -32,281 +32,389 @@ import com.megvii.livenesslib.util.ConUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingDeque;
 
-public class IDCardScanActivity extends FragmentActivity implements
-		TextureView.SurfaceTextureListener, Camera.PreviewCallback {
+public class IDCardScanActivity extends FragmentActivity implements TextureView.SurfaceTextureListener, Camera.PreviewCallback {
 
-	private TextureView textureView;
-	private DialogUtil mDialogUtil;
-	private ICamera mICamera;// 照相机工具类
-	private IDCardQualityAssessment idCardQualityAssessment = null;
-	private IDCardIndicator mIndicatorView;
-	private IDCardAttr.IDCardSide mSide;
-	private DecodeThread mDecoder = null;
-	private boolean mIsVertical = false;
-	private TextView fps;
-	private TextView errorType;
-	private TextView tv_back;
+    private TextureView textureView;
+    private DialogUtil mDialogUtil;
+    private ICamera mICamera;// 照相机工具类
+    private IDCardQualityAssessment idCardQualityAssessment = null;
+    private IDCardNewIndicator mNewIndicatorView;
+    private IDCardIndicator mIdCardIndicator;
+    private IDCardAttr.IDCardSide mSide;
+    private DecodeThread mDecoder = null;
+    private boolean mIsVertical = false;
+    private TextView fps;
+    private TextView errorType;
+    private TextView horizontalTitle, verticalTitle;
+    private TextView logInfo;
+    private View debugRectangle;
+    private boolean isDebugMode = false;
+    int continuousClickCount = 0;
+    long lastClickMillis = 0;
+    private Vibrator vibrator;
+    private float mInBound, mIsIDCard;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		// 隐藏状态栏
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.idcardscan_layout);
-		init();
-		initData();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.idcardscan_layout);
+        init();
+        initData();
+    }
 
-	private void init() {
-		mIsVertical = getIntent().getBooleanExtra("isvertical", false);
-		if (mIsVertical)
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
-		else
-			setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-		
-		mICamera = new ICamera(mIsVertical);
-		mDialogUtil = new DialogUtil(this);
-		textureView = (TextureView) findViewById(R.id.idcardscan_layout_surface);
-		textureView.setSurfaceTextureListener(this);
-		textureView.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				mICamera.autoFocus();
-			}
-		});
-		fps = (TextView) findViewById(R.id.idcardscan_layout_fps);
-		errorType = (TextView) findViewById(R.id.idcardscan_layout_error_type);
-		tv_back = (TextView) findViewById(R.id.tv_back);
-		mFrameDataQueue = new LinkedBlockingDeque<byte[]>(1);
-		mIndicatorView = (IDCardIndicator) findViewById(R.id.idcardscan_layout_indicator);
-		mDecoder = new DecodeThread();
-		mDecoder.start();
-		mSide = getIntent().getIntExtra("side", 0) == 0 ? IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT
-				: IDCardAttr.IDCardSide.IDCARD_SIDE_BACK;
-		tv_back.setOnClickListener(new OnClickListener()
-		{
-			@Override
-			public void onClick(View v)
-			{
-				finish();
-			}
-		});
-	}
+    private void init() {
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        mSide = getIntent().getIntExtra("side", 0) == 0 ? IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT
+                : IDCardAttr.IDCardSide.IDCARD_SIDE_BACK;
+        mIsVertical = getIntent().getBooleanExtra("isvertical", false);
+        mICamera = new ICamera(mIsVertical);
+        mDialogUtil = new DialogUtil(this);
+        textureView = (TextureView) findViewById(R.id.idcardscan_layout_surface);
+        textureView.setSurfaceTextureListener(this);
+        textureView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mICamera.autoFocus();
+            }
+        });
+        fps = (TextView) findViewById(R.id.idcardscan_layout_fps);
+        logInfo = (TextView) findViewById(R.id.text_debug_info);
+        errorType = (TextView) findViewById(R.id.idcardscan_layout_error_type);
+        horizontalTitle = (TextView) findViewById(R.id.idcardscan_layout_horizontalTitle);
+        verticalTitle = (TextView) findViewById(R.id.idcardscan_layout_verticalTitle);
+        mFrameDataQueue = new LinkedBlockingDeque<byte[]>(1);
+        mNewIndicatorView = (IDCardNewIndicator) findViewById(R.id.idcardscan_layout_newIndicator);
+        mIdCardIndicator = (IDCardIndicator) findViewById(R.id.idcardscan_layout_indicator);
+        debugRectangle = findViewById(R.id.debugRectangle);
 
-	/**
-	 * 初始化数据
-	 */
-	private void initData() {
-		idCardQualityAssessment = new IDCardQualityAssessment();
-		boolean initSuccess = idCardQualityAssessment.init(this,
-				Util.readModel(this));
-		if (!initSuccess) {
-			mDialogUtil.showDialog("检测器初始化失败");
-		}
-	}
+        OnClickListener onClickListener = new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mICamera.autoFocus();
+                launchDebugMode();
+            }
+        };
+        mNewIndicatorView.setOnClickListener(onClickListener);
+        mIdCardIndicator.setOnClickListener(onClickListener);
 
-	@Override
-	protected void onResume() {
-		super.onResume();
-		Camera mCamera = mICamera.openCamera(this);
-		if (mCamera != null) {
-			RelativeLayout.LayoutParams layout_params = mICamera
-					.getLayoutParam(this);
-			textureView.setLayoutParams(layout_params);
-			mIndicatorView.setLayoutParams(layout_params);
-		}
-	}
+        if (mIsVertical) {
+            horizontalTitle.setVisibility(View.GONE);
+            verticalTitle.setVisibility(View.VISIBLE);
+            mIdCardIndicator.setVisibility(View.VISIBLE);
+            mNewIndicatorView.setVisibility(View.GONE);
+            mIdCardIndicator.setCardSideAndOrientation(mIsVertical, mSide);
+            mNewIndicatorView.setCardSideAndOrientation(mIsVertical, mSide);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        } else {
+            horizontalTitle.setVisibility(View.VISIBLE);
+            verticalTitle.setVisibility(View.GONE);
+            mIdCardIndicator.setVisibility(View.GONE);
+            mNewIndicatorView.setVisibility(View.VISIBLE);
+            mIdCardIndicator.setCardSideAndOrientation(mIsVertical, mSide);
+            mNewIndicatorView.setCardSideAndOrientation(mIsVertical, mSide);
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        }
 
-	@Override
-	protected void onPause() {
-		super.onPause();
-		mICamera.closeCamera();
-	}
+        if (mDecoder == null) {
+            mDecoder = new DecodeThread();
+        }
+        if (!mDecoder.isAlive()) {
+            mDecoder.start();
+        }
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-		mDialogUtil.onDestory();
-		mDecoder.interrupt();
-		try {
-			mDecoder.join();
-			mDecoder = null;
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-		idCardQualityAssessment.release();
-		idCardQualityAssessment = null;
-	}
+    private void launchDebugMode() {
+        long currentMillis = System.currentTimeMillis();
+        if (continuousClickCount == 0 || (continuousClickCount > 0 && currentMillis - lastClickMillis < 200)) {
+            continuousClickCount++;
+        }
+        lastClickMillis = currentMillis;
+        if (continuousClickCount == 6) {
+            isDebugMode = true;
+            continuousClickCount = 0;
+        }
+    }
 
-	private void doPreview() {
-		if (!mHasSurface)
-			return;
-		
-		mICamera.startPreview(textureView.getSurfaceTexture());
-	}
-	
-	private boolean mHasSurface = false;
+    private void setDebugRectanglePosition() {
 
-	@Override
-	public void onSurfaceTextureAvailable(SurfaceTexture surface, int width,
-										  int height) {
-		mHasSurface = true;
-		doPreview();
+        Rect debugRoi;
+        if (!mIsVertical) {
+            debugRoi = mNewIndicatorView.getMargin();
+        } else {
+            debugRoi = mIdCardIndicator.getMargin();
+        }
+        final Rect fDebugRect = debugRoi;
 
-		mICamera.actionDetect(this);
-	}
-	
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) debugRectangle.getLayoutParams();
+        params.setMargins(fDebugRect.left, fDebugRect.top, fDebugRect.right, fDebugRect.bottom);
+        debugRectangle.setLayoutParams(params);
+    }
 
-	@Override
-	public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width,
-											int height) {
+    /**
+     * 初始化数据
+     */
+    private void initData() {
+        idCardQualityAssessment = new IDCardQualityAssessment.Builder().setIsIgnoreShadow(true).setIsIgnoreHighlight(false).build();
+        boolean initSuccess = idCardQualityAssessment.init(this, Util.readModel(this));
+        if (!initSuccess) {
+            mDialogUtil.showDialog("检测器初始化失败");
+        } else {
+            mInBound = idCardQualityAssessment.mInBound;
+            mIsIDCard = idCardQualityAssessment.mIsIdcard;
+        }
+    }
 
-	}
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
-	@Override
-	public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
-		mHasSurface = false;
-		return false;
-	}
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
 
-	@Override
-	public void onSurfaceTextureUpdated(SurfaceTexture surface) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mDialogUtil.onDestory();
+        try {
+            if (mDecoder != null) {
+                mDecoder.interrupt();
+                mDecoder.join();
+                mDecoder = null;
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        idCardQualityAssessment.release();
+        idCardQualityAssessment = null;
+    }
 
-	}
+    private void doPreview() {
+        if (!mHasSurface)
+            return;
 
-	@Override
-	public void onPreviewFrame(final byte[] data, Camera camera) {
+        mICamera.startPreview(textureView.getSurfaceTexture());
+        setDebugRectanglePosition();
+    }
 
-		mFrameDataQueue.offer(data);
-	}
+    private boolean mHasSurface = false;
 
-	private BlockingQueue<byte[]> mFrameDataQueue;
+    @Override
+    public void onSurfaceTextureAvailable(SurfaceTexture surface, int width, int height) {
+        Camera mCamera = mICamera.openCamera(this);
+        if (mCamera != null) {
+            RelativeLayout.LayoutParams layout_params = mICamera.getLayoutParam(this);
+            textureView.setLayoutParams(layout_params);
+            mNewIndicatorView.setLayoutParams(layout_params);
+            mIdCardIndicator.setLayoutParams(layout_params);
+        } else {
+            mDialogUtil.showDialog("打开摄像头失败");
+            return;
+        }
+        mHasSurface = true;
+        doPreview();
+        mICamera.actionDetect(this);
 
-	private class DecodeThread extends Thread {
-		boolean mHasSuccess = false;
-		int mCount = 0;
-		int mTimSum = 0;
-		private IDCardQualityResult.IDCardFailedType mLstErrType;
+    }
 
-		@Override
-		public void run() {
-			byte[] imgData = null;
-			try {
-				while ((imgData = mFrameDataQueue.take()) != null) {
-					if (mHasSuccess)
-						return;
-					int imageWidth = mICamera.cameraWidth;
-					int imageHeight = mICamera.cameraHeight;
+    @Override
+    public void onSurfaceTextureSizeChanged(SurfaceTexture surface, int width, int height) {
 
-					if (mIsVertical) {
-						imgData = RotaterUtil.rotate(imgData, imageWidth,
-								imageHeight, mICamera.getCameraAngle(IDCardScanActivity.this));
-						imageWidth = mICamera.cameraHeight;
-						imageHeight = mICamera.cameraWidth;
-					}
+    }
 
-					long start = System.currentTimeMillis();
-					RectF rectF = mIndicatorView.getPosition();
-					Rect roi = new Rect();
-					roi.left = (int) (rectF.left * imageWidth);
-					roi.top = (int) (rectF.top * imageHeight);
-					roi.right = (int) (rectF.right * imageWidth);
-					roi.bottom = (int) (rectF.bottom * imageHeight);
-					if (!isEven01(roi.left))
-						roi.left = roi.left + 1;
-					if (!isEven01(roi.top))
-						roi.top = roi.top + 1;
-					if (!isEven01(roi.right))
-						roi.right = roi.right - 1;
-					if (!isEven01(roi.bottom))
-						roi.bottom = roi.bottom - 1;
+    @Override
+    public boolean onSurfaceTextureDestroyed(SurfaceTexture surface) {
+        mICamera.closeCamera();
+        mHasSurface = false;
+        return false;
+    }
 
-					final IDCardQualityResult result = idCardQualityAssessment
-							.getQuality(imgData, imageWidth, imageHeight,
-									mSide, roi);
+    @Override
+    public void onSurfaceTextureUpdated(SurfaceTexture surface) {
 
-					long end = System.currentTimeMillis();
-					mCount++;
-					mTimSum += (end - start);
-					if (result.isValid()) {
-						mHasSuccess = true;
-						handleSuccess(result);
-						return;
-					} else {
-						runOnUiThread(new Runnable() {
-							@Override
-							public void run() {
-								List<IDCardQualityResult.IDCardFailedType> failTypes = result.fails;
-								if (failTypes != null) {
-									StringBuilder stringBuilder = new StringBuilder();
-									IDCardQualityResult.IDCardFailedType errType = result.fails
-											.get(0);
-									if (errType != mLstErrType) {
-										ToastUtil.showToast(Util.errorType2HumanStr(result.fails.get(0), mSide));
-										mLstErrType = errType;
-									}
-									errorType.setText(stringBuilder.toString());
-								}
-								if (mCount != 0)
-									fps.setText((1000 * mCount / mTimSum)
-											+ " FPS");
-							}
-						});
-					}
-				}
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-		}
+    }
 
-		private void handleSuccess(IDCardQualityResult result) {
-			Intent intent = new Intent();
-			JSONObject jsonObject = null;
-			try
-			{
-				jsonObject = new JSONObject();
-				jsonObject.put("result", "获取成功");
-				jsonObject.put("side", mSide == IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT ? 0 : 1);
-				String session = "IdCard"+ConUtil.getFormatterTime(System.currentTimeMillis());
-				if (result.attr.side == IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT) {
-					IdCardFile.save(result.croppedImageOfIDCard(),"idcardImg","idcardImg-Front",session, jsonObject);
-					IdCardFile.save(result.croppedImageOfPortrait(),"portraitImg", "portraitImg", session, jsonObject);
-				}else{
-					IdCardFile.save(result.croppedImageOfIDCard(),"idcardImg","idcardImg-Back",session, jsonObject);
-				}
-			} catch (JSONException e)
-			{
-				e.printStackTrace();
-			}
-			intent.putExtra("result", jsonObject.toString());
-			setResult(RESULT_OK, intent);
-			//ToastUtil.cancelToast();
-			finish();
-		}
-	}
+    @Override
+    public void onPreviewFrame(final byte[] data, Camera camera) {
+        mFrameDataQueue.offer(data);
+    }
 
-	public static void startMe(Context context, IDCardAttr.IDCardSide side) {
-		if (side == null || context == null)
-			return;
-		Intent intent = new Intent(context, IDCardScanActivity.class);
-		intent.putExtra("side",
-				side == IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT ? 0 : 1);
-		context.startActivity(intent);
-	}
-	
-	// 用取余运算
-	public boolean isEven01(int num) {
-		if (num % 2 == 0) {
-			return true;
-		} else {
-			return false;
-		}
-	}
+    private BlockingQueue<byte[]> mFrameDataQueue;
+
+    private class DecodeThread extends Thread {
+        boolean mHasSuccess = false;
+        int mCount = 0;
+        int mTimSum = 0;
+        private IDCardQualityResult.IDCardFailedType mLstErrType;
+
+        @Override
+        public void run() {
+            byte[] imgData = null;
+            try {
+                while ((imgData = mFrameDataQueue.take()) != null) {
+                    if (mHasSuccess)
+                        return;
+                    int imageWidth = mICamera.cameraWidth;
+                    int imageHeight = mICamera.cameraHeight;
+
+                    imgData = RotaterUtil.rotate(imgData, imageWidth, imageHeight,
+                            mICamera.getCameraAngle(IDCardScanActivity.this));
+                    if (mIsVertical) {
+                        imageWidth = mICamera.cameraHeight;
+                        imageHeight = mICamera.cameraWidth;
+                    }
+                    long start = System.currentTimeMillis();
+                    RectF rectF;
+                    if (!mIsVertical) {
+                        rectF = mNewIndicatorView.getPosition();
+                    } else {
+                        rectF = mIdCardIndicator.getPosition();
+                    }
+                    Rect roi = new Rect();
+                    roi.left = (int) (rectF.left * imageWidth);
+                    roi.top = (int) (rectF.top * imageHeight);
+                    roi.right = (int) (rectF.right * imageWidth);
+                    roi.bottom = (int) (rectF.bottom * imageHeight);
+
+                    if (!isEven01(roi.left))
+                        roi.left = roi.left + 1;
+                    if (!isEven01(roi.top))
+                        roi.top = roi.top + 1;
+                    if (!isEven01(roi.right))
+                        roi.right = roi.right - 1;
+                    if (!isEven01(roi.bottom))
+                        roi.bottom = roi.bottom - 1;
+
+                    final IDCardQualityResult result = idCardQualityAssessment.getQuality(imgData, imageWidth,
+                            imageHeight, mSide, roi);
+
+                    long end = System.currentTimeMillis();
+
+                    final long perFrameMillis = end - start;
+                    mCount++;
+                    mTimSum += (end - start);
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isDebugMode) {
+                                if (result != null && result.attr != null) {
+                                    String debugResult = "clear: " + new BigDecimal(result.attr.lowQuality).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue() + "\n"
+                                            + "in_bound: " + new BigDecimal(result.attr.inBound).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue() + "\n"
+                                            + "is_idcard: " + new BigDecimal(result.attr.isIdcard).setScale(3, BigDecimal.ROUND_HALF_UP).doubleValue() + "\n"
+                                            + "flare: " + result.attr.specularHightlightCount + "\n"
+                                            + "shadow: " + result.attr.shadowCount + "\n"
+                                            + "millis: " + perFrameMillis;
+                                    logInfo.setText(debugResult);
+                                }
+                                debugRectangle.setVisibility(View.VISIBLE);
+                            } else {
+                                logInfo.setText("");
+                                debugRectangle.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+
+                    if (result != null) {
+                        if (result.attr != null) {
+                            float inBound = result.attr.inBound;
+                            float isIDCard = result.attr.isIdcard;
+                            if (isIDCard > mIsIDCard && inBound > 0)
+                                if (!mIsVertical)
+                                    mNewIndicatorView.setBackColor(IDCardScanActivity.this, 0xaa000000);
+                                else
+                                    mIdCardIndicator.setBackColor(IDCardScanActivity.this, 0xaa000000);
+                            else if (!mIsVertical)
+                                mNewIndicatorView.setBackColor(IDCardScanActivity.this, 0x00000000);
+                            else
+                                mIdCardIndicator.setBackColor(IDCardScanActivity.this, 0x00000000);
+                        }
+                        if (result.isValid()) {
+                            vibrator.vibrate(new long[]{0, 50, 50, 100, 50}, -1);
+                            mHasSuccess = true;
+                            handleSuccess(result);
+                            return;
+                        } else {
+                            if (!mIsVertical)
+                                mNewIndicatorView.setBackColor(IDCardScanActivity.this, 0x00000000);
+                            else
+                                mIdCardIndicator.setBackColor(IDCardScanActivity.this, 0x00000000);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    List<IDCardQualityResult.IDCardFailedType> failTypes = (result == null) ? null : result.fails;
+                                    if (failTypes != null) {
+                                        StringBuilder stringBuilder = new StringBuilder();
+                                        IDCardQualityResult.IDCardFailedType errType = failTypes.get(0);
+                                        if (mIsVertical)
+                                            verticalTitle.setText(Util.errorType2HumanStr(failTypes.get(0), mSide));
+                                        else
+                                            horizontalTitle.setText(Util.errorType2HumanStr(failTypes.get(0), mSide));
+                                        mLstErrType = errType;
+                                        errorType.setText(stringBuilder.toString());
+                                    } else {
+                                        verticalTitle.setText("");
+                                        horizontalTitle.setText("");
+                                    }
+                                    if (mCount != 0&& mTimSum!=0)
+                                        fps.setText((1000 * mCount / mTimSum) + " FPS");
+                                }
+                            });
+                        }
+                    }
+                }
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private void handleSuccess(IDCardQualityResult result) {
+            Intent intent = new Intent();
+            JSONObject jsonObject = null;
+            try
+            {
+                jsonObject = new JSONObject();
+                jsonObject.put("result", "获取成功");
+                jsonObject.put("side", mSide == IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT ? 0 : 1);
+                String session = "IdCard"+ ConUtil.getFormatterTime(System.currentTimeMillis());
+                if (result.attr.side == IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT) {
+                    IdCardFile.save(result.croppedImageOfIDCard(),"idcardImg","idcardImg-Front",session, jsonObject);
+                    IdCardFile.save(result.croppedImageOfPortrait(),"portraitImg", "portraitImg", session, jsonObject);
+                }else{
+                    IdCardFile.save(result.croppedImageOfIDCard(),"idcardImg","idcardImg-Back",session, jsonObject);
+                }
+            } catch (JSONException e)
+            {
+                e.printStackTrace();
+            }
+            intent.putExtra("result", jsonObject.toString());
+            setResult(RESULT_OK, intent);
+            //ToastUtil.cancelToast();
+            finish();
+        }
+    }
+
+    public static void startMe(Context context, IDCardAttr.IDCardSide side) {
+        if (side == null || context == null)
+            return;
+        Intent intent = new Intent(context, IDCardScanActivity.class);
+        intent.putExtra("side", side == IDCardAttr.IDCardSide.IDCARD_SIDE_FRONT ? 0 : 1);
+        context.startActivity(intent);
+    }
+
+    // 用取余运算
+    public boolean isEven01(int num) {
+        if (num % 2 == 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
