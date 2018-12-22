@@ -107,6 +107,7 @@
                             <!--android:background="@mipmap/home_bg_side"-->
                             <!-- 借款时，该布局需要显示-->
                             <RelativeLayout
+                                android:visibility="gone"
                                 android:id="@+id/rl_credit"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"

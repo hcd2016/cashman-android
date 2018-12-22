@@ -51,7 +51,7 @@
     <FrameLayout
         android:id="@+id/fl_process_container"
         android:layout_width="290dp"
-        android:layout_height="36dp"
+        android:layout_height="30dp"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:gravity="center"
@@ -103,7 +103,6 @@
 
     <View
         android:background="@color/global_line_color"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"

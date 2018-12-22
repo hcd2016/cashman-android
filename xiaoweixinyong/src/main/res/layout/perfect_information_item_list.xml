@@ -17,14 +17,29 @@
         android:paddingRight="15dp"
         android:paddingTop="22dp">
 
-        <TextView
-            android:id="@+id/tv_title"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:textColor="@color/black_3"
-            android:textSize="16sp"
-            tools:text="个人信息" />
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black_3"
+                android:textSize="16sp"
+                tools:text="个人信息" />
+
+            <TextView
+                android:id="@+id/tv_zhima_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="请在芝麻授权提交成功3分钟后刷新页面"
+                android:textColor="@color/black_9"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <TextView
             android:id="@+id/tv_status"

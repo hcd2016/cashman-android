@@ -106,6 +106,13 @@
                             android:layout_weight="1"
                             android:src="@mipmap/card_back" />
                     </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="如无法识别,请尝试用拍照上传认证"
+                        android:textColor="@color/black_6" />
                 </LinearLayout>
 
                 <View

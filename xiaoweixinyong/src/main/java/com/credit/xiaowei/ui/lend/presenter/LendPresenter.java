@@ -1,10 +1,10 @@
 package com.credit.xiaowei.ui.lend.presenter;
 
 import com.credit.xiaowei.base.BasePresenter;
-import com.credit.xiaowei.ui.lend.bean.ConfirmLoanResponseBean;
-import com.credit.xiaowei.ui.lend.bean.HomeIndexResponseBean;
 import com.credit.xiaowei.http.HttpManager;
 import com.credit.xiaowei.http.HttpSubscriber;
+import com.credit.xiaowei.ui.lend.bean.ConfirmLoanResponseBean;
+import com.credit.xiaowei.ui.lend.bean.HomeIndexResponseBean;
 import com.credit.xiaowei.ui.lend.contract.LendContract;
 
 /**

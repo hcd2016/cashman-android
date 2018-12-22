@@ -245,7 +245,6 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         //加载数据
         mLoadingLayout.setStatus(LoadingLayout.Loading);
         mPresenter.loadIndex();
-
         if (App.getConfig().getLoginStatus()) {
 //            mLlServiceFee.setVisibility(View.VISIBLE);
 //            mFlCheckServiceFee.setVisibility(View.GONE);
@@ -389,7 +388,12 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         } else if (type.equals(mPresenter.TYPE_FAILED)) { //借款失败调用
             mPresenter.loadIndex();
         } else if (type.equals(mPresenter.TYPE_LOAN)) {   //验证借款信息
-            ToastUtil.showToast(msg);
+            new AlertFragmentDialog.Builder(getActivity())
+                    .setContent(msg)
+                    .setRightBtnText("确定")
+                    .setCancel(false)
+                    .build();
+//            ToastUtil.showToast(msg);
         }
     }
 
@@ -397,9 +401,9 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
     private void setData() {
         if (bean != null) {
             //认证状态
-            if (bean.getVerify_loan_pass() == 1) {//已认证
+            if (bean.getVerify_loan_pass() == 1 && moneyPeriodBean.getNewflag() == 2) {//已认证并已出额度
                 mLlVerify.setVisibility(View.GONE);
-                mRlCredit.setVisibility(View.VISIBLE);
+                mRlCredit.setVisibility(View.GONE);
                 mTvCreditMoney.setText("" + bean.getCard_amount() / 100);
                 mTvBigMoney.setText("可借额度");
                 llDaysContainer.setVisibility(View.VISIBLE);
@@ -412,15 +416,15 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 if (bean.getVerify_loan_nums() > 0 && bean.getVerify_loan_nums() < 5) {
                     mLlVerify.setVisibility(View.VISIBLE);
                 } else if (bean.getVerify_loan_nums() == 0) {
+
                     mLlVerify.setVisibility(View.GONE);
                 }
-                mTvPhoneAuth.setText("您已" + bean.getCard_verify_step() + ",完成认证即可拿钱，加油！");
                 llDaysContainer.setVisibility(View.GONE);
                 llDay.setVisibility(View.VISIBLE);
                 vDayLine.setVisibility(View.VISIBLE);
                 flProcessContainer.setVisibility(View.GONE);
+                mTvPhoneAuth.setText("您已" + bean.getCard_verify_step() + ",完成认证即可拿钱，加油！");
             }
-
             //借款状态  bean.getLoan_infos()不为空时为已登录并借款
             if (bean.getLoan_infos() != null) {
                 showView(mLlStatusContent);
@@ -451,7 +455,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         }
 
         //没验证的隐藏到账金额,显示日利率
-        if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+        if (moneyPeriodBean.getNewflag() != 2) {
             tvEarningsDesc.setVisibility(View.VISIBLE);
             tvServiceDesc.setVisibility(View.GONE);
             viewLine.setVisibility(View.GONE);
@@ -809,10 +813,8 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
 //                App.toLogin(getActivity());
 //                break;
             case R.id.ll_service_fee_check: //登录后查看服务费
-                if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus())) {
-                    if (moneyPeriodBean.getAuthstatus().equals("N")) {
-                        return;
-                    }
+                if (moneyPeriodBean.getNewflag() != 2) {
+                    return;
                 }
                 CostDetailsDialog.newInstance(loanMoney + "", loanDay + "").show(getChildFragmentManager(), CostDetailsDialog.TAG);
                 break;
@@ -935,7 +937,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
 
         if (loanMoney == 0) {
             mTvHomeLimit1.setText("0.00元");
-            if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+            if (moneyPeriodBean.getNewflag() != 2) {
                 mTvHomeLimit2.setText(moneyPeriodBean.getRate() + "/日");
             } else {
                 mTvHomeLimit2.setText("0.00元");
@@ -953,7 +955,8 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                     serviceMoney = maxInterests * offset;
                     realMoney = loanMoney - serviceMoney;
                     mTvHomeLimit1.setText(new DecimalFormat("0.00").format(realMoney) + "元");
-                    if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+//                    if (!TextUtils.isEmpty(moneyPeriodBean.getAuthstatus()) && moneyPeriodBean.getAuthstatus().equals("N")) {
+                    if (moneyPeriodBean.getNewflag() != 2) {
                         mTvHomeLimit2.setText(moneyPeriodBean.getRate() + "/日");
                     } else {
                         mTvHomeLimit2.setText(new DecimalFormat("0.00").format(serviceMoney) + "元");
@@ -1034,6 +1037,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         mRollView.play();
         if (!App.getConfig().isDebug())
             MobclickAgent.onPageStart("首页"); //统计页面，"MainScreen"为页面名称，可自定义
+        mPresenter.loadIndex();
     }
 
 

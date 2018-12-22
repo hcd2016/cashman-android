@@ -116,6 +116,18 @@ public class HomeIndexResponseBean {
         private List<Double> interests;
         private String authstatus;
         private String rate;//日利率
+        private int newflag;//是否出额度,2为已出,其他为没出
+
+        public int getNewflag() {
+            return newflag;
+        }
+
+        public void setNewflag(int newflag) {
+            this.newflag = newflag;
+        }
+
+
+
 
         public String getRate() {
             return rate;

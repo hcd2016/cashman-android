@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
  * <p>
  * 邮箱：3244345578@qq.com
  */
-public class PerfectInformationAdapter extends BaseRecyclerAdapter<PerfectInformationAdapter.ViewHolder,AuthenticationinformationBean> {
+public class PerfectInformationAdapter extends BaseRecyclerAdapter<PerfectInformationAdapter.ViewHolder, AuthenticationinformationBean> {
 
     private Activity mActivity;
 
@@ -42,24 +42,28 @@ public class PerfectInformationAdapter extends BaseRecyclerAdapter<PerfectInform
 //                 .placeholder(R.drawable.image_default)
 //                 .error(R.drawable.image_default)
 //                 .into(holder.mIvAuthentication);//设置图片
-         holder.mTvTitle.setText(item.getTitle());
+        holder.mTvTitle.setText(item.getTitle());
 //         if (item.getTitle_mark() != null) {
 //             holder.mTvTag.setText(Html.fromHtml(item.getTitle_mark()));
 //          } else {
 //             holder.mTvTag.setText("");
 //         }
 //         holder.mTvInfo.setText(item.getSubtitle());
-         holder.mTvStatus.setText(Html.fromHtml(item.getOperator()));
-
+        holder.mTvStatus.setText(Html.fromHtml(item.getOperator()));
+        if (item.getTag() == 8) {//芝麻信用展示提示
+            holder.tv_zhima_desc.setVisibility(View.VISIBLE);
+        } else {
+            holder.tv_zhima_desc.setVisibility(View.GONE);
+        }
 
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-//        @BindView(R.id.iv_authentication)
+        //        @BindView(R.id.iv_authentication)
 //        ImageView mIvAuthentication;
         @BindView(R.id.tv_title)
         TextView mTvTitle;
-//        @BindView(R.id.tv_tag)
+        //        @BindView(R.id.tv_tag)
 //        TextView mTvTag;
 //        @BindView(R.id.tv_info)
 //        TextView mTvInfo;
@@ -67,6 +71,8 @@ public class PerfectInformationAdapter extends BaseRecyclerAdapter<PerfectInform
         ImageView mIvEnter;
         @BindView(R.id.tv_status)
         TextView mTvStatus;
+        @BindView(R.id.tv_zhima_desc)
+        TextView tv_zhima_desc;
 
         ViewHolder(View view) {
             super(view);
