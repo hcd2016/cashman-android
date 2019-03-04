@@ -27,6 +27,7 @@ import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.credit.pretend.ptd_util.RetrofitUtil;
 import com.credit.xiaowei.R;
 import com.credit.xiaowei.app.App;
@@ -39,6 +40,7 @@ import com.credit.xiaowei.events.AuthenticationRefreshEvent;
 import com.credit.xiaowei.events.FragmentRefreshEvent;
 import com.credit.xiaowei.events.UIBaseEvent;
 import com.credit.xiaowei.ui.authentication.activity.PerfectInformationActivity;
+import com.credit.xiaowei.ui.authentication.bean.OtherProductBean;
 import com.credit.xiaowei.ui.lend.activity.BankInputPwdActivity;
 import com.credit.xiaowei.ui.lend.activity.LendConfirmLoanActivity;
 import com.credit.xiaowei.ui.lend.bean.ConfirmLoanBean;
@@ -52,6 +54,7 @@ import com.credit.xiaowei.util.SpUtil;
 import com.credit.xiaowei.util.TimeUtil;
 import com.credit.xiaowei.util.ToastUtil;
 import com.credit.xiaowei.util.Tool;
+import com.credit.xiaowei.util.ViewUtil;
 import com.credit.xiaowei.widget.DrawableCenterTextView;
 import com.credit.xiaowei.widget.HomeSeekBar;
 import com.credit.xiaowei.widget.LockableScrollView;
@@ -189,6 +192,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
 //    private ActivityListAdapter mActivityListAdapter;
 
     private MainActivity mainActivity;
+    private OtherProductBean otherProductBean;
 
     public static LendFragment getInstance() {
         if (lendFragment == null) {
@@ -358,6 +362,28 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         EventBus.getDefault().post(new FragmentRefreshEvent(UIBaseEvent.EVENT_LOAN_FAILED));
     }
 
+//    @Override
+//    public void showOtherProductSuccess(OtherProductBean otherProductBean) {
+//        this.otherProductBean = otherProductBean;
+//    }
+
+    @Override
+    public void moreCommitSucess(JsonObject jsonObject, String product_url) {
+        if (jsonObject != null) {
+            try {
+                JSONObject object = new JSONObject(jsonObject.toString());
+                String error = object.optString("error");
+                if (error.equals("N")) {
+                    Bundle message = new Bundle();
+                    message.putString("url", product_url);
+                    startActivity(WebViewActivity.class, message);
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void showLoading(String content) {
         if (bean != null) {
@@ -394,6 +420,8 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                     .setCancel(false)
                     .build();
 //            ToastUtil.showToast(msg);
+        } else if (type.equals(mPresenter.TYPE_OTHER_PRODUCT)) {
+            ToastUtil.showToast(msg);
         }
     }
 
@@ -499,7 +527,12 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 }
             });
             mLlStatusItemView.addView(btnLayout);
+            if (otherProductBean != null) {//添加贷超布局
+                mLlStatusItemView.addView(loadOtherProductView(otherProductBean));
+            }
+
         }
+
         intoMoney = loaninfo.getIntoMoney();//还款金额
         loanEndTime = loaninfo.getLoanEndTime();//还款日期 格式:2016-12-12
         surplusDay = loaninfo.getLastRepaymentD();//还款倒计时天数
@@ -527,6 +560,54 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
 
             showCalenderDialog();
         }
+    }
+
+    /**
+     * 被拒后展示其他产品(贷超)
+     *
+     * @param otherProductBean
+     */
+    public View loadOtherProductView(OtherProductBean otherProductBean) {
+        if (otherProductBean == null) return null;
+        //申请被拒展示 其他产品视图
+        final List<OtherProductBean.ItemsBean> items = otherProductBean.items;
+        View view = View.inflate(getActivity(), R.layout.other_products, null);
+        LinearLayout ll_icon_container = (LinearLayout) view.findViewById(R.id.ll_icon_container);
+        view.findViewById(R.id.tv_btn_more).setOnClickListener(new OnClickListener() {//更多产品
+            @Override
+            public void onClick(View v) {
+                Bundle message = new Bundle();
+                message.putString("url", App.getConfig().MORE_PRODUCT_DC + "?deviceId=" + ViewUtil.getDeviceId(App.getContext()));
+                startActivity(WebViewActivity.class, message);
+            }
+        });
+//        ll_icon_container.removeAllViews();
+        if (items != null && items.size() != 0) {
+            for (int i = 0; i < items.size(); i++) {
+                final OtherProductBean.ItemsBean itemsBean = items.get(i);
+                View op_item_icon_view = View.inflate(getActivity(), R.layout.op_item_icon, null);
+                final LinearLayout ll_item_container = (LinearLayout) op_item_icon_view.findViewById(R.id.ll_item_container);
+                ll_item_container.setOnClickListener(new OnClickListener() {//产品点击跳转
+                    @Override
+                    public void onClick(View v) {
+                        mPresenter.moreCommit(itemsBean.id, itemsBean.product_url);
+                    }
+                });
+                ImageView iv_icon = (ImageView) op_item_icon_view.findViewById(R.id.iv_icon);
+                TextView tv_range_amount = (TextView) op_item_icon_view.findViewById(R.id.tv_range_amount);
+                Glide.with(mContext).load(App.getConfig().getBaseUrl() + "getImages?url=" + itemsBean.icon_url)
+                        .placeholder(R.mipmap.banner)
+                        .error(R.mipmap.banner)
+                        .centerCrop()
+                        .into(iv_icon); //设置图片
+                tv_range_amount.setText(itemsBean.loan_min + "-" + itemsBean.loan_max + "元");
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+                ll_item_container.setLayoutParams(layoutParams);
+                ll_icon_container.addView(op_item_icon_view);
+//
+            }
+        }
+        return view;
     }
 
     /**
@@ -1038,6 +1119,21 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
         if (!App.getConfig().isDebug())
             MobclickAgent.onPageStart("首页"); //统计页面，"MainScreen"为页面名称，可自定义
         mPresenter.loadIndex();
+        requestOtherProductList();
+    }
+
+    public void requestOtherProductList() {
+        RetrofitUtil.create().getOtherProductList().enqueue(new Callback<OtherProductBean>() {
+            @Override
+            public void onResponse(Call<OtherProductBean> call, Response<OtherProductBean> response) {
+                otherProductBean = response.body();
+            }
+
+            @Override
+            public void onFailure(Call<OtherProductBean> call, Throwable t) {
+                t.toString();
+            }
+        });
     }
 
 

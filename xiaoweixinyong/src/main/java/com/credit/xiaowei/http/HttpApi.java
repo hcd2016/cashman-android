@@ -1,7 +1,6 @@
 package com.credit.xiaowei.http;
 
 
-import com.google.gson.JsonObject;
 import com.credit.pretend.bean.HotListBean;
 import com.credit.pretend.bean.InfoDetailBean;
 import com.credit.xiaowei.bean.BaseResponse;
@@ -11,6 +10,7 @@ import com.credit.xiaowei.ui.authentication.bean.GetPicListBean;
 import com.credit.xiaowei.ui.authentication.bean.GetRelationBean;
 import com.credit.xiaowei.ui.authentication.bean.GetWorkInfoBean;
 import com.credit.xiaowei.ui.authentication.bean.ImageDataBean;
+import com.credit.xiaowei.ui.authentication.bean.OtherProductBean;
 import com.credit.xiaowei.ui.authentication.bean.PersonalInformationRequestBean;
 import com.credit.xiaowei.ui.authentication.bean.PertfecInformationRequestBean;
 import com.credit.xiaowei.ui.authentication.bean.SaveInfoBean;
@@ -23,6 +23,7 @@ import com.credit.xiaowei.ui.my.bean.Lottery;
 import com.credit.xiaowei.ui.my.bean.MoreBean;
 import com.credit.xiaowei.ui.my.bean.TransactionBean;
 import com.credit.xiaowei.ui.repayment.bean.RepaymentBean;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 import java.util.Map;
@@ -337,5 +338,11 @@ public interface HttpApi {
     @GET("credit-loan/check-limit")
     Call<JsonObject> checkLimit();
 
+    //被拒绝时展示的其他产品列表
+    @GET("loanmarketinfoforapp")
+    Call<OtherProductBean> getOtherProductList();
 
+    //其他产品跳转提交
+    @GET("countPvUv")
+    Observable<BaseResponse<JsonObject>> commitMoreClick(@Query("id") String id);
 }

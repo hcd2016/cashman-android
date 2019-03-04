@@ -211,7 +211,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 //当所有拒绝的权限都勾选不再询问，这个值为true,这个时候可以引导用户手动去授权。
                 boolean isNeverAsk = true;
                 for (int i = 0; i < grantResults.length; i++) {
-                    int grantResult = grantResults[i];
+                    int grantResult = grantResults[i];;
                     String permission = permissions[i];
                     if (grantResult == PackageManager.PERMISSION_DENIED) {
                         deniedPermissions.add(permissions[i]);

@@ -178,6 +178,7 @@ public class RegisterPasswordActivity extends BaseActivity<RegisterPresenter> im
                         inviteCode = "MTQwNDM2NA==";
                         user_from = "330";
                     }
+//                    user_from = "48";
                     mPresenter.toRegister(phone,edit_verification,edit_password,"37",inviteCode,user_from);
                 }
                 break;
