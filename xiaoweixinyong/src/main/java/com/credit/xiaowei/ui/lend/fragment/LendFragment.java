@@ -375,7 +375,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 String error = object.optString("error");
                 if (error.equals("N")) {
                     Bundle message = new Bundle();
-                    message.putString("url", product_url);
+                    message.putString("url", product_url + "?deviceId=" + ViewUtil.getDeviceId(App.getContext()) + "&mobilePhone=" + (App.getConfig().getLoginStatus() ? SpUtil.getString(Constant.SHARE_TAG_USERNAME) : ""));
                     startActivity(WebViewActivity.class, message);
                 }
             } catch (JSONException e) {
@@ -527,7 +527,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
                 }
             });
             mLlStatusItemView.addView(btnLayout);
-            if (otherProductBean != null) {//添加贷超布局
+            if (otherProductBean != null && otherProductBean.items != null && otherProductBean.items.size() != 0) {//添加贷超布局,列表为空不展示
                 mLlStatusItemView.addView(loadOtherProductView(otherProductBean));
             }
 
@@ -584,27 +584,28 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
 //        ll_icon_container.removeAllViews();
         if (items != null && items.size() != 0) {
             for (int i = 0; i < items.size(); i++) {
-                final OtherProductBean.ItemsBean itemsBean = items.get(i);
-                View op_item_icon_view = View.inflate(getActivity(), R.layout.op_item_icon, null);
-                final LinearLayout ll_item_container = (LinearLayout) op_item_icon_view.findViewById(R.id.ll_item_container);
-                ll_item_container.setOnClickListener(new OnClickListener() {//产品点击跳转
-                    @Override
-                    public void onClick(View v) {
-                        mPresenter.moreCommit(itemsBean.id, itemsBean.product_url);
-                    }
-                });
-                ImageView iv_icon = (ImageView) op_item_icon_view.findViewById(R.id.iv_icon);
-                TextView tv_range_amount = (TextView) op_item_icon_view.findViewById(R.id.tv_range_amount);
-                Glide.with(mContext).load(App.getConfig().getBaseUrl() + "getImages?url=" + itemsBean.icon_url)
-                        .placeholder(R.mipmap.banner)
-                        .error(R.mipmap.banner)
-                        .centerCrop()
-                        .into(iv_icon); //设置图片
-                tv_range_amount.setText(itemsBean.loan_min + "-" + itemsBean.loan_max + "元");
-                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
-                ll_item_container.setLayoutParams(layoutParams);
-                ll_icon_container.addView(op_item_icon_view);
-//
+                if (i < 3) {
+                    final OtherProductBean.ItemsBean itemsBean = items.get(i);
+                    View op_item_icon_view = View.inflate(getActivity(), R.layout.op_item_icon, null);
+                    final LinearLayout ll_item_container = (LinearLayout) op_item_icon_view.findViewById(R.id.ll_item_container);
+                    ll_item_container.setOnClickListener(new OnClickListener() {//产品点击跳转
+                        @Override
+                        public void onClick(View v) {
+                            mPresenter.moreCommit(itemsBean.id, itemsBean.product_url);
+                        }
+                    });
+                    ImageView iv_icon = (ImageView) op_item_icon_view.findViewById(R.id.iv_icon);
+                    TextView tv_range_amount = (TextView) op_item_icon_view.findViewById(R.id.tv_range_amount);
+                    Glide.with(mContext).load(App.getConfig().getBaseUrl() + "getImages?url=" + itemsBean.icon_url)
+                            .placeholder(R.mipmap.banner)
+                            .error(R.mipmap.banner)
+                            .centerCrop()
+                            .into(iv_icon); //设置图片
+                    tv_range_amount.setText(itemsBean.loan_min + "-" + itemsBean.loan_max + "元");
+                    LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+                    ll_item_container.setLayoutParams(layoutParams);
+                    ll_icon_container.addView(op_item_icon_view);
+                }
             }
         }
         return view;
@@ -852,6 +853,7 @@ public class LendFragment extends BaseFragment<LendPresenter> implements OnClick
             @Override
             public void onRefresh() {
                 mPresenter.loadIndex();
+                requestOtherProductList();
             }
         });
     }

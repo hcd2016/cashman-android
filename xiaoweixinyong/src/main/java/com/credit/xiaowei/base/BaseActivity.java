@@ -4,6 +4,7 @@ package com.credit.xiaowei.base;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -48,7 +49,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     protected TitleUtil mTitle;
     protected KeyboardNumberUtil input_controller;
     protected int type;
-    
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,16 +57,17 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         AppManager.getInstance().addActivity(this);
         ButterKnife.bind(this);
         mContext = this;
-        mActivity= this ;
-        mPresenter = TUtil.getT(this,0);
-        mTitle = new TitleUtil(this,getWindow().getDecorView());
+        mActivity = this;
+        mPresenter = TUtil.getT(this, 0);
+        mTitle = new TitleUtil(this, getWindow().getDecorView());
         initStatusBar();
         initPresenter();
         loadData();
     }
+
     private void initStatusBar() {
 
-        StatusBarUtil.setStatusBarColor(this,R.color.colorPrimaryDark);
+        StatusBarUtil.setStatusBarColor(this, R.color.colorPrimaryDark);
 
     }
 
@@ -90,6 +92,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             return false;
         }
     }
+
     protected void showKeyboard(View wholeView, KeyboardNumberUtil.CUSTOMER_KEYBOARD_TYPE type, EditText view) {
         if (getCurrentFocus() != null) {
             ((InputMethodManager) getSystemService(INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
@@ -105,6 +108,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             input_controller.hideKeyboard();
         }
     }
+
     private void addInputListener(final EditText view) {
         view.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -169,11 +173,11 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         });
     }
 
-    protected void onComplete(SwipeToLoadLayout refresh){
-        if (refresh!=null){
-            if (refresh.isRefreshing()){
+    protected void onComplete(SwipeToLoadLayout refresh) {
+        if (refresh != null) {
+            if (refresh.isRefreshing()) {
                 refresh.setRefreshing(false);
-            }else if (refresh.isLoadingMore()){
+            } else if (refresh.isLoadingMore()) {
                 refresh.setLoadingMore(false);
             }
         }
@@ -211,7 +215,8 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 //当所有拒绝的权限都勾选不再询问，这个值为true,这个时候可以引导用户手动去授权。
                 boolean isNeverAsk = true;
                 for (int i = 0; i < grantResults.length; i++) {
-                    int grantResult = grantResults[i];;
+                    int grantResult = grantResults[i];
+                    ;
                     String permission = permissions[i];
                     if (grantResult == PackageManager.PERMISSION_DENIED) {
                         deniedPermissions.add(permissions[i]);
@@ -223,9 +228,9 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
                 if (deniedPermissions.isEmpty()) {
                     try {
                         mListener.onGranted();
-                    }catch (RuntimeException e){
+                    } catch (RuntimeException e) {
                         e.printStackTrace();
-                        mListener.onDenied(Arrays.asList(permissions),true);
+                        mListener.onDenied(Arrays.asList(permissions), true);
                     }
                 } else {
                     mListener.onDenied(deniedPermissions, isNeverAsk);
@@ -238,22 +243,22 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     // 启动应用的设置弹窗
     public void toAppSettings(String message, final boolean isFinish) {
-        if (TextUtils.isEmpty(message)){
-            message ="\""+App.getAPPName()+"\"缺少必要权限";
+        if (TextUtils.isEmpty(message)) {
+            message = "\"" + App.getAPPName() + "\"缺少必要权限";
         }
         AlertFragmentDialog.Builder builder = new AlertFragmentDialog.Builder(this);
         if (isFinish) {
-            builder .setLeftBtnText("退出")
+            builder.setLeftBtnText("退出")
                     .setLeftCallBack(new AlertFragmentDialog.LeftClickCallBack() {
-                @Override
-                public void dialogLeftBtnClick() {
-                    finish();
-                }
-            });
-        }else{
-            builder .setLeftBtnText("取消");
+                        @Override
+                        public void dialogLeftBtnClick() {
+                            finish();
+                        }
+                    });
+        } else {
+            builder.setLeftBtnText("取消");
         }
-        builder.setContent(message+"\n请手动授予\""+App.getAPPName()+"\"访问您的权限")
+        builder.setContent(message + "\n请手动授予\"" + App.getAPPName() + "\"访问您的权限")
                 .setRightBtnText("去设置")
                 .setRightCallBack(new AlertFragmentDialog.RightClickCallBack() {
                     @Override
@@ -345,10 +350,20 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
 
     @Override
     public void onBackPressed() {
-        if (isKeyboardShow()){
+        if (isKeyboardShow()) {
             hideKeyboard();
-        }else{
+        } else {
             super.onBackPressed();
         }
+    }
+
+    //设置APP字体不受系统设置影响
+    @Override
+    public android.content.res.Resources getResources() {
+        android.content.res.Resources res = super.getResources();
+        Configuration config = new Configuration();
+        config.setToDefaults();
+        res.updateConfiguration(config, res.getDisplayMetrics());
+        return res;
     }
 }
